@@ -1,0 +1,23 @@
+{{- /*
+  categories.html - 分类列表组件 (占位符)
+  将在任务 17 中实现
+*/ -}}
+{{- $categories := .Site.Taxonomies.categories -}}
+{{- if $categories -}}
+<div id="card-categories" class="card-widget card-categories">
+    <div class="item-headline">
+        <i class="fas fa-folder-open"></i>
+        <span>{{ i18n "categories" | default "分类" }}</span>
+    </div>
+    <ul class="card-category-list">
+        {{- range $name, $taxonomy := $categories -}}
+        <li class="card-category-list-item">
+            <a href="{{ .Page.RelPermalink }}">
+                <span class="card-category-list-name">{{ $name }}</span>
+                <span class="card-category-list-count">{{ .Count }}</span>
+            </a>
+        </li>
+        {{- end -}}
+    </ul>
+</div>
+{{- end -}}

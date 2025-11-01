@@ -1,0 +1,79 @@
+{{- /*
+  Utterances 评论系统
+  基于 GitHub Issues 的轻量级评论系统
+*/ -}}
+
+{{- $utterances := .Site.Params.comments.utterances -}}
+{{- if $utterances.enable -}}
+  <div id="utterances-wrap" class="utterances-container"></div>
+  
+  <script>
+    (() => {
+      const config = {
+        repo: '{{ $utterances.repo }}',
+        'issue-term': '{{ $utterances.issueTerm | default "pathname" }}',
+        label: '{{ $utterances.label }}',
+        theme: document.documentElement.classList.contains('dark') 
+          ? '{{ $utterances.darkTheme | default "github-dark" }}'
+          : '{{ $utterances.lightTheme | default "github-light" }}',
+        crossorigin: '{{ $utterances.crossorigin | default "anonymous" }}',
+        async: true
+      };
+      
+      const loadUtterances = () => {
+        const container = document.getElementById('utterances-wrap');
+        if (!container) return;
+        
+        // 清空容器
+        container.innerHTML = '';
+        
+        // 创建 script 标签
+        const script = document.createElement('script');
+        script.src = 'https://utteranc.es/client.js';
+        
+        Object.entries(config).forEach(([key, value]) => {
+          if (value) script.setAttribute(key, value);
+        });
+        
+        container.appendChild(script);
+      };
+      
+      // 主题切换时更新 Utterances 主题
+      const changeUtterancesTheme = (theme) => {
+        const iframe = document.querySelector('#utterances-wrap iframe');
+        if (iframe) {
+          const message = {
+            type: 'set-theme',
+            theme: theme === 'dark' 
+              ? '{{ $utterances.darkTheme | default "github-dark" }}'
+              : '{{ $utterances.lightTheme | default "github-light" }}'
+          };
+          iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+        }
+      };
+      
+      // 监听主题变化
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.attributeName === 'class') {
+            const isDark = document.documentElement.classList.contains('dark');
+            changeUtterancesTheme(isDark ? 'dark' : 'light');
+          }
+        });
+      });
+      
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+      
+      {{- if .Site.Params.comments.lazyload -}}
+        // 懒加载模式：监听加载事件
+        document.addEventListener('loadComments', loadUtterances, { once: true });
+      {{- else -}}
+        // 立即加载
+        loadUtterances();
+      {{- end -}}
+    })();
+  </script>
+{{- end -}}

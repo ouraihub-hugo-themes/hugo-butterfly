@@ -1,0 +1,354 @@
+/**
+ * 列表页样式 - 分类、标签、归档页面
+ */
+
+/* 列表页容器 */
+.list-page {
+  width: 100%;
+}
+
+/* 列表页标题区域 */
+.list-header {
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  border: 1px solid var(--color-gray-200);
+  text-align: center;
+}
+
+.dark .list-header {
+  background: rgb(31, 41, 55);
+  border-color: rgb(55, 65, 81);
+}
+
+.list-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgb(17, 24, 39);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.dark .list-title {
+  color: white;
+}
+
+.list-title i {
+  color: var(--color-primary);
+}
+
+.list-description {
+  color: rgb(107, 114, 128);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-top: 0.5rem;
+}
+
+.dark .list-description {
+  color: rgb(156, 163, 175);
+}
+
+.list-count {
+  margin-top: 1rem;
+  color: rgb(107, 114, 128);
+  font-size: 0.9rem;
+}
+
+.dark .list-count {
+  color: rgb(156, 163, 175);
+}
+
+.list-count i {
+  margin-right: 0.375rem;
+  color: var(--color-primary);
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: rgb(156, 163, 175);
+}
+
+.dark .empty-state {
+  color: rgb(107, 114, 128);
+}
+
+.empty-state i {
+  margin-bottom: 1rem;
+  color: rgb(209, 213, 219);
+}
+
+.dark .empty-state i {
+  color: rgb(75, 85, 99);
+}
+
+.empty-state p {
+  font-size: 1.125rem;
+}
+
+/* ========================================
+   文章时间线排序样式
+   ======================================== */
+
+.article-sort-container {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  border: 1px solid var(--color-gray-200);
+}
+
+.dark .article-sort-container {
+  background: rgb(31, 41, 55);
+  border-color: rgb(55, 65, 81);
+}
+
+.article-sort {
+  position: relative;
+  margin-left: 0.5rem;
+}
+
+/* 时间线左侧竖线 */
+.article-sort::before {
+  content: '';
+  position: absolute;
+  left: 0.25rem;
+  top: 0.625rem;
+  bottom: 0.625rem;
+  width: 2px;
+  background: var(--color-gray-200);
+}
+
+.dark .article-sort::before {
+  background: rgb(55, 65, 81);
+}
+
+/* 年份标题 */
+.article-sort-item.year {
+  position: relative;
+  margin: 1.5rem 0;
+  padding-left: 2.5rem;
+}
+
+.article-sort-item.year:first-child {
+  margin-top: 0;
+}
+
+.article-sort-item.year::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.625rem;
+  height: 0.625rem;
+  background: var(--color-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(73, 177, 245, 0.2);
+}
+
+.year-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* 文章项 */
+.article-sort-item:not(.year) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0.75rem 0;
+  padding: 0.75rem;
+  padding-left: 2.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.article-sort-item:not(.year):hover {
+  background: var(--color-gray-50);
+  transform: translateX(4px);
+}
+
+.dark .article-sort-item:not(.year):hover {
+  background: rgb(55, 65, 81);
+}
+
+/* 文章项时间线圆点 */
+.article-sort-item:not(.year)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.625rem;
+  height: 0.625rem;
+  background: white;
+  border: 2px solid var(--color-primary);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.dark .article-sort-item:not(.year)::before {
+  background: rgb(31, 41, 55);
+}
+
+.article-sort-item:not(.year):hover::before {
+  background: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(73, 177, 245, 0.2);
+}
+
+/* 文章封面缩略图 */
+.article-sort-item-img {
+  width: 5rem;
+  height: 3.5rem;
+  border-radius: 0.375rem;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin-right: 1rem;
+}
+
+.article-sort-item-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.article-sort-item:hover .article-sort-item-img img {
+  transform: scale(1.1);
+}
+
+/* 无封面样式 */
+.article-sort-item.no-article-cover .article-sort-item-img {
+  display: none;
+}
+
+/* 文章信息 */
+.article-sort-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 文章日期 */
+.article-sort-item-time {
+  display: flex;
+  align-items: center;
+  color: rgb(107, 114, 128);
+  font-size: 0.875rem;
+  margin-bottom: 0.375rem;
+}
+
+.dark .article-sort-item-time {
+  color: rgb(156, 163, 175);
+}
+
+.article-sort-item-time i {
+  margin-right: 0.375rem;
+  color: var(--color-primary);
+}
+
+/* 文章标题 */
+.article-sort-item-title {
+  display: block;
+  color: rgb(55, 65, 81);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.dark .article-sort-item-title {
+  color: rgb(209, 213, 219);
+}
+
+.article-sort-item-title:hover {
+  color: var(--color-primary);
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .list-header {
+    padding: 1.5rem 1rem;
+  }
+  
+  .list-title {
+    font-size: 1.5rem;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .list-description {
+    font-size: 0.9rem;
+  }
+  
+  .article-sort-container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .article-sort {
+    margin-left: 0;
+  }
+  
+  .article-sort::before {
+    left: 0.125rem;
+  }
+  
+  .article-sort-item.year {
+    padding-left: 1.5rem;
+    margin: 1rem 0;
+  }
+  
+  .article-sort-item.year::before {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+  
+  .year-number {
+    font-size: 1.25rem;
+  }
+  
+  .article-sort-item:not(.year) {
+    padding: 0.5rem;
+    padding-left: 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .article-sort-item:not(.year)::before {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+  
+  .article-sort-item-img {
+    width: 100%;
+    height: 10rem;
+    margin-right: 0;
+    margin-bottom: 0.75rem;
+  }
+  
+  .article-sort-item.no-article-cover {
+    flex-direction: row;
+  }
+  
+  .article-sort-item-time {
+    font-size: 0.8rem;
+  }
+  
+  .article-sort-item-title {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}

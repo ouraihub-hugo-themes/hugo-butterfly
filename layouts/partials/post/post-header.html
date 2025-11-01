@@ -1,0 +1,23 @@
+{{- /* 文章头部：标题和元信息 */ -}}
+<header class="post-header mb-8">
+  {{- /* 文章标题 */ -}}
+  <h1 class="post-title text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+    {{ .Title }}
+    
+    {{- /* 编辑链接（如果启用） */ -}}
+    {{- if and .Site.Params.post.editPost .Params.source -}}
+    <a 
+      href="{{ .Site.Params.post.editPostUrl }}{{ .Params.source }}" 
+      class="post-edit-link inline-block ml-3 text-lg text-primary hover:text-primary-hover transition-colors"
+      title="{{ i18n "post.edit" }}"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <i class="fas fa-pencil-alt"></i>
+    </a>
+    {{- end -}}
+  </h1>
+  
+  {{- /* 文章元信息 */ -}}
+  {{ partial "post/post-meta.html" . }}
+</header>

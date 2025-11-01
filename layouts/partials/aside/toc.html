@@ -1,0 +1,13 @@
+{{- /*
+  toc.html - 文章目录组件 (占位符)
+  将在任务 12 中实现
+*/ -}}
+<div id="card-toc" class="card-widget">
+    <div class="item-headline">
+        <i class="fas fa-list"></i>
+        <span>{{ i18n "toc" | default "目录" }}</span>
+    </div>
+    <div class="toc-content">
+        {{- .TableOfContents -}}
+    </div>
+</div>

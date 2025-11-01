@@ -1,0 +1,130 @@
+{{- /*
+  Language Switcher Component - 语言切换器
+  显示当前语言并提供切换到其他语言的下拉菜单
+*/ -}}
+
+{{- if hugo.IsMultilingual -}}
+{{- $currentLang := .Language -}}
+{{- $currentPage := . -}}
+
+{{- /* 桌面端语言切换器 */ -}}
+<div class="language-switcher relative group hidden lg:block">
+  {{- /* 当前语言按钮 */ -}}
+  <button
+    class="site-page flex items-center px-3 py-2 rounded-lg transition-colors"
+    aria-label="{{ i18n "language_switch" | default "切换语言" }}"
+    aria-expanded="false"
+    aria-haspopup="true"
+    data-language-toggle>
+    <i class="fas fa-globe fa-fw"></i>
+    <span class="ml-1.5 text-sm">{{ $currentLang.Params.languageShortName | default $currentLang.LanguageName }}</span>
+    <i class="fas fa-chevron-down ml-1 text-xs transition-transform duration-200 group-hover:rotate-180"></i>
+  </button>
+
+  {{- /* 语言列表下拉菜单 */ -}}
+  <ul class="language-menu absolute right-[-60px] mt-2 w-40 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-hidden z-50"
+      role="menu"
+      aria-label="{{ i18n "language_switch" | default "切换语言" }}">
+    {{- range .Site.Languages -}}
+      {{- $isCurrentLang := eq . $currentLang -}}
+      {{- $langCode := .Lang -}}
+
+      {{- /* 获取对应语言版本的链接 */ -}}
+      {{- $url := "" -}}
+      {{- if $isCurrentLang -}}
+        {{- /* 当前语言，使用当前页面链接 */ -}}
+        {{- $url = $currentPage.RelPermalink -}}
+      {{- else -}}
+        {{- /* 尝试获取翻译页面 */ -}}
+        {{- if $currentPage.IsTranslated -}}
+          {{- range $currentPage.Translations -}}
+            {{- if eq .Language.Lang $langCode -}}
+              {{- $url = .RelPermalink -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+        {{- /* 如果没有翻译页面，使用该语言的首页 */ -}}
+        {{- if not $url -}}
+          {{- if eq $langCode "zh" -}}
+            {{- $url = "/" -}}
+          {{- else -}}
+            {{- $url = printf "/%s/" $langCode -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+
+      <li role="none">
+        <a href="{{ $url }}"
+           class="flex items-center justify-between px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors {{ if $isCurrentLang }}bg-gray-50 dark:bg-gray-750 text-primary dark:text-primary font-semibold{{ end }}"
+           role="menuitem"
+           lang="{{ .LanguageCode }}"
+           hreflang="{{ .LanguageCode }}"
+           {{ if $isCurrentLang }}aria-current="true"{{ end }}>
+          <span class="flex items-center">
+            {{- if .Params.languageFlag -}}
+            <span class="mr-2">{{ .Params.languageFlag }}</span>
+            {{- end -}}
+            <span>{{ .LanguageName }}</span>
+          </span>
+          {{- if $isCurrentLang -}}
+            <i class="fas fa-check text-primary"></i>
+          {{- end -}}
+        </a>
+      </li>
+    {{- end -}}
+  </ul>
+</div>
+
+{{- /* 移动端语言切换器（在菜单内） */ -}}
+<div class="mobile-language-switcher lg:hidden border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
+  <div class="menu-section-title text-xs text-gray-500 dark:text-gray-400 uppercase px-4 mb-2 font-semibold">
+    {{ i18n "language_switch" | default "语言 / Language" }}
+  </div>
+  {{- range .Site.Languages -}}
+    {{- $isCurrentLang := eq . $currentLang -}}
+    {{- $langCode := .Lang -}}
+
+    {{- /* 获取对应语言版本的链接 */ -}}
+    {{- $url := "" -}}
+    {{- if $isCurrentLang -}}
+      {{- /* 当前语言，使用当前页面链接 */ -}}
+      {{- $url = $currentPage.RelPermalink -}}
+    {{- else -}}
+      {{- /* 尝试获取翻译页面 */ -}}
+      {{- if $currentPage.IsTranslated -}}
+        {{- range $currentPage.Translations -}}
+          {{- if eq .Language.Lang $langCode -}}
+            {{- $url = .RelPermalink -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+      {{- /* 如果没有翻译页面，使用该语言的首页 */ -}}
+      {{- if not $url -}}
+        {{- if eq $langCode "zh" -}}
+          {{- $url = "/" -}}
+        {{- else -}}
+          {{- $url = printf "/%s/" $langCode -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+
+    <a href="{{ $url }}"
+       class="mobile-menu-item flex items-center justify-between px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors {{ if $isCurrentLang }}bg-gray-100 dark:bg-gray-800 text-primary dark:text-primary font-semibold{{ end }}"
+       lang="{{ .LanguageCode }}"
+       hreflang="{{ .LanguageCode }}"
+       {{ if $isCurrentLang }}aria-current="true"{{ end }}>
+      <span class="flex items-center">
+        <i class="fas fa-globe fa-fw mr-2"></i>
+        {{- if .Params.languageFlag -}}
+        <span class="mr-2">{{ .Params.languageFlag }}</span>
+        {{- end -}}
+        <span>{{ .LanguageName }}</span>
+      </span>
+      {{- if $isCurrentLang -}}
+        <i class="fas fa-check text-primary"></i>
+      {{- end -}}
+    </a>
+  {{- end -}}
+</div>
+
+{{- end -}}

@@ -1,0 +1,92 @@
+{{- /*
+  分类/标签列表页模板 (Terms Template)
+  
+  参考: hexo-theme-butterfly/layout/includes/page/categories.pug
+  参考: hexo-theme-butterfly/layout/includes/page/tags.pug
+  参考: hexo-theme-butterfly/source/css/_page/categories.styl
+  参考: hexo-theme-butterfly/source/css/_page/tags.styl
+  
+  功能:
+    - 显示所有分类或标签
+    - 分类页：层级列表显示，显示文章数量
+    - 标签页：标签云形式显示，根据文章数量调整大小
+    - 实现卡片式布局
+    - 实现悬停效果
+    - 点击跳转到对应列表页
+  
+  适用页面:
+    - /categories/ (所有分类列表)
+    - /tags/ (所有标签列表)
+  
+  要求:
+    - Requirements: 18.1, 18.2, 18.3, 18.4, 18.5
+*/ -}}
+
+{{ define "main" }}
+{{- $taxonomy := .Data.Plural -}}
+{{- $terms := .Data.Terms.Alphabetical -}}
+{{- $isCategories := eq $taxonomy "categories" -}}
+{{- $isTags := eq $taxonomy "tags" -}}
+
+<div id="terms-page" class="terms-page {{ $taxonomy }}-page">
+  {{- /* 页面标题 */ -}}
+  <header class="page-header">
+    <h1 class="page-title {{ $taxonomy }}-title">
+      {{- if $isCategories -}}
+        <i class="fas fa-folder-open" aria-hidden="true"></i>
+        <span>{{ i18n "page.categories" | default "分类" }}</span>
+      {{- else if $isTags -}}
+        <i class="fas fa-tags" aria-hidden="true"></i>
+        <span>{{ i18n "page.tags" | default "标签" }}</span>
+      {{- else -}}
+        <span>{{ .Title }}</span>
+      {{- end -}}
+    </h1>
+    
+    {{- /* 统计信息 */ -}}
+    {{- if gt (len $terms) 0 -}}
+      <div class="page-subtitle">
+        {{- if $isCategories -}}
+          <i class="fas fa-archive" aria-hidden="true"></i>
+          <span>{{ i18n "categories.total" (dict "Count" (len $terms)) | default (printf "共 %d 个分类" (len $terms)) }}</span>
+        {{- else if $isTags -}}
+          <i class="fas fa-archive" aria-hidden="true"></i>
+          <span>{{ i18n "tags.total" (dict "Count" (len $terms)) | default (printf "共 %d 个标签" (len $terms)) }}</span>
+        {{- end -}}
+      </div>
+    {{- end -}}
+  </header>
+  
+  {{- /* 内容区域 */ -}}
+  <div class="terms-content">
+    {{- if $isCategories -}}
+      {{- /* 分类列表 - 层级结构 */ -}}
+      {{- partial "taxonomy/category-list.html" . -}}
+    {{- else if $isTags -}}
+      {{- /* 标签云 */ -}}
+      {{- partial "taxonomy/tag-cloud.html" . -}}
+    {{- else -}}
+      {{- /* 默认列表 */ -}}
+      {{- partial "taxonomy/term-list.html" . -}}
+    {{- end -}}
+  </div>
+  
+  {{- /* 空状态 */ -}}
+  {{- if eq (len $terms) 0 -}}
+    <div class="empty-state">
+      <i class="fas fa-inbox fa-3x" aria-hidden="true"></i>
+      <p>
+        {{- if $isCategories -}}
+          {{ i18n "categories.empty" | default "暂无分类" }}
+        {{- else if $isTags -}}
+          {{ i18n "tags.empty" | default "暂无标签" }}
+        {{- else -}}
+          {{ i18n "terms.empty" | default "暂无内容" }}
+        {{- end -}}
+      </p>
+    </div>
+  {{- end -}}
+</div>
+{{ end }}
+
+

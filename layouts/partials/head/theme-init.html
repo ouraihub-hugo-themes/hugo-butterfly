@@ -1,0 +1,49 @@
+{{- /* 
+  Theme Initialization Script - 防止主题闪烁
+  在页面加载前立即执行，应用正确的主题模式
+*/ -}}
+<script>
+(function() {
+  'use strict';
+  
+  const STORAGE_KEY = 'theme-mode';
+  
+  /**
+   * 获取初始主题模式
+   */
+  function getInitialTheme() {
+    try {
+      // 1. 检查 localStorage
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved === 'dark' || saved === 'light') {
+        return saved;
+      }
+    } catch (e) {
+      // localStorage 可能被禁用
+      console.warn('Failed to access localStorage:', e);
+    }
+    
+    // 2. 检查系统偏好
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    
+    // 3. 默认亮色模式
+    return 'light';
+  }
+  
+  /**
+   * 应用主题
+   */
+  function applyTheme(theme) {
+    const html = document.documentElement;
+    html.classList.remove('light', 'dark');
+    html.classList.add(theme);
+    html.setAttribute('data-theme', theme);
+  }
+  
+  // 立即应用主题
+  const theme = getInitialTheme();
+  applyTheme(theme);
+})();
+</script>

@@ -1,0 +1,425 @@
+# Butterfly 主题参数配置
+# 语言特定的参数在 params.{lang}.toml 中配置
+
+# 网站基础信息（语言特定的在各语言配置文件中）
+keywords = ["Hugo", "博客", "Butterfly", "技术"]
+
+# 作者信息
+[author]
+  name = "Your Name"
+  email = "your.email@example.com"
+  link = "https://example.org"
+  avatar = "/images/avatar.png"
+  # description 在各语言配置文件中设置
+
+# 网站图标和图片
+[assets]
+  favicon = "/images/favicon.ico"
+  logo = "/images/logo.png"
+  defaultCover = "/images/default-cover.jpg"
+  defaultAvatar = "/images/default-avatar.png"
+
+# 导航栏配置
+[nav]
+  logo = "/images/logo.png"
+  displayTitle = true
+  displayPostTitle = true
+  fixed = false
+
+# 首页配置
+[home]
+  # Hero 区域
+  [home.hero]
+    enable = true
+    # title, subtitle, typedStrings 在各语言配置文件中设置
+    background = "https://images.unsplash.com/photo-1557683316-973673baf926?w=1920"
+    typedEffect = false
+
+  # 文章列表
+  recentPostsCount = 6
+  indexLayout = 3  # 1-7 对应不同布局模式
+  showPostContent = true
+  postContentMethod = 3  # 1:description 2:both 3:auto_excerpt
+  postContentLength = 500
+
+# 文章配置
+[post]
+  # 元信息显示
+  [post.meta]
+    dateType = "both"  # created/updated/both
+    dateFormat = "2006-01-02"  # 日期格式（Hugo 时间格式）
+    categories = true
+    tags = true
+    readingTime = true
+    wordCount = true
+    lastmod = true
+
+  # 文章功能
+  toc = true
+  tocDepth = 4
+  tocExpand = false
+  tocStyleSimple = false
+
+  # 版权信息
+  copyright = true
+  copyrightAuthor = ""
+  copyrightLicense = "CC BY-NC-SA 4.0"
+  copyrightLicenseUrl = "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+
+  # 打赏功能
+  reward = false
+  rewardText = "如果觉得文章有帮助，可以请我喝杯咖啡"
+  rewardWechat = ""  # 微信收款码图片路径
+  rewardAlipay = ""  # 支付宝收款码图片路径
+
+  # 文章导航（上一篇/下一篇）
+  postNavigation = true
+
+  # 相关文章
+  relatedPosts = true
+  relatedPostsCount = 6
+  relatedPostsDateType = "created"
+
+  # 文章编辑链接
+  editPost = false
+  editPostUrl = ""
+
+  # 过期提醒
+  outdateNotice = false
+  outdateNoticeStyle = "flat"  # simple/flat
+  outdateNoticeDays = 365
+  outdateNoticePosition = "top"  # top/bottom
+
+# 列表页配置
+[list]
+  ui = "index"  # index: 卡片式布局, timeline: 时间线式布局
+  showDescription = true
+  showCount = true
+
+# 封面图配置
+[cover]
+  index_enable = true  # 首页是否显示封面
+  archives_enable = true  # 归档页是否显示封面缩略图
+
+# 侧边栏配置
+[aside]
+  enable = true
+  position = "right"  # left/right
+  hide = false
+  button = true
+  mobile = true
+
+  # 不同页面类型是否显示侧边栏
+  [aside.display]
+    archive = false  # 归档页面（/posts/）
+    tag = true       # 标签页面
+    category = true  # 分类页面
+
+  # 作者卡片
+  [aside.author]
+    enable = true
+    # description 在各语言配置文件中设置
+    followButton = true
+    followButtonText = "Follow Me"
+    followButtonIcon = "fab fa-github"
+    followButtonLink = "https://github.com/yourusername"
+
+  # 公告卡片
+  [aside.announcement]
+    enable = true
+    # content 在各语言配置文件中设置
+
+  # 最新文章
+  [aside.recentPosts]
+    enable = true
+    limit = 5
+    sort = "date"
+
+  # 分类卡片
+  [aside.categories]
+    enable = true
+    limit = 8
+    expand = "none"  # none/true/false
+
+  # 标签云
+  [aside.tags]
+    enable = true
+    limit = 40
+    color = false
+    orderBy = "random"  # random/name/count
+    order = 1  # 1:asc -1:desc
+
+  # 归档卡片
+  [aside.archives]
+    enable = true
+    type = "monthly"  # monthly/yearly
+    format = "MMMM YYYY"
+    order = -1
+    limit = 8
+
+  # 文章系列
+  [aside.postSeries]
+    enable = true
+    seriesTitle = false
+    orderBy = "date"
+    order = -1
+
+  # 网站信息
+  [aside.webinfo]
+    enable = true
+    postCount = true
+    categoryCount = true
+    tagCount = true
+    lastPushDate = true
+    runtimeDate = "2024-01-01"
+
+# 右侧工具栏
+[rightside]
+  enable = true
+  bottom = 40
+  scrollPercent = true
+  darkmode = true
+  readmode = true
+  hideAside = false
+
+# 暗色模式
+[darkmode]
+  enable = true
+  button = true
+  autoChangeMode = false
+  start = 18
+  end = 6
+
+# 语言切换器配置
+[languageSwitcher]
+  enable = true
+  # 显示模式：icon（仅图标）、text（仅文字）、both（图标+文字）
+  displayMode = "both"
+  # 图标类型
+  icon = "fas fa-globe"
+  # 是否在移动端菜单中显示
+  showInMobile = true
+  # 移动端位置：top（顶部）、bottom（底部）
+  mobilePosition = "bottom"
+
+# 阅读模式
+[readmode]
+  enable = true
+
+# 代码块配置
+[codeBlocks]
+  theme = "light"
+  macStyle = false
+  heightLimit = false
+  wordWrap = false
+  copy = true
+  language = true
+  shrink = false
+  fullpage = false
+
+# 搜索配置
+[search]
+  enable = true
+  type = "pagefind"  # local/pagefind/algolia
+  path = "/index.json"  # 搜索索引路径（local 类型使用）
+  placeholder = "搜索文章..."
+  preload = false  # 是否预加载搜索数据
+  topNPerArticle = 1  # 每篇文章显示的匹配片段数量
+  unescape = false  # 是否转义 HTML 字符
+
+  # 分页配置（可选）
+  [search.pagination]
+    enable = false  # 是否启用搜索结果分页
+    hitsPerPage = 10  # 每页显示的结果数量
+
+# 评论配置
+[comments]
+  enable = false
+  use = []  # 支持多个评论系统，如 ["Utterances", "Gitalk"]
+  text = true  # 是否显示评论系统名称
+  lazyload = true  # 懒加载评论（滚动到评论区时加载）
+  count = false  # 是否显示评论数量
+  cardPostCount = false  # 是否在文章卡片显示评论数
+
+  # Utterances 配置
+  [comments.utterances]
+    enable = false
+    repo = ""  # GitHub 仓库，格式：owner/repo
+    issueTerm = "pathname"  # pathname/url/title/og:title
+    label = ""  # Issue 标签
+    lightTheme = "github-light"
+    darkTheme = "github-dark"
+    crossorigin = "anonymous"
+
+  # Gitalk 配置
+  [comments.gitalk]
+    enable = false
+    clientID = ""  # GitHub Application Client ID
+    clientSecret = ""  # GitHub Application Client Secret
+    repo = ""  # GitHub 仓库
+    owner = ""  # GitHub 仓库所有者
+    admin = []  # GitHub 仓库管理员，如 ["admin1", "admin2"]
+    language = "zh-CN"  # en/zh-CN/zh-TW/es-ES/fr/ru/de/pl/ko/fa/ja
+    perPage = 10
+    distractionFreeMode = false
+    pagerDirection = "last"
+    createIssueManually = false
+    proxy = ""
+
+  # Waline 配置
+  [comments.waline]
+    enable = false
+    serverURL = ""  # Waline 服务器地址
+    lang = "zh-CN"
+    locale = {}  # 自定义语言
+    emoji = ["https://unpkg.com/@waline/emojis@1.1.0/weibo"]
+    meta = ["nick", "mail", "link"]
+    requiredMeta = []
+    wordLimit = 0
+    pageSize = 10
+    pageview = false
+
+  # Giscus 配置
+  [comments.giscus]
+    enable = false
+    repo = ""  # GitHub 仓库
+    repoId = ""  # 仓库 ID
+    category = ""  # Discussion 分类
+    categoryId = ""  # 分类 ID
+    mapping = "pathname"  # pathname/url/title/og:title
+    reactionsEnabled = "1"
+    emitMetadata = "0"
+    inputPosition = "bottom"  # top/bottom
+    lightTheme = "light"
+    darkTheme = "dark"
+    lang = "zh-CN"
+
+  # Disqus 配置
+  [comments.disqus]
+    enable = false
+    shortname = ""  # Disqus shortname
+
+  # Twikoo 配置
+  [comments.twikoo]
+    enable = false
+    envId = ""  # 腾讯云环境 ID
+    region = ""  # 环境地域，默认为 ap-shanghai
+    path = "window.location.pathname"
+    lang = "zh-CN"
+
+# 分享配置
+[share]
+  enable = true
+  use = "sharejs"
+  sites = ["facebook", "twitter", "wechat", "weibo", "qq"]
+
+# SEO 配置
+[seo]
+  # 分析工具
+  googleAnalytics = ""
+  baiduAnalytics = ""
+
+  # 网站验证
+  googleSiteVerification = ""
+  bingSiteVerification = ""
+  yandexVerification = ""
+  baiduVerification = ""
+
+  # 社交媒体
+  facebookAppId = ""
+  facebookAdmins = ""
+  twitterUsername = ""
+
+  # Robots.txt 配置
+  crawlDelay = 0  # 爬虫延迟（秒），0 表示不限制
+  robotsExtra = ""  # 额外的 robots.txt 规则
+
+  # Sitemap 配置
+  [seo.sitemap]
+    # 不同页面类型的优先级
+    homePriority = 1.0
+    postPriority = 0.8
+    sectionPriority = 0.6
+    taxonomyPriority = 0.5
+    pagePriority = 0.5
+
+    # 更新频率
+    homeChangefreq = "daily"
+    postChangefreq = "weekly"
+    sectionChangefreq = "weekly"
+    taxonomyChangefreq = "weekly"
+    pageChangefreq = "monthly"
+
+# DNS 预解析
+preconnect = [
+  "https://fonts.googleapis.com",
+  "https://fonts.gstatic.com",
+  "https://cdn.jsdelivr.net"
+]
+
+# Font Awesome
+[fontawesome]
+  enable = true
+
+# 自定义字体
+# [[fonts]]
+#   url = "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap"
+#   type = "woff2"
+
+# 自定义 Head 注入
+# customHead = """
+# <!-- 自定义代码 -->
+# """
+
+# 数学公式
+[math]
+  enable = false
+  use = ""
+  perPage = true
+
+# 图表支持
+[mermaid]
+  enable = false
+  theme = "default"
+
+# 图片灯箱
+[lightbox]
+  enable = true
+  type = "fancybox"
+
+# 懒加载
+[lazyload]
+  enable = true
+  field = "site"
+  placeholder = ""
+  blur = false
+
+# PWA
+[pwa]
+  enable = false
+  manifest = "/manifest.json"
+
+# 页脚配置
+[footer]
+  since = 2024  # 网站创建年份
+  copyright = true  # 是否显示框架和主题信息
+  customText = ""  # 自定义文本（支持 HTML）
+
+# 社交媒体链接
+[[social]]
+  name = "GitHub"
+  icon = "fab fa-github"
+  url = "https://github.com/yourusername"
+  color = "#24292e"
+
+[[social]]
+  name = "Twitter"
+  icon = "fab fa-twitter"
+  url = "https://twitter.com/yourusername"
+  color = "#1da1f2"
+
+[[social]]
+  name = "Email"
+  icon = "fas fa-envelope"
+  url = "mailto:your.email@example.com"
+  color = "#4a7dbe"

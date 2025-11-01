@@ -1,0 +1,44 @@
+<!-- 归档时间线 -->
+<div class="article-sort">
+  {{ $posts := where .Site.RegularPages "Type" "posts" }}
+  {{ $posts = $posts.ByDate.Reverse }}
+  
+  {{ $currentYear := "" }}
+  {{ range $posts }}
+    {{ $year := .Date.Format "2006" }}
+    
+    <!-- 年份分组 -->
+    {{ if ne $year $currentYear }}
+      {{ $currentYear = $year }}
+      {{ partial "archive/year-group.html" (dict "year" $year "context" $) }}
+    {{ end }}
+    
+    <!-- 文章项 -->
+    {{ $hasCover := and .Params.cover $.Site.Params.cover.archives_enable }}
+    <div class="article-sort-item {{ if not $hasCover }}no-article-cover{{ end }}">
+      <!-- 文章封面（如果有） -->
+      {{ if $hasCover }}
+        <a href="{{ .RelPermalink }}" class="article-sort-item-img" title="{{ .Title }}">
+          <img src="{{ .Params.cover }}" alt="{{ .Title }}" loading="lazy">
+        </a>
+      {{ end }}
+      
+      <!-- 文章信息 -->
+      <div class="article-sort-item-info">
+        <!-- 发布日期 -->
+        <div class="article-sort-item-time">
+          <i class="far fa-calendar-alt"></i>
+          <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}" 
+                title="{{ i18n "post_created" }} {{ .Date.Format "2006-01-02 15:04:05" }}">
+            {{ .Date.Format "2006-01-02" }}
+          </time>
+        </div>
+        
+        <!-- 文章标题 -->
+        <a href="{{ .RelPermalink }}" class="article-sort-item-title" title="{{ .Title }}">
+          {{ .Title }}
+        </a>
+      </div>
+    </div>
+  {{ end }}
+</div>

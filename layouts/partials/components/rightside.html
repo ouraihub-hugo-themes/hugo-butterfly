@@ -1,0 +1,119 @@
+{{- /*
+  rightside.html - 右侧工具栏
+  包含返回顶部、暗色模式切换等功能按钮
+  参考: hexo-theme-butterfly/layout/includes/rightside.pug
+*/ -}}
+{{- $isPost := eq .Kind "page" -}}
+{{- $showToc := and $isPost .Params.toc (ne .Params.toc false) -}}
+
+<div id="rightside">
+    <div id="rightside-config-hide">
+        {{- /* 阅读模式按钮 (仅文章页) */ -}}
+        {{- if and $isPost .Site.Params.readmode.enable -}}
+        <button id="readmode" type="button" title="{{ i18n "readmode" | default "阅读模式" }}">
+            <i class="fas fa-book-open"></i>
+        </button>
+        {{- end -}}
+
+        {{- /* 翻译按钮 */ -}}
+        {{- if .Site.Params.translate.enable -}}
+        <button id="translateLink" type="button" title="{{ i18n "translate" | default "翻译" }}">
+            {{ .Site.Params.translate.default | default "EN" }}
+        </button>
+        {{- end -}}
+
+        {{- /* 暗色模式切换按钮 */ -}}
+        {{- if and .Site.Params.darkmode.enable .Site.Params.darkmode.button -}}
+        <button id="darkmode" type="button" title="{{ i18n "darkmode" | default "切换主题" }}" data-darkmode-toggle>
+            <i class="fas fa-adjust"></i>
+        </button>
+        {{- end -}}
+
+        {{- /* 主题色彩切换按钮及面板 */ -}}
+        <div style="position: relative; display: inline-block;">
+            <button type="button" title="{{ i18n "themeColor" | default "主题色彩" }}" data-theme-switcher-btn aria-label="Switch theme color">
+                <i class="fas fa-palette"></i>
+            </button>
+
+            {{- /* 主题色彩选择面板 */ -}}
+            <div data-theme-panel>
+                {{- /* 冷色系主题 */ -}}
+                <div data-theme-category>
+                    <div data-theme-category-title>{{ i18n "coolTones" | default "冷色系" }}</div>
+                    <div data-theme-grid>
+                        {{- $coolThemes := slice "sapphire" "purple" "cyan" "cool-gray" -}}
+                        {{- range $coolThemes -}}
+                        <button type="button"
+                                data-theme-item="{{ . }}"
+                                aria-pressed="false"
+                                title="{{ . }}"
+                                tabindex="0">
+                            <span data-theme-name></span>
+                        </button>
+                        {{- end -}}
+                    </div>
+                </div>
+
+                {{- /* 暖色系主题 */ -}}
+                <div data-theme-category>
+                    <div data-theme-category-title>{{ i18n "warmTones" | default "暖色系" }}</div>
+                    <div data-theme-grid>
+                        {{- $warmThemes := slice "crimson" "orange" "pink" "brown" -}}
+                        {{- range $warmThemes -}}
+                        <button type="button"
+                                data-theme-item="{{ . }}"
+                                aria-pressed="false"
+                                title="{{ . }}"
+                                tabindex="0">
+                            <span data-theme-name></span>
+                        </button>
+                        {{- end -}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{- /* 隐藏侧边栏按钮 */ -}}
+        {{- if and .Site.Params.aside.enable .Site.Params.aside.button (ne .Params.aside false) -}}
+        <button id="hide-aside-btn" type="button" title="{{ i18n "hideAside" | default "隐藏侧边栏" }}">
+            <i class="fas fa-arrows-alt-h"></i>
+        </button>
+        {{- end -}}
+    </div>
+
+    <div id="rightside-config-show">
+        {{- /* 设置按钮 */ -}}
+        {{- if or .Site.Params.readmode.enable .Site.Params.translate.enable (and .Site.Params.darkmode.enable .Site.Params.darkmode.button) -}}
+        <button id="rightside-config" type="button" title="{{ i18n "settings" | default "设置" }}">
+            <i class="fas fa-cog"></i>
+        </button>
+        {{- end -}}
+
+        {{- /* 移动端目录按钮 */ -}}
+        {{- if $showToc -}}
+        <button id="mobile-toc-button" class="close" type="button" title="{{ i18n "toc" | default "目录" }}">
+            <i class="fas fa-list-ul"></i>
+        </button>
+        {{- end -}}
+
+        {{- /* 聊天按钮 */ -}}
+        {{- if and .Site.Params.chat.enable .Site.Params.chat.rightside_button -}}
+        <button id="chat-btn" type="button" title="{{ i18n "chat" | default "聊天" }}" style="display:none">
+            <i class="fas fa-message"></i>
+        </button>
+        {{- end -}}
+
+        {{- /* 跳转到评论按钮 */ -}}
+        {{- if and $isPost .Site.Params.comments.enable -}}
+        <a id="to_comment" href="#post-comment" title="{{ i18n "scrollToComment" | default "跳转到评论" }}">
+            <i class="fas fa-comments"></i>
+        </a>
+        {{- end -}}
+
+        {{- /* 返回顶部按钮 */ -}}
+        <button id="go-up" type="button" title="{{ i18n "backToTop" | default "返回顶部" }}" data-back-to-top>
+            <span class="scroll-percent"></span>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+</div>

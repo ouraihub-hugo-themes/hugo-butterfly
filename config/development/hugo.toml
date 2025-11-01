@@ -1,0 +1,13 @@
+# 开发环境配置
+
+baseURL = 'http://localhost:1313/'
+
+# 显示草稿和未来日期的文章
+buildDrafts = true
+buildFuture = true
+
+# 禁用压缩以加快构建速度
+[minify]
+  disableHTML = true
+  disableCSS = true
+  disableJS = true

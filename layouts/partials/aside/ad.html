@@ -1,0 +1,11 @@
+{{- /*
+  ad.html - 广告位组件 (占位符)
+  将在后续任务中实现
+*/ -}}
+{{- if .Site.Params.aside.ad.enable -}}
+<div id="card-ad" class="card-widget">
+    <div class="ad-content">
+        {{- .Site.Params.aside.ad.content | safeHTML -}}
+    </div>
+</div>
+{{- end -}}

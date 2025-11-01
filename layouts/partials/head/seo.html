@@ -1,0 +1,272 @@
+{{- /*
+  seo.html - SEO Meta 标签
+  包含 Open Graph 和 Twitter Card 标签
+  参考: hexo-theme-butterfly/layout/includes/head/Open_Graph.pug
+*/ -}}
+
+{{- /* 页面类型 */ -}}
+{{- $ogType := "website" -}}
+{{- if eq .Kind "page" -}}
+  {{- $ogType = "article" -}}
+{{- end -}}
+
+{{- /* 页面标题 */ -}}
+{{- $ogTitle := .Title -}}
+{{- if .IsHome -}}
+  {{- $ogTitle = .Site.Title -}}
+{{- end -}}
+
+{{- /* 页面描述 */ -}}
+{{- $ogDescription := .Site.Params.description -}}
+{{- if .Description -}}
+  {{- $ogDescription = .Description -}}
+{{- else if .Summary -}}
+  {{- $ogDescription = .Summary | plainify | truncate 200 -}}
+{{- else if .Content -}}
+  {{- $ogDescription = .Content | plainify | truncate 200 -}}
+{{- end -}}
+
+{{- /* 页面图片 */ -}}
+{{- $ogImage := "" -}}
+{{- if .Params.cover -}}
+  {{- $ogImage = .Params.cover | absURL -}}
+{{- else if .Params.image -}}
+  {{- $ogImage = .Params.image | absURL -}}
+{{- else if .Site.Params.assets.defaultCover -}}
+  {{- $ogImage = .Site.Params.assets.defaultCover | absURL -}}
+{{- else if .Site.Params.author.avatar -}}
+  {{- $ogImage = .Site.Params.author.avatar | absURL -}}
+{{- end -}}
+
+{{- /* 页面 URL */ -}}
+{{- $ogURL := .Permalink -}}
+
+{{- /* 网站名称 */ -}}
+{{- $siteName := .Site.Title -}}
+
+{{- /* 作者信息 */ -}}
+{{- $author := .Site.Params.author.name | default .Site.Author.name -}}
+
+{{- /* Open Graph 标签 */ -}}
+<meta property="og:type" content="{{ $ogType }}">
+<meta property="og:title" content="{{ $ogTitle }}">
+{{- if $ogDescription }}
+<meta property="og:description" content="{{ $ogDescription }}">
+{{- end }}
+<meta property="og:url" content="{{ $ogURL }}">
+<meta property="og:site_name" content="{{ $siteName }}">
+{{- if $ogImage }}
+<meta property="og:image" content="{{ $ogImage }}">
+<meta property="og:image:alt" content="{{ $ogTitle }}">
+{{- end }}
+<meta property="og:locale" content="{{ .Site.Language.Lang | default "en" }}">
+
+{{- /* 文章特定的 Open Graph 标签 */ -}}
+{{- if eq $ogType "article" -}}
+  {{- with .PublishDate }}
+<meta property="article:published_time" content="{{ .Format "2006-01-02T15:04:05Z07:00" }}">
+  {{- end }}
+  {{- with .Lastmod }}
+<meta property="article:modified_time" content="{{ .Format "2006-01-02T15:04:05Z07:00" }}">
+  {{- end }}
+  {{- with $author }}
+<meta property="article:author" content="{{ . }}">
+  {{- end }}
+  {{- with .Params.categories }}
+    {{- range first 1 . }}
+<meta property="article:section" content="{{ . }}">
+    {{- end }}
+  {{- end }}
+  {{- with .Params.tags }}
+    {{- range . }}
+<meta property="article:tag" content="{{ . }}">
+    {{- end }}
+  {{- end }}
+{{- end -}}
+
+{{- /* Facebook App ID */ -}}
+{{- with .Site.Params.seo.facebookAppId -}}
+<meta property="fb:app_id" content="{{ . }}">
+{{- end -}}
+{{- with .Site.Params.seo.facebookAdmins -}}
+<meta property="fb:admins" content="{{ . }}">
+{{- end -}}
+
+{{- /* Twitter Card 标签 */ -}}
+{{- $twitterCard := "summary" -}}
+{{- if $ogImage -}}
+  {{- $twitterCard = "summary_large_image" -}}
+{{- end -}}
+
+<meta name="twitter:card" content="{{ $twitterCard }}">
+<meta name="twitter:title" content="{{ $ogTitle }}">
+{{- if $ogDescription -}}
+<meta name="twitter:description" content="{{ $ogDescription }}">
+{{- end -}}
+{{- if $ogImage -}}
+<meta name="twitter:image" content="{{ $ogImage }}">
+<meta name="twitter:image:alt" content="{{ $ogTitle }}">
+{{- end -}}
+{{- with .Site.Params.seo.twitterUsername -}}
+<meta name="twitter:site" content="@{{ . }}">
+<meta name="twitter:creator" content="@{{ . }}">
+{{- end -}}
+
+{{- /* 结构化数据 (JSON-LD) */ -}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "{{ if eq $ogType "article" }}BlogPosting{{ else }}WebSite{{ end }}",
+  {{- if eq $ogType "article" }}
+  "headline": "{{ $ogTitle }}",
+  "description": "{{ $ogDescription }}",
+  {{- with .PublishDate }}
+  "datePublished": "{{ .Format "2006-01-02T15:04:05Z07:00" }}",
+  {{- end }}
+  {{- with .Lastmod }}
+  "dateModified": "{{ .Format "2006-01-02T15:04:05Z07:00" }}",
+  {{- end }}
+  "author": {
+    "@type": "Person",
+    "name": "{{ $author }}"
+    {{- with .Site.Params.author.link }},
+    "url": "{{ . }}"
+    {{- end }}
+  },
+  {{- if $ogImage }}
+  "image": "{{ $ogImage }}",
+  {{- end }}
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ $siteName }}"
+    {{- with .Site.Params.assets.logo }},
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ . | absURL }}"
+    }
+    {{- end }}
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ $ogURL }}"
+  }
+  {{- else }}
+  "name": "{{ $siteName }}",
+  "description": "{{ $ogDescription }}",
+  "url": "{{ .Site.BaseURL }}"
+  {{- if $ogImage }},
+  "image": "{{ $ogImage }}"
+  {{- end }}
+  {{- end }}
+}
+</script>
+
+{{- /* 面包屑导航结构化数据 */ -}}
+{{- if not .IsHome -}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "{{ .Site.Title }}",
+      "item": "{{ .Site.BaseURL }}"
+    }
+    {{- if .Parent -}}
+    ,{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "{{ .Parent.Title }}",
+      "item": "{{ .Parent.Permalink }}"
+    }
+    {{- end -}}
+    ,{
+      "@type": "ListItem",
+      "position": {{ if .Parent }}3{{ else }}2{{ end }},
+      "name": "{{ .Title }}",
+      "item": "{{ .Permalink }}"
+    }
+  ]
+}
+</script>
+{{- end -}}
+
+{{- /* 网站搜索框结构化数据 */ -}}
+{{- if .IsHome -}}
+{{- if .Site.Params.search.enable -}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "{{ .Site.BaseURL }}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "{{ .Site.BaseURL }}search/?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+{{- end -}}
+{{- end -}}
+
+{{- /* 作者信息结构化数据 */ -}}
+{{- if eq $ogType "article" -}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "{{ $author }}",
+  {{- with .Site.Params.author.link }}
+  "url": "{{ . }}",
+  {{- end }}
+  {{- with .Site.Params.author.email }}
+  "email": "{{ . }}",
+  {{- end }}
+  {{- with .Site.Params.author.avatar }}
+  "image": "{{ . | absURL }}",
+  {{- end }}
+  {{- with .Site.Params.author.description }}
+  "description": "{{ . }}",
+  {{- end }}
+  "sameAs": [
+    {{- $first := true -}}
+    {{- range .Site.Params.social -}}
+      {{- if not $first -}},{{- end -}}
+      "{{ .url }}"
+      {{- $first = false -}}
+    {{- end -}}
+  ]
+}
+</script>
+{{- end -}}
+
+{{- /* 组织信息结构化数据（首页） */ -}}
+{{- if .IsHome -}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{{ $siteName }}",
+  "url": "{{ .Site.BaseURL }}",
+  {{- with .Site.Params.assets.logo }}
+  "logo": "{{ . | absURL }}",
+  {{- end }}
+  {{- with .Site.Params.description }}
+  "description": "{{ . }}",
+  {{- end }}
+  "sameAs": [
+    {{- $first := true -}}
+    {{- range .Site.Params.social -}}
+      {{- if not $first -}},{{- end -}}
+      "{{ .url }}"
+      {{- $first = false -}}
+    {{- end -}}
+  ]
+}
+</script>
+{{- end -}}

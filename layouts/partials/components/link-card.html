@@ -1,0 +1,33 @@
+{{- /*
+  友链卡片组件
+  
+  参数：
+  - .name: 网站名称
+  - .link: 网站链接
+  - .avatar: 网站头像
+  - .descr: 网站描述
+*/ -}}
+
+<div class="flink-list-item">
+  <a href="{{ .link }}" 
+     title="{{ .name }}" 
+     target="_blank" 
+     rel="noopener noreferrer"
+     class="flink-card">
+    <!-- 网站头像 -->
+    <div class="flink-item-icon">
+      <img 
+        src="{{ .avatar }}" 
+        alt="{{ .name }}"
+        onerror="this.onerror=null; this.src='{{ .Site.Params.assets.defaultAvatar | default "/images/default-avatar.svg" }}'"
+        loading="lazy"
+        class="no-lightbox" />
+    </div>
+    
+    <!-- 网站信息 -->
+    <div class="flink-item-info">
+      <div class="flink-item-name">{{ .name }}</div>
+      <div class="flink-item-desc" title="{{ .descr }}">{{ .descr }}</div>
+    </div>
+  </a>
+</div>

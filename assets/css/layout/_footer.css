@@ -1,0 +1,51 @@
+/**
+ * 页脚样式
+ */
+
+/* 页脚容器 */
+#footer {
+  background: white;
+  border-top: 1px solid var(--color-gray-200);
+  padding: 2rem 0;
+  margin-top: 3rem;
+}
+
+.dark #footer {
+  background: rgb(31, 41, 55);
+  border-top-color: rgb(55, 65, 81);
+}
+
+/* 页脚内容 */
+.footer-content {
+  text-align: center;
+  color: rgb(107, 114, 128);
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.dark .footer-content {
+  color: rgb(156, 163, 175);
+}
+
+/* 页脚链接 */
+.footer-content a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-content a:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}
+
+/* 版权信息 */
+.copyright {
+  margin-top: 0.5rem;
+}
+
+/* 页脚分隔符 */
+.footer-separator {
+  margin: 0 0.5rem;
+  color: var(--color-gray-400);
+}

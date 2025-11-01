@@ -1,0 +1,742 @@
+/**
+ * 侧边栏样式
+ * 包含：侧边栏容器、作者卡片、TOC、各种卡片组件
+ */
+
+/* ========================================
+   侧边栏容器
+   ======================================== */
+
+#aside-content {
+    width: 100%;
+}
+
+/* 桌面端侧边栏宽度和间距 */
+@media (min-width: 1024px) {
+    #aside-content {
+        width: 26%;
+        flex-shrink: 0;
+    }
+
+    #aside-content.aside-right {
+        padding-left: 0.9375rem;
+    }
+
+    #aside-content.aside-left {
+        padding-right: 0.9375rem;
+        order: -1;
+    }
+}
+
+/* 移动端侧边栏 */
+@media (max-width: 1023px) {
+    #aside-content {
+        margin-top: 1.25rem;
+        width: 100%;
+    }
+
+    /* 移动端隐藏侧边栏选项 */
+    #aside-content.hide-mobile .card-widget:not(#card-toc) {
+        display: none;
+    }
+}
+
+/* Sticky 布局容器 */
+.sticky_layout {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+    .sticky_layout {
+        position: sticky;
+        position: -webkit-sticky;
+        top: 5rem;
+        transition: top 0.3s ease;
+    }
+
+    /* 当导航栏固定时调整 top 值 */
+    .nav-fixed .sticky_layout {
+        top: 6rem;
+    }
+}
+
+/* 当 sticky_layout 是唯一子元素时，第一个卡片不需要顶部间距 */
+.sticky_layout:only-child > .card-widget:first-child {
+    margin-top: 0;
+}
+
+/* ========================================
+   卡片内容列表样式
+   ======================================== */
+
+.aside-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.aside-list > span {
+    display: block;
+    margin-bottom: 0.625rem;
+    text-align: center;
+    color: rgb(107, 114, 128);
+}
+
+.dark .aside-list > span {
+    color: rgb(156, 163, 175);
+}
+
+.aside-list-item {
+    display: flex;
+    align-items: center;
+    padding: 0.375rem 0;
+}
+
+.aside-list-item:first-child {
+    padding-top: 0;
+}
+
+.aside-list-item:not(:last-child) {
+    border-bottom: 1px dashed var(--color-gray-200);
+}
+
+.dark .aside-list-item:not(:last-child) {
+    border-bottom-color: rgb(55, 65, 81);
+}
+
+.aside-list-item:last-child {
+    padding-bottom: 0;
+}
+
+/* 缩略图样式 */
+.aside-list-item .thumbnail {
+    overflow: hidden;
+    width: 4em;
+    height: 4em;
+    border-radius: 0.375rem;
+    flex-shrink: 0;
+}
+
+.aside-list-item .thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.aside-list-item:hover .thumbnail img {
+    transform: scale(1.1);
+}
+
+/* 列表项内容 */
+.aside-list-item .content {
+    flex: 1;
+    padding-left: 0.625rem;
+    word-break: break-all;
+}
+
+.aside-list-item .content .name,
+.aside-list-item .content time {
+    display: block;
+    color: rgb(107, 114, 128);
+    font-size: 0.85em;
+    line-height: 1.5;
+}
+
+.dark .aside-list-item .content .name,
+.dark .aside-list-item .content time {
+    color: rgb(156, 163, 175);
+}
+
+.aside-list-item .content .title,
+.aside-list-item .content .comment {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: rgb(55, 65, 81);
+    line-height: 1.5;
+    margin-top: 0.25rem;
+}
+
+.dark .aside-list-item .content .title,
+.dark .aside-list-item .content .comment {
+    color: rgb(209, 213, 219);
+}
+
+.aside-list-item .content .title:hover {
+    color: var(--color-primary);
+}
+
+/* 无缩略图的列表项 */
+.aside-list-item.no-cover {
+    min-height: 4.4em;
+}
+
+/* ========================================
+   标签云样式
+   ======================================== */
+
+.card-tag-cloud a {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    margin: 0.25rem;
+    color: rgb(75, 85, 99);
+    font-size: 0.9em;
+    line-height: 1.8;
+    border-radius: 0.375rem;
+    transition: all 0.2s ease;
+    background: var(--color-gray-100);
+}
+
+.dark .card-tag-cloud a {
+    color: rgb(156, 163, 175);
+    background: rgb(55, 65, 81);
+}
+
+.card-tag-cloud a:hover {
+    color: white !important;
+    background: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   归档和分类列表样式
+   ======================================== */
+
+.card-archives ul.card-archive-list,
+.card-categories ul.card-category-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.card-archive-list-item a,
+.card-category-list-item a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0.125rem 0;
+    padding: 0.125rem 0.5rem;
+    color: rgb(55, 65, 81);
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+}
+
+.dark .card-archive-list-item a,
+.dark .card-category-list-item a {
+    color: rgb(209, 213, 219);
+}
+
+.card-archive-list-item a:hover,
+.card-category-list-item a:hover {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    background: var(--color-primary);
+    color: white;
+}
+
+.card-archive-list-item a span,
+.card-category-list-item a span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.card-archive-list-item a span:first-child,
+.card-category-list-item a span:first-child {
+    flex: 1;
+}
+
+/* 归档列表数量样式 */
+.card-archive-list-count {
+    margin-left: auto;
+    padding-left: 0.5rem;
+    color: rgb(107, 114, 128);
+    font-size: 0.9em;
+}
+
+.dark .card-archive-list-count {
+    color: rgb(156, 163, 175);
+}
+
+.card-archive-list-item a:hover .card-archive-list-count {
+    color: white;
+}
+
+/* 分类展开/折叠功能 */
+.card-categories .card-category-list.child {
+    padding-left: 1rem;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        max-height 0.3s ease,
+        opacity 0.3s ease;
+}
+
+.card-categories .parent > a.expand i {
+    transform: rotate(-90deg);
+}
+
+.card-categories .parent > a.expand + .child {
+    max-height: 1000px;
+    opacity: 1;
+    visibility: visible;
+}
+
+.card-categories .card-category-list-name {
+    width: 70% !important;
+}
+
+.card-categories .card-category-list-count {
+    width: calc(100% - 70% - 20px);
+    text-align: right;
+}
+
+.card-categories .parent > a i {
+    float: right;
+    margin-right: -0.5em;
+    padding: 0.5em;
+    transition: transform 0.3s ease;
+    transform: rotate(0);
+}
+
+/* ========================================
+   作者卡片样式
+   ======================================== */
+
+.card-info {
+    text-align: center;
+}
+
+/* 作者头像 */
+.avatar-img {
+    overflow: hidden;
+    margin: 0 auto;
+    width: 110px;
+    height: 110px;
+    border-radius: 70px;
+}
+
+.avatar-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition:
+        filter 375ms ease-in 0.2s,
+        transform 0.3s ease;
+}
+
+.avatar-img img:hover {
+    transform: rotate(360deg);
+}
+
+/* 作者信息 */
+.author-info-name {
+    font-weight: 500;
+    font-size: 1.57em;
+    margin-top: 0.5rem;
+}
+
+.author-info-description {
+    margin-top: -0.42em;
+    font-size: 0.9em;
+}
+
+/* 网站统计数据 */
+.site-data {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    margin: 0.875rem 0 0.25rem;
+}
+
+.site-data > a {
+    display: table-cell;
+    text-decoration: none;
+}
+
+.site-data > a div {
+    transition: all 0.3s ease;
+}
+
+.site-data > a:hover div {
+    color: var(--color-primary) !important;
+}
+
+/* 暗黑模式下的统计数据悬停状态 - 改为白色文字便于识别 */
+.dark .site-data > a:hover div,
+html.dark .site-data > a:hover div {
+    color: #ffffff !important;
+    background-color: rgba(73, 177, 245, 0.15);
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    margin: -0.25rem -0.5rem;
+}
+
+.site-data .headline {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.95em;
+}
+
+.site-data .length-num {
+    margin-top: -0.45em;
+    font-size: 1.2em;
+}
+
+/* Follow 按钮 */
+#card-info-btn {
+    display: block;
+    margin-top: 0.875rem;
+    text-align: center;
+    line-height: 2.4;
+    text-decoration: none;
+}
+
+#card-info-btn span {
+    padding-left: 0.625rem;
+}
+
+/* 社交媒体图标 */
+.card-info-social-icons {
+    margin: 0.375rem 0 -0.375rem;
+}
+
+.card-info-social-icons .social-icon {
+    margin: 0 0.625rem;
+    font-size: 1.4em;
+    text-decoration: none;
+}
+
+.card-info-social-icons i {
+    transition: all 0.3s ease;
+}
+
+.card-info-social-icons i:hover {
+    transform: rotate(360deg);
+}
+
+/* 旋转动画 */
+.hover\:rotate-360:hover {
+    transform: rotate(360deg);
+}
+
+/* ========================================
+   网站信息卡片
+   ======================================== */
+
+.card-webinfo .webinfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.card-webinfo .webinfo-item {
+    display: flex;
+    align-items: center;
+    padding: 0.125rem 0.625rem 0;
+    color: rgb(55, 65, 81);
+}
+
+.dark .card-webinfo .webinfo-item {
+    color: rgb(209, 213, 219);
+}
+
+.card-webinfo .webinfo-item div:first-child {
+    flex: 1;
+    padding-right: 1.25rem;
+    font-size: 0.9em;
+}
+
+.card-webinfo .webinfo-item .item-name {
+    color: rgb(107, 114, 128);
+}
+
+.dark .card-webinfo .webinfo-item .item-name {
+    color: rgb(156, 163, 175);
+}
+
+.card-webinfo .webinfo-item .item-count {
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 1.05em;
+}
+
+/* 加载动画 */
+.card-webinfo .webinfo-item .item-count .fa-spinner {
+    color: var(--color-primary);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ========================================
+   TOC (目录) 样式
+   ======================================== */
+
+#card-toc {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    border: 1px solid var(--color-gray-200);
+}
+
+.dark #card-toc {
+    background: rgb(31, 41, 55);
+    border-color: rgb(55, 65, 81);
+}
+
+/* 桌面端固定定位 */
+@media (min-width: 1024px) {
+    #card-toc {
+        position: sticky;
+        top: 6rem;
+        max-height: calc(100vh - 8rem);
+    }
+}
+
+/* 移动端浮动显示 */
+@media (max-width: 1023px) {
+    #card-toc {
+        position: fixed;
+        right: 55px;
+        bottom: 30px;
+        z-index: 100;
+        max-width: 320px;
+        max-height: calc(100% - 60px);
+        width: 280px;
+        transform: scale(0);
+        transform-origin: right bottom;
+        transition: transform 0.3s ease;
+    }
+
+    #card-toc.open {
+        transform: scale(1);
+    }
+}
+
+/* TOC 标题栏 */
+#card-toc .item-headline {
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-gray-200);
+    margin-bottom: 0.75rem;
+}
+
+.dark #card-toc .item-headline {
+    border-bottom-color: rgb(55, 65, 81);
+}
+
+/* 阅读进度百分比 */
+.toc-percentage {
+    font-size: 1.25rem;
+    font-style: italic;
+    color: rgb(156, 163, 175);
+    font-weight: 500;
+}
+
+.dark .toc-percentage {
+    color: rgb(107, 114, 128);
+}
+
+/* TOC 内容区域 */
+.toc-content {
+    overflow-y: auto;
+    overflow-y: overlay;
+    max-height: calc(100vh - 12rem);
+    padding-right: 0.5rem;
+}
+
+@media (max-width: 1023px) {
+    .toc-content {
+        max-height: calc(100vh - 140px);
+    }
+}
+
+/* 自定义滚动条 */
+.toc-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.toc-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.toc-content::-webkit-scrollbar-thumb {
+    background: var(--color-gray-300);
+    border-radius: 3px;
+}
+
+.toc-content::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gray-400);
+}
+
+.dark .toc-content::-webkit-scrollbar-thumb {
+    background: rgb(75, 85, 99);
+}
+
+.dark .toc-content::-webkit-scrollbar-thumb:hover {
+    background: rgb(107, 114, 128);
+}
+
+/* TOC 列表样式 */
+.toc-content nav > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.toc-content ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.toc-content ul ul {
+    padding-left: 1.125rem;
+    margin-left: 0.625rem;
+    border-left: 1px solid var(--color-gray-300);
+}
+
+.dark .toc-content ul ul {
+    border-left-color: rgb(75, 85, 99);
+}
+
+.toc-content li {
+    margin: 0.25rem 0;
+}
+
+/* TOC 链接样式 */
+.toc-content a {
+    display: block;
+    padding: 0.25rem 0.5rem;
+    color: rgb(75, 85, 99);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-decoration: none;
+    border-radius: 0.375rem;
+    transition: all 0.2s ease;
+    word-break: break-word;
+}
+
+.dark .toc-content a {
+    color: rgb(156, 163, 175);
+}
+
+.toc-content a:hover {
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+}
+
+.dark .toc-content a:hover {
+    background: rgba(73, 177, 245, 0.1);
+}
+
+/* 活动链接样式 */
+.toc-content a.active {
+    color: white;
+    background: var(--color-primary);
+    font-weight: 500;
+}
+
+.dark .toc-content a.active {
+    color: white;
+    background: var(--color-primary);
+}
+
+/* 移动端 TOC 切换按钮 */
+#toc-toggle-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 90px;
+    z-index: 99;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(73, 177, 245, 0.3);
+}
+
+@media (max-width: 1023px) {
+    #toc-toggle-btn {
+        display: flex;
+    }
+}
+
+#toc-toggle-btn:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(73, 177, 245, 0.4);
+}
+
+.dark #toc-toggle-btn {
+    background: rgba(73, 177, 245, 0.8);
+}
+
+.dark #toc-toggle-btn:hover {
+    background: var(--color-primary);
+}
+
+/* ========================================
+   更多按钮
+   ======================================== */
+
+.card-more-btn {
+    float: right;
+    color: var(--color-primary);
+    font-size: 0.9em;
+    transition: transform 0.3s ease;
+}
+
+.card-more-btn:hover {
+    animation: more-btn-move 1s infinite;
+}
+
+@keyframes more-btn-move {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(3px);
+    }
+}
+
+/* ========================================
+   隐藏侧边栏时的布局调整
+   ======================================== */
+
+@media (min-width: 1024px) {
+    html.hide-aside .layout {
+        justify-content: center;
+    }
+
+    html.hide-aside .layout > #aside-content {
+        display: none;
+    }
+
+    html.hide-aside .layout > div:first-child {
+        width: 80%;
+        max-width: 1200px;
+    }
+}

@@ -1,0 +1,52 @@
+# English Menu
+
+[[main]]
+  name = "Home"
+  url = "/en/"
+  weight = 1
+  pre = "fas fa-home"
+
+[[main]]
+  name = "Posts"
+  url = "/en/posts/"
+  weight = 2
+  pre = "fas fa-book"
+
+[[main]]
+  name = "Categories"
+  url = "/en/categories/"
+  weight = 3
+  pre = "fas fa-folder-open"
+
+[[main]]
+  name = "Tags"
+  url = "/en/tags/"
+  weight = 4
+  pre = "fas fa-tags"
+
+[[main]]
+  name = "More"
+  weight = 5
+  pre = "fas fa-ellipsis-h"
+  identifier = "more"
+
+  [[main]]
+    name = "Archives"
+    url = "/en/archives/"
+    weight = 1
+    parent = "more"
+    pre = "fas fa-archive"
+
+  [[main]]
+    name = "Links"
+    url = "/en/links/"
+    weight = 2
+    parent = "more"
+    pre = "fas fa-link"
+
+  [[main]]
+    name = "About"
+    url = "/en/about/"
+    weight = 3
+    parent = "more"
+    pre = "fas fa-user"

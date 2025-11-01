@@ -1,0 +1,55 @@
+# 多语言配置
+# Hugo 多语言支持文档: https://gohugo.io/content-management/multilingual/
+
+# 简体中文（默认语言）
+[zh]
+  languageName = "简体中文"
+  languageCode = "zh-CN"
+  weight = 1
+  contentDir = "content/zh"
+  
+  # 语言特定的站点参数
+  [zh.params]
+    languageFlag = "🇨🇳"
+    languageShortName = "中文"
+    
+    # Hero 区域文本
+    [zh.params.home.hero]
+      title = "欢迎来到 Hugo Butterfly"
+      subtitle = "一个优雅的 Hugo 博客主题"
+
+# 英语
+[en]
+  languageName = "English"
+  languageCode = "en-US"
+  weight = 2
+  contentDir = "content/en"
+  title = "My Butterfly Blog"
+  
+  # 语言特定的站点参数
+  [en.params]
+    languageFlag = "🇺🇸"
+    languageShortName = "EN"
+    
+    # Hero 区域文本
+    [en.params.home.hero]
+      title = "Welcome to Hugo Butterfly"
+      subtitle = "An Elegant Hugo Blog Theme"
+
+# 繁体中文（可选）
+[zh-tw]
+  languageName = "繁體中文"
+  languageCode = "zh-TW"
+  weight = 3
+  contentDir = "content/zh-tw"
+  title = "我的 Butterfly 部落格"
+  
+  # 语言特定的站点参数
+  [zh-tw.params]
+    languageFlag = "🇹🇼"
+    languageShortName = "繁中"
+    
+    # Hero 區域文本
+    [zh-tw.params.home.hero]
+      title = "歡迎來到 Hugo Butterfly"
+      subtitle = "一個優雅的 Hugo 部落格主題"

@@ -1,0 +1,29 @@
+# 测试环境配置
+
+baseURL = 'https://staging.yourdomain.com/'
+
+# 显示草稿但不显示未来文章
+buildDrafts = true
+buildFuture = false
+
+# 启用部分压缩
+[minify]
+  disableHTML = false
+  disableCSS = false
+  disableJS = false
+  minifyOutput = true
+
+# 缓存配置（比生产环境短）
+[caches]
+  [caches.getjson]
+    maxAge = "5m"
+  [caches.getcsv]
+    maxAge = "5m"
+  [caches.images]
+    maxAge = "30m"
+  [caches.assets]
+    maxAge = "30m"
+
+# 启用调试信息
+# 注意：不要在这里定义 [params]，会覆盖 _default 的所有参数
+# 如需添加参数，请在 config/staging/params.toml 中定义

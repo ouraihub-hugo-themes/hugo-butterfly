@@ -1,0 +1,55 @@
+{{- /*
+  Twikoo 评论系统
+  简洁、安全、免费的静态网站评论系统
+*/ -}}
+
+{{- $twikoo := .Site.Params.comments.twikoo -}}
+{{- if $twikoo.enable -}}
+  <div id="twikoo-wrap" class="twikoo-container"></div>
+  
+  <script>
+    (() => {
+      const loadTwikoo = async () => {
+        const container = document.getElementById('twikoo-wrap');
+        if (!container) return;
+        
+        try {
+          // 动态加载 Twikoo
+          if (typeof twikoo === 'undefined') {
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = 'https://cdn.jsdelivr.net/npm/twikoo@latest/dist/twikoo.all.min.js';
+              script.onload = resolve;
+              script.onerror = reject;
+              document.head.appendChild(script);
+            });
+          }
+          
+          // 初始化 Twikoo
+          twikoo.init({
+            envId: '{{ $twikoo.envId }}',
+            el: '#twikoo-wrap',
+            {{- if $twikoo.region -}}
+            region: '{{ $twikoo.region }}',
+            {{- end -}}
+            path: {{ $twikoo.path | default "window.location.pathname" }},
+            lang: '{{ $twikoo.lang | default "zh-CN" }}',
+          });
+        } catch (error) {
+          console.error('Twikoo load error:', error);
+          if (window.showCommentError) {
+            window.showCommentError();
+          }
+        }
+      };
+      
+      {{- if .Site.Params.comments.lazyload -}}
+        // 懒加载模式
+        document.addEventListener('loadComments', loadTwikoo, { once: true });
+      {{- else -}}
+        // 立即加载
+        loadTwikoo();
+      {{- end -}}
+    })();
+  </script>
+{{- end -}}

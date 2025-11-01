@@ -1,0 +1,107 @@
+{{- /*
+  Lightbox Component
+  图片灯箱组件
+  
+  支持两种灯箱方案：
+  1. medium-zoom - 轻量级图片缩放（推荐，~3KB）
+  2. fancybox - 功能丰富的图片画廊（~50KB）
+  
+  配置示例：
+  [params.lightbox]
+    enable = true
+    type = "medium_zoom"  # 或 "fancybox"
+*/ -}}
+
+{{- $lightboxConfig := .Site.Params.lightbox -}}
+{{- $lightboxType := $lightboxConfig.type | default "" -}}
+
+{{- if and $lightboxConfig.enable $lightboxType -}}
+
+{{- /* 灯箱配置 meta 标签 */ -}}
+<meta name="lightbox-config" content='{"type":"{{ $lightboxType }}","selector":"#article-container img","excludeClass":"no-lightbox"}'>
+
+{{- if eq $lightboxType "medium_zoom" -}}
+  {{- /* Medium Zoom - 轻量级图片缩放 */ -}}
+  {{- /* https://github.com/francoischalifour/medium-zoom */ -}}
+  
+  {{- $mediumZoomVersion := "1.1.0" -}}
+  {{- $mediumZoomJS := printf "https://cdn.jsdelivr.net/npm/medium-zoom@%s/dist/medium-zoom.min.js" $mediumZoomVersion -}}
+  
+  {{- /* 从配置或使用 CDN */ -}}
+  {{- $jsURL := $lightboxConfig.medium_zoom_js | default $mediumZoomJS -}}
+  
+  <script src="{{ $jsURL }}" defer></script>
+  
+  {{- /* Medium Zoom 样式 */ -}}
+  <style>
+    /* Medium Zoom 背景色 */
+    :root {
+      --zoom-bg: rgba(0, 0, 0, 0.9);
+    }
+    
+    .dark {
+      --zoom-bg: rgba(0, 0, 0, 0.95);
+    }
+    
+    /* Medium Zoom 过渡动画 */
+    .medium-zoom-overlay {
+      z-index: 9999;
+    }
+    
+    .medium-zoom-image {
+      cursor: zoom-in;
+      transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+    }
+    
+    .medium-zoom-image--opened {
+      cursor: zoom-out;
+    }
+  </style>
+
+{{- else if eq $lightboxType "fancybox" -}}
+  {{- /* Fancybox - 功能丰富的图片画廊 */ -}}
+  {{- /* https://fancyapps.com/fancybox/ */ -}}
+  
+  {{- $fancyboxVersion := "5.0.36" -}}
+  {{- $fancyboxCSS := printf "https://cdn.jsdelivr.net/npm/@fancyapps/ui@%s/dist/fancybox/fancybox.css" $fancyboxVersion -}}
+  {{- $fancyboxJS := printf "https://cdn.jsdelivr.net/npm/@fancyapps/ui@%s/dist/fancybox/fancybox.umd.js" $fancyboxVersion -}}
+  
+  {{- /* 从配置或使用 CDN */ -}}
+  {{- $cssURL := $lightboxConfig.fancybox_css | default $fancyboxCSS -}}
+  {{- $jsURL := $lightboxConfig.fancybox_js | default $fancyboxJS -}}
+  
+  <link rel="stylesheet" href="{{ $cssURL }}">
+  <script src="{{ $jsURL }}" defer></script>
+  
+  {{- /* Fancybox 自定义样式 */ -}}
+  <style>
+    /* Fancybox 暗色模式适配 */
+    .dark .fancybox__backdrop {
+      background: rgba(0, 0, 0, 0.95);
+    }
+    
+    .dark .fancybox__toolbar {
+      background: rgba(0, 0, 0, 0.8);
+    }
+    
+    /* Fancybox 按钮样式 */
+    .fancybox__button {
+      transition: all 0.3s ease;
+    }
+    
+    .fancybox__button:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    /* 图片标题样式 */
+    .fancybox__caption {
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+  </style>
+
+{{- end -}}
+
+{{- end -}}

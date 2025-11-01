@@ -1,0 +1,96 @@
+{{- $tags := .Site.Taxonomies.tags -}}
+{{- if $tags -}}
+{{- $limit := default 40 .Site.Params.aside.tags.limit -}}
+{{- $orderby := default "name" .Site.Params.aside.tags.orderby -}}
+{{- $order := default "asc" .Site.Params.aside.tags.order -}}
+{{- $useColor := default true .Site.Params.aside.tags.color -}}
+
+<div class="card-widget card-tags">
+  <div class="item-headline">
+    <i class="fas fa-tags"></i>
+    <span>{{ i18n "tags" | default "标签" }}</span>
+  </div>
+  
+  <div class="card-tag-cloud">
+    {{- $sortedTags := slice -}}
+    
+    {{- if eq $orderby "name" -}}
+      {{- if eq $order "desc" -}}
+        {{- $sortedTags = $tags.Alphabetical.Reverse -}}
+      {{- else -}}
+        {{- $sortedTags = $tags.Alphabetical -}}
+      {{- end -}}
+    {{- else if eq $orderby "count" -}}
+      {{- if eq $order "desc" -}}
+        {{- $sortedTags = $tags.ByCount.Reverse -}}
+      {{- else -}}
+        {{- $sortedTags = $tags.ByCount -}}
+      {{- end -}}
+    {{- else if eq $orderby "random" -}}
+      {{- /* 将 Taxonomy 转换为 slice 以便 shuffle */ -}}
+      {{- range $tags -}}
+        {{- $sortedTags = $sortedTags | append . -}}
+      {{- end -}}
+      {{- $sortedTags = shuffle $sortedTags -}}
+    {{- else -}}
+      {{- $sortedTags = $tags.Alphabetical -}}
+    {{- end -}}
+    
+    {{- $count := 0 -}}
+    {{- $minCount := 999999 -}}
+    {{- $maxCount := 0 -}}
+    
+    {{- range $sortedTags -}}
+      {{- if lt $count $limit -}}
+        {{- $tagCount := 0 -}}
+        {{- if reflect.IsMap . -}}
+          {{- $tagCount = .Count -}}
+        {{- else -}}
+          {{- $tagCount = .Weight -}}
+        {{- end -}}
+        
+        {{- if lt $tagCount $minCount -}}
+          {{- $minCount = $tagCount -}}
+        {{- end -}}
+        {{- if gt $tagCount $maxCount -}}
+          {{- $maxCount = $tagCount -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{- $count = 0 -}}
+    {{- range $sortedTags -}}
+      {{- if lt $count $limit -}}
+        {{- $count = add $count 1 -}}
+        
+        {{- $tagCount := 0 -}}
+        {{- $tagPage := .Page -}}
+        {{- if reflect.IsMap . -}}
+          {{- $tagCount = .Count -}}
+        {{- else -}}
+          {{- $tagCount = .Weight -}}
+          {{- $tagPage = . -}}
+        {{- end -}}
+        
+        {{- $fontSize := 1.15 -}}
+        {{- if gt $maxCount $minCount -}}
+          {{- $ratio := div (sub $tagCount $minCount | float) (sub $maxCount $minCount | float) -}}
+          {{- $fontSize = add 1.15 (mul $ratio 0.3) -}}
+        {{- end -}}
+        
+        {{- $color := "" -}}
+        {{- if $useColor -}}
+          {{- $hue := mod (mul $count 137) 360 -}}
+          {{- $color = printf "hsl(%d, 70%%, 60%%)" $hue -}}
+        {{- end -}}
+        
+        <a href="{{ $tagPage.RelPermalink }}" 
+           style="font-size: {{ $fontSize }}em;{{ if $color }} color: {{ $color }};{{ end }}"
+           title="{{ $tagPage.Title }} ({{ $tagCount }})">
+          {{ $tagPage.Title }}
+        </a>
+      {{- end -}}
+    {{- end -}}
+  </div>
+</div>
+{{- end -}}

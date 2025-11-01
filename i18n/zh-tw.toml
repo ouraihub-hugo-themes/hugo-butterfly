@@ -1,0 +1,380 @@
+# 繁體中文翻譯文件
+
+# 通用
+[home]
+other = "首頁"
+
+[posts]
+other = "文章"
+
+[articles]
+other = "文章"
+
+[archives]
+other = "歸檔"
+
+[categories]
+other = "分類"
+
+[tags]
+other = "標籤"
+
+[about]
+other = "關於"
+
+[links]
+other = "友鏈"
+
+# 導航
+[menu]
+other = "選單"
+
+[toggle_menu]
+other = "切換選單"
+
+[close_menu]
+other = "關閉選單"
+
+# 搜尋
+[search_title]
+other = "搜尋"
+
+[search_open]
+other = "開啟搜尋"
+
+[search_close]
+other = "關閉搜尋"
+
+[search_placeholder]
+other = "搜尋文章..."
+
+[search_clear]
+other = "清除"
+
+[search_loadMore]
+other = "載入更多"
+
+[search_label]
+other = "搜尋"
+
+[search_filters]
+other = "篩選"
+
+[search_noResults]
+other = "未找到結果"
+
+[search_results]
+other = "找到 [RESULTS_COUNT] 條結果"
+
+[search_oneResult]
+other = "找到 1 條結果"
+
+[search_altSearch]
+other = "搜尋"
+
+[search_suggestion]
+other = "您是否要搜尋"
+
+[search_searching]
+other = "搜尋中..."
+
+# 文章
+[post_readMore]
+other = "閱讀全文"
+
+[post_publishedOn]
+other = "發佈於"
+
+[post_updatedOn]
+other = "更新於"
+
+[post.created]
+other = "發佈於"
+
+[post.updated]
+other = "更新於"
+
+[post_wordCount]
+other = "字數"
+
+[post_readTime]
+other = "閱讀時長"
+
+[post_minutes]
+other = "分鐘"
+
+[post_views]
+other = "閱讀"
+
+[post_comments]
+other = "評論"
+
+[post_share]
+other = "分享"
+
+[post_toc]
+other = "目錄"
+
+[post_copyright]
+other = "版權聲明"
+
+[post_author]
+other = "作者"
+
+[post_link]
+other = "本文連結"
+
+[post_license]
+other = "版權聲明"
+
+[post_licenseContent]
+other = "本部落格所有文章除特別聲明外，均採用 CC BY-NC-SA 4.0 許可協議。轉載請註明出處！"
+
+# 導航
+[post_prev]
+other = "上一篇"
+
+[post_next]
+other = "下一篇"
+
+[post_related]
+other = "相關文章"
+
+# 側邊欄
+[sidebar_author]
+other = "作者"
+
+[sidebar_follow]
+other = "關注我"
+
+[sidebar_announcement]
+other = "公告"
+
+[announcement]
+other = "公告"
+
+[sidebar_recentPosts]
+other = "最新文章"
+
+[aside.card_recent_post]
+other = "最新文章"
+
+[sidebar_categories]
+other = "分類"
+
+[sidebar_tags]
+other = "標籤"
+
+[sidebar_archives]
+other = "歸檔"
+
+[sidebar_webinfo]
+other = "網站資訊"
+
+[sidebar_webinfo_postCount]
+other = "文章數目"
+
+[sidebar_webinfo_categoryCount]
+other = "分類數目"
+
+[sidebar_webinfo_tagCount]
+other = "標籤數目"
+
+[sidebar_webinfo_lastUpdate]
+other = "最後更新"
+
+[sidebar_webinfo_runtime]
+other = "運行天數"
+
+[sidebar_articleCount]
+other = "文章數目"
+
+[sidebar_categoryCount]
+other = "分類數目"
+
+[sidebar_tagCount]
+other = "標籤數目"
+
+[sidebar_lastUpdate]
+other = "最後更新"
+
+[sidebar_runtimeDays]
+other = "運行天數"
+
+[sidebar_runtimeDay]
+other = "天"
+
+# 頁腳
+[footer_copyright]
+other = "版權所有"
+
+[footer_theme]
+other = "主題"
+
+[footer_framework]
+other = "框架"
+
+[footer_poweredBy]
+other = "由"
+
+[footer_and]
+other = "和"
+
+[footer_drive]
+other = "驅動"
+
+[footer_runtime]
+other = "網站已運行"
+
+[footer_runtime_days]
+other = "天"
+
+# 分頁
+[pagination_prev]
+other = "上一頁"
+
+[pagination_next]
+other = "下一頁"
+
+[pagination_page]
+other = "第"
+
+[pagination_of]
+other = "頁，共"
+
+[pagination_pages]
+other = "頁"
+
+# 歸檔
+[archive_title]
+other = "歸檔"
+
+[archive_total]
+other = "共"
+
+[archive_posts]
+other = "篇文章"
+
+[archive_year]
+other = "年"
+
+[archive_month]
+other = "月"
+
+# 分類和標籤
+[category_title]
+other = "分類"
+
+[tag_title]
+other = "標籤"
+
+[taxonomy_count]
+other = "篇"
+
+# 404
+[notFound_title]
+other = "頁面未找到"
+
+[notFound_message]
+other = "抱歉，您訪問的頁面不存在。"
+
+[notFound_backHome]
+other = "返回首頁"
+
+# 評論
+[comments_title]
+other = "評論"
+
+[comments_loading]
+other = "評論載入中..."
+
+[comments_error]
+other = "評論載入失敗"
+
+# 返回頂部
+[backToTop]
+other = "返回頂部"
+
+# 暗色模式
+[darkmode_toggle]
+other = "切換暗色模式"
+
+[darkmode_light]
+other = "亮色模式"
+
+[darkmode_dark]
+other = "暗色模式"
+
+[darkmode_auto]
+other = "跟隨系統"
+
+# 語言切換
+[language_switch]
+other = "切換語言"
+
+[language_current]
+other = "當前語言"
+
+# 時間格式
+[time_justNow]
+other = "剛剛"
+
+[time_minutesAgo]
+other = "分鐘前"
+
+[time_hoursAgo]
+other = "小時前"
+
+[time_daysAgo]
+other = "天前"
+
+[time_weeksAgo]
+other = "週前"
+
+[time_monthsAgo]
+other = "月前"
+
+[time_yearsAgo]
+other = "年前"
+
+# 載入狀態
+[loading]
+other = "載入中..."
+
+[loadMore]
+other = "載入更多"
+
+[noMore]
+other = "沒有更多了"
+
+# 操作
+[copy]
+other = "複製"
+
+[copied]
+other = "已複製"
+
+[expand]
+other = "展開"
+
+[collapse]
+other = "收起"
+
+[showAll]
+other = "顯示全部"
+
+[hideAll]
+other = "隱藏全部"
+
+# 友情連結
+[linksPageTitle]
+other = "友情連結"
+
+[linksNoData]
+other = "暫無友情連結"
+
+[linksApplyTitle]
+other = "申請友鏈"
+
+[linksRequirements]
+other = "友鏈要求"

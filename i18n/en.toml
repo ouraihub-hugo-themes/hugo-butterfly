@@ -1,0 +1,407 @@
+# English Translation File
+
+# General
+[home]
+other = "Home"
+
+[posts]
+other = "Posts"
+
+[articles]
+other = "Posts"
+
+[archives]
+other = "Archives"
+
+[categories]
+other = "Categories"
+
+[tags]
+other = "Tags"
+
+[about]
+other = "About"
+
+[links]
+other = "Links"
+
+# Navigation
+[menu]
+other = "Menu"
+
+[toggle_menu]
+other = "Toggle menu"
+
+[close_menu]
+other = "Close menu"
+
+# Search
+[search_title]
+other = "Search"
+
+[search_open]
+other = "Open search"
+
+[search_close]
+other = "Close search"
+
+[search_placeholder]
+other = "Search articles..."
+
+[search_clear]
+other = "Clear"
+
+[search_loadMore]
+other = "Load more"
+
+[search_label]
+other = "Search"
+
+[search_filters]
+other = "Filters"
+
+[search_noResults]
+other = "No results found"
+
+[search_results]
+other = "Found [RESULTS_COUNT] results"
+
+[search_oneResult]
+other = "Found 1 result"
+
+[search_altSearch]
+other = "Search"
+
+[search_suggestion]
+other = "Did you mean"
+
+[search_searching]
+other = "Searching..."
+
+# Post
+[post_readMore]
+other = "Read more"
+
+[post_publishedOn]
+other = "Published on"
+
+[post_updatedOn]
+other = "Updated on"
+
+[post.created]
+other = "Published on"
+
+[post.updated]
+other = "Updated on"
+
+[post_wordCount]
+other = "Words"
+
+[post.wordcount]
+other = "Words"
+
+[post_readTime]
+other = "Reading time"
+
+[post.min2read]
+other = "Reading time"
+
+[post_minutes]
+other = "min"
+
+[post.min2read_unit]
+other = "min"
+
+[post_views]
+other = "Views"
+
+[post_comments]
+other = "Comments"
+
+[post_share]
+other = "Share"
+
+[post_toc]
+other = "Table of Contents"
+
+[post_copyright]
+other = "Copyright"
+
+[post_author]
+other = "Author"
+
+[post_link]
+other = "Permalink"
+
+[post_license]
+other = "License"
+
+[post_licenseContent]
+other = "All articles in this blog are licensed under CC BY-NC-SA 4.0 unless stating additionally."
+
+# Navigation
+[post_prev]
+other = "Previous"
+
+[post_next]
+other = "Next"
+
+[post_related]
+other = "Related Posts"
+
+# Sidebar
+[sidebar_author]
+other = "Author"
+
+[sidebar_follow]
+other = "Follow"
+
+[sidebar_announcement]
+other = "Announcement"
+
+[announcement]
+other = "Announcement"
+
+[sidebar_recentPosts]
+other = "Recent Posts"
+
+[aside.card_recent_post]
+other = "Recent Posts"
+
+[sidebar_categories]
+other = "Categories"
+
+[sidebar_tags]
+other = "Tags"
+
+[sidebar_archives]
+other = "Archives"
+
+[sidebar_webinfo]
+other = "Site Info"
+
+[sidebar_webinfo_postCount]
+other = "Article Count"
+
+[sidebar_webinfo_categoryCount]
+other = "Category Count"
+
+[sidebar_webinfo_tagCount]
+other = "Tag Count"
+
+[sidebar_webinfo_lastUpdate]
+other = "Last Update"
+
+[sidebar_webinfo_runtime]
+other = "Running Days"
+
+[sidebar_articleCount]
+other = "Articles"
+
+[sidebar_categoryCount]
+other = "Categories"
+
+[sidebar_tagCount]
+other = "Tags"
+
+[sidebar_lastUpdate]
+other = "Last Update"
+
+[sidebar_runtimeDays]
+other = "Running Days"
+
+[sidebar_runtimeDay]
+other = "days"
+
+# Footer
+[footer_copyright]
+other = "Copyright"
+
+[footer_theme]
+other = "Theme"
+
+[footer_framework]
+other = "Framework"
+
+[footer_poweredBy]
+other = "Powered by"
+
+[footer_and]
+other = "and"
+
+[footer_drive]
+other = "drive"
+
+[footer_runtime]
+other = "Site has been running for"
+
+[footer_runtime_days]
+other = "days"
+
+# Pagination
+[pagination_prev]
+other = "Previous"
+
+[pagination_next]
+other = "Next"
+
+[pagination_page]
+other = "Page"
+
+[pagination_of]
+other = "of"
+
+[pagination_pages]
+other = "pages"
+
+# Archives
+[archive_title]
+other = "Archives"
+
+[archive_total]
+other = "Total"
+
+[archive_posts]
+other = "posts"
+
+[archive_year]
+other = "Year"
+
+[archive_month]
+other = "Month"
+
+# Categories and Tags
+[category_title]
+other = "Categories"
+
+[tag_title]
+other = "Tags"
+
+[taxonomy_count]
+other = "posts"
+
+# 404
+[notFound_title]
+other = "Page Not Found"
+
+[notFound_message]
+other = "Sorry, the page you are looking for does not exist."
+
+[notFound_backHome]
+other = "Back to Home"
+
+# Comments
+[comment]
+other = "Comments"
+
+[comments_title]
+other = "Comments"
+
+[comments_loading]
+other = "Loading comments..."
+
+[comments_error]
+other = "Failed to load comments"
+
+[loadingComment]
+other = "Loading comments..."
+
+[commentLoadError]
+other = "Failed to load comments, please refresh the page"
+
+[switchComment]
+other = "Switch comment system"
+
+[commentCount]
+other = "comments"
+
+[noComment]
+other = "No comments yet"
+
+# Back to Top
+[backToTop]
+other = "Back to Top"
+
+# Dark Mode
+[darkmode_toggle]
+other = "Toggle dark mode"
+
+[darkmode_light]
+other = "Light mode"
+
+[darkmode_dark]
+other = "Dark mode"
+
+[darkmode_auto]
+other = "Auto"
+
+# Language Switch
+[language_switch]
+other = "Switch language"
+
+[language_current]
+other = "Current language"
+
+# Time Format
+[time_justNow]
+other = "Just now"
+
+[time_minutesAgo]
+other = "minutes ago"
+
+[time_hoursAgo]
+other = "hours ago"
+
+[time_daysAgo]
+other = "days ago"
+
+[time_weeksAgo]
+other = "weeks ago"
+
+[time_monthsAgo]
+other = "months ago"
+
+[time_yearsAgo]
+other = "years ago"
+
+# Loading States
+[loading]
+other = "Loading..."
+
+[loadMore]
+other = "Load more"
+
+[noMore]
+other = "No more"
+
+# Actions
+[copy]
+other = "Copy"
+
+[copied]
+other = "Copied"
+
+[expand]
+other = "Expand"
+
+[collapse]
+other = "Collapse"
+
+[showAll]
+other = "Show all"
+
+[hideAll]
+other = "Hide all"
+
+# Links Page
+[linksPageTitle]
+other = "Friend Links"
+
+[linksNoData]
+other = "No friend links yet"
+
+[linksApplyTitle]
+other = "Apply for Link Exchange"
+
+[linksRequirements]
+other = "Link Requirements"

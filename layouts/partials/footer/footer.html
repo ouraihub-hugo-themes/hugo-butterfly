@@ -1,0 +1,129 @@
+{{- /* 
+  Footer Component
+  参考: hexo-theme-butterfly/layout/includes/footer.pug
+  参考: hexo-theme-butterfly/source/css/_layout/footer.styl
+*/ -}}
+
+<footer id="footer" class="relative bg-[#49b1f5] dark:bg-gray-900 text-gray-100">
+  {{- /* 背景遮罩层 */ -}}
+  <div class="absolute inset-0 bg-black/10 dark:bg-black/30"></div>
+  
+  <div class="relative">
+    {{- /* 页脚导航区域 */ -}}
+    {{- if .Site.Menus.footer -}}
+    <div class="footer-flex max-w-[1200px] mx-auto px-8 md:px-16 py-10 md:py-12">
+      <div class="flex flex-wrap justify-between gap-4 md:gap-6 w-full">
+        {{- range .Site.Menus.footer -}}
+          {{- if .HasChildren -}}
+          <div class="footer-flex-items flex-shrink-0 min-w-[100px] text-left">
+            <div class="footer-flex-item mb-3">
+              <div class="footer-flex-title text-xl md:text-2xl font-semibold mb-2 whitespace-nowrap">
+                {{ .Name }}
+              </div>
+              <div class="footer-flex-content space-y-2">
+                {{- range .Children -}}
+                <a href="{{ .URL | relURL }}" 
+                   {{ if strings.HasPrefix .URL "http" }}target="_blank" rel="noopener noreferrer"{{ end }}
+                   title="{{ .Name }}"
+                   class="block text-sm md:text-base hover:text-white transition-colors duration-300 whitespace-nowrap">
+                  {{ .Name }}
+                </a>
+                {{- end -}}
+              </div>
+            </div>
+          </div>
+          {{- end -}}
+        {{- end -}}
+      </div>
+    </div>
+    {{- end -}}
+    
+    {{- /* 版权和框架信息区域 */ -}}
+    <div class="footer-other py-8 md:py-10 px-4 text-center {{ if .Site.Menus.footer }}bg-black/10 dark:bg-black/20{{ end }}">
+      <div class="footer-copyright text-sm md:text-base">
+        {{- /* 版权信息 */ -}}
+        {{- $currentYear := now.Year -}}
+        {{- $sinceYear := .Site.Params.footer.since | default $currentYear -}}
+        <span class="copyright">
+          &copy;&nbsp;
+          {{- if and $sinceYear (ne $sinceYear $currentYear) -}}
+            {{ $sinceYear }} - {{ $currentYear }}
+          {{- else -}}
+            {{ $currentYear }}
+          {{- end -}}
+          &nbsp;By {{ .Site.Params.author.name | default .Site.Author.name | default .Site.Title }}
+        </span>
+        
+        {{- /* 框架信息 */ -}}
+        {{- if not (isset .Site.Params.footer "copyright") | or .Site.Params.footer.copyright -}}
+        <span class="framework-info">
+          {{- if or .Site.Menus.footer (.Site.Params.footer.since) -}}
+          <span class="footer-separator mx-1">|</span>
+          {{- end -}}
+          <span>{{ i18n "footer_framework" | default "框架" }}&nbsp;</span>
+          <a href="https://gohugo.io" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="hover:text-white transition-colors duration-300">
+            Hugo{{ with hugo.Version }}&nbsp;{{ . }}{{ end }}
+          </a>
+          <span class="footer-separator mx-1">|</span>
+          <span>{{ i18n "footer_theme" | default "主题" }}&nbsp;</span>
+          <a href="https://github.com/yourusername/hugo-butterfly" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="hover:text-white transition-colors duration-300">
+            Butterfly
+          </a>
+        </span>
+        {{- end -}}
+      </div>
+      
+      {{- /* 社交媒体图标 */ -}}
+      {{- if .Site.Params.social -}}
+      <div class="footer-social mt-6 flex justify-center items-center gap-4 flex-wrap">
+        {{- range .Site.Params.social -}}
+        <a href="{{ .url }}" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           title="{{ .name }}"
+           class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-110"
+           {{ with .color }}style="--social-color: {{ . }}"{{ end }}>
+          <i class="{{ .icon }} text-lg"></i>
+        </a>
+        {{- end -}}
+      </div>
+      {{- end -}}
+      
+      {{- /* 网站运行时间 */ -}}
+      {{- with .Site.Params.aside.webinfo.runtimeDate -}}
+      <div class="footer-runtime mt-6 text-xs md:text-sm opacity-80">
+        <span id="runtime-days">{{ i18n "footer_runtime" | default "网站已运行" }} <span class="runtime-count">0</span> {{ i18n "footer_runtime_days" | default "天" }}</span>
+      </div>
+      <script>
+        (function() {
+          const startDate = new Date('{{ . }}').getTime();
+          function updateRuntime() {
+            const now = new Date().getTime();
+            const diff = now - startDate;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const countEl = document.querySelector('.runtime-count');
+            if (countEl) {
+              countEl.textContent = days;
+            }
+          }
+          updateRuntime();
+          setInterval(updateRuntime, 60000); // 每分钟更新一次
+        })();
+      </script>
+      {{- end -}}
+      
+      {{- /* 自定义文本 */ -}}
+      {{- with .Site.Params.footer.customText -}}
+      <div class="footer-custom-text mt-4 text-xs md:text-sm">
+        {{ . | safeHTML }}
+      </div>
+      {{- end -}}
+    </div>
+  </div>
+</footer>

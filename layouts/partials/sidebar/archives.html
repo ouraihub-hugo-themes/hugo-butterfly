@@ -1,0 +1,101 @@
+{{- /* 归档卡片组件 */ -}}
+{{- if .Site.Params.aside.archives.enable -}}
+<div class="card-widget card-archives">
+  {{- /* 卡片标题 */ -}}
+  <div class="item-headline">
+    <i class="fas fa-archive"></i>
+    <span>{{ i18n "sidebar.archives" | default "归档" }}</span>
+  </div>
+  
+  {{- /* 归档列表 */ -}}
+  <ul class="card-archive-list">
+    {{- $type := .Site.Params.aside.archives.type | default "monthly" -}}
+    {{- $limit := .Site.Params.aside.archives.limit | default 8 -}}
+    {{- $order := .Site.Params.aside.archives.order | default -1 -}}
+    
+    {{- if eq $type "yearly" -}}
+      {{- /* 按年份归档 */ -}}
+      {{- $years := slice -}}
+      {{- range .Site.RegularPages -}}
+        {{- $year := .Date.Format "2006" -}}
+        {{- if not (in $years $year) -}}
+          {{- $years = $years | append $year -}}
+        {{- end -}}
+      {{- end -}}
+      
+      {{- /* 排序 */ -}}
+      {{- if eq $order -1 -}}
+        {{- $years = sort $years "value" "desc" -}}
+      {{- else -}}
+        {{- $years = sort $years "value" "asc" -}}
+      {{- end -}}
+      
+      {{- /* 限制数量 */ -}}
+      {{- if gt $limit 0 -}}
+        {{- $years = first $limit $years -}}
+      {{- end -}}
+      
+      {{- range $years -}}
+        {{- $year := . -}}
+        {{- $count := 0 -}}
+        {{- range $.Site.RegularPages -}}
+          {{- if eq (.Date.Format "2006") $year -}}
+            {{- $count = add $count 1 -}}
+          {{- end -}}
+        {{- end -}}
+        
+        <li class="card-archive-list-item">
+          <a href="{{ $.Site.BaseURL }}archives/#year-{{ $year }}">
+            <span class="card-archive-list-date">{{ $year }}</span>
+            <span class="card-archive-list-count">{{ $count }}</span>
+          </a>
+        </li>
+      {{- end -}}
+      
+    {{- else -}}
+      {{- /* 按月份归档 */ -}}
+      {{- $months := slice -}}
+      {{- range .Site.RegularPages -}}
+        {{- $month := .Date.Format "2006-01" -}}
+        {{- if not (in $months $month) -}}
+          {{- $months = $months | append $month -}}
+        {{- end -}}
+      {{- end -}}
+      
+      {{- /* 排序 */ -}}
+      {{- if eq $order -1 -}}
+        {{- $months = sort $months "value" "desc" -}}
+      {{- else -}}
+        {{- $months = sort $months "value" "asc" -}}
+      {{- end -}}
+      
+      {{- /* 限制数量 */ -}}
+      {{- if gt $limit 0 -}}
+        {{- $months = first $limit $months -}}
+      {{- end -}}
+      
+      {{- range $months -}}
+        {{- $month := . -}}
+        {{- $count := 0 -}}
+        {{- range $.Site.RegularPages -}}
+          {{- if eq (.Date.Format "2006-01") $month -}}
+            {{- $count = add $count 1 -}}
+          {{- end -}}
+        {{- end -}}
+        
+        {{- /* 将 YYYY-MM 转换为完整日期以便解析 */ -}}
+        {{- $dateStr := printf "%s-01" $month -}}
+        {{- $date := time $dateStr -}}
+        {{- $format := $.Site.Params.aside.archives.format | default "January 2006" -}}
+        
+        <li class="card-archive-list-item">
+          <a href="{{ $.Site.BaseURL }}archives/#month-{{ $month }}">
+            <span class="card-archive-list-date">{{ $date.Format $format }}</span>
+            <span class="card-archive-list-count">{{ $count }}</span>
+          </a>
+        </li>
+      {{- end -}}
+    {{- end -}}
+  </ul>
+</div>
+{{- end -}}

@@ -1,0 +1,80 @@
+{{- /*
+  Gitalk 评论系统
+  基于 GitHub Issues 的评论系统，支持 Markdown
+*/ -}}
+
+{{- $gitalk := .Site.Params.comments.gitalk -}}
+{{- if $gitalk.enable -}}
+  <div id="gitalk-container" class="gitalk-container"></div>
+  
+  <!-- Gitalk CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.css">
+  
+  <script>
+    (() => {
+      const loadGitalk = async () => {
+        const container = document.getElementById('gitalk-container');
+        if (!container) return;
+        
+        try {
+          // 动态加载 Gitalk
+          if (typeof Gitalk === 'undefined') {
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = 'https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js';
+              script.onload = resolve;
+              script.onerror = reject;
+              document.head.appendChild(script);
+            });
+          }
+          
+          // 生成唯一 ID（使用页面路径的 MD5）
+          const generateId = (str) => {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+              const char = str.charCodeAt(i);
+              hash = ((hash << 5) - hash) + char;
+              hash = hash & hash;
+            }
+            return Math.abs(hash).toString(36);
+          };
+          
+          const pageId = generateId(window.location.pathname);
+          
+          // 初始化 Gitalk
+          const gitalk = new Gitalk({
+            clientID: '{{ $gitalk.clientID }}',
+            clientSecret: '{{ $gitalk.clientSecret }}',
+            repo: '{{ $gitalk.repo }}',
+            owner: '{{ $gitalk.owner }}',
+            admin: {{ $gitalk.admin | jsonify }},
+            id: pageId,
+            language: '{{ $gitalk.language | default "zh-CN" }}',
+            perPage: {{ $gitalk.perPage | default 10 }},
+            distractionFreeMode: {{ $gitalk.distractionFreeMode | default false }},
+            pagerDirection: '{{ $gitalk.pagerDirection | default "last" }}',
+            createIssueManually: {{ $gitalk.createIssueManually | default false }},
+            {{- if $gitalk.proxy -}}
+            proxy: '{{ $gitalk.proxy }}',
+            {{- end -}}
+          });
+          
+          gitalk.render('gitalk-container');
+        } catch (error) {
+          console.error('Gitalk load error:', error);
+          if (window.showCommentError) {
+            window.showCommentError();
+          }
+        }
+      };
+      
+      {{- if .Site.Params.comments.lazyload -}}
+        // 懒加载模式
+        document.addEventListener('loadComments', loadGitalk, { once: true });
+      {{- else -}}
+        // 立即加载
+        loadGitalk();
+      {{- end -}}
+    })();
+  </script>
+{{- end -}}

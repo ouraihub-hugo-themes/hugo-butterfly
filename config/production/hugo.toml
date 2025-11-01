@@ -1,0 +1,25 @@
+# 生产环境配置
+
+baseURL = 'https://yourdomain.com/'
+
+# 不显示草稿和未来文章
+buildDrafts = false
+buildFuture = false
+
+# 启用资源压缩
+[minify]
+  disableHTML = false
+  disableCSS = false
+  disableJS = false
+  minifyOutput = true
+
+# 缓存配置
+[caches]
+  [caches.getjson]
+    maxAge = "10m"
+  [caches.getcsv]
+    maxAge = "10m"
+  [caches.images]
+    maxAge = "1h"
+  [caches.assets]
+    maxAge = "1h"

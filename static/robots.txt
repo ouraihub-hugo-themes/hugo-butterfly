@@ -1,0 +1,21 @@
+# robots.txt
+# 此文件由 Hugo 主题自动生成
+# 如需自定义，请修改 layouts/robots.txt 模板
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://example.org/sitemap.xml
+
+# 禁止爬取的路径
+Disallow: /admin/
+Disallow: /private/
+Disallow: /_pagefind/
+Disallow: /search/
+
+# 允许爬取的资源
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /fonts/

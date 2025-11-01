@@ -1,0 +1,63 @@
+{{- /* Hero 区域 - 首页顶部大图和标题 */ -}}
+{{- $heroEnable := .Site.Params.home.hero.enable | default false -}}
+{{- $indexImg := .Site.Params.home.hero.background | default "" -}}
+
+{{- if and $heroEnable $indexImg -}}
+<div id="page-header-hero" class="relative w-full h-screen bg-cover bg-center bg-no-repeat" 
+     style="background-image: url('{{ $indexImg | relURL }}');">
+  
+  {{- /* 遮罩层 */ -}}
+  <div class="absolute inset-0 bg-black/30 dark:bg-black/50"></div>
+  
+  {{- /* Hero 内容 */ -}}
+  <div id="site-info" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-4 text-center">
+    {{- /* 网站标题 */ -}}
+    <h1 id="site-title" class="text-white text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">
+      {{ .Site.Params.home.hero.title | default .Site.Title }}
+    </h1>
+    
+    {{- /* 副标题 */ -}}
+    {{- if .Site.Params.home.hero.subtitle -}}
+    <div id="site-subtitle" class="text-gray-200 text-lg md:text-2xl mb-8 drop-shadow-md">
+      <span id="subtitle">{{ .Site.Params.home.hero.subtitle }}</span>
+    </div>
+    {{- end -}}
+    
+    {{- /* 社交图标（移动端显示） */ -}}
+    {{- if .Site.Params.social -}}
+    <div id="site-social-icons" class="flex justify-center gap-4 md:hidden mb-8">
+      {{ range .Site.Params.social }}
+      <a href="{{ .url }}" 
+         target="_blank" 
+         rel="noopener noreferrer"
+         class="text-gray-200 hover:text-white text-2xl transition-colors drop-shadow-md"
+         title="{{ .name }}">
+        <i class="{{ .icon }}"></i>
+      </a>
+      {{ end }}
+    </div>
+    {{- end -}}
+  </div>
+  
+  {{- /* 向下滚动指示器 */ -}}
+  <div id="scroll-down" class="absolute bottom-10 left-1/2 -translate-x-1/2 cursor-pointer">
+    <i class="fas fa-angle-down text-gray-200 text-2xl animate-bounce drop-shadow-md"></i>
+  </div>
+</div>
+
+<script>
+// 向下滚动功能
+document.addEventListener('DOMContentLoaded', function() {
+  const scrollDown = document.getElementById('scroll-down');
+  if (scrollDown) {
+    scrollDown.addEventListener('click', function() {
+      const heroHeight = document.getElementById('page-header-hero').offsetHeight;
+      window.scrollTo({
+        top: heroHeight,
+        behavior: 'smooth'
+      });
+    });
+  }
+});
+</script>
+{{- end -}}

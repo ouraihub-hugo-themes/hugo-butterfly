@@ -1,0 +1,46 @@
+{{- /* 
+  移动端菜单项组件
+  支持展开/收起子菜单
+*/ -}}
+
+{{- range .Site.Menus.main -}}
+  {{- if .HasChildren -}}
+    {{- /* 有子菜单的项 */ -}}
+    <div class="mobile-menu-group">
+      <button class="mobile-menu-item mobile-menu-parent w-full flex items-center justify-between px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              data-submenu-toggle>
+        <span class="flex items-center">
+          {{- if .Pre -}}
+          <i class="{{ .Pre }} fa-fw mr-2"></i>
+          {{- end -}}
+          <span>{{ .Name }}</span>
+        </span>
+        <i class="fas fa-chevron-down transition-transform duration-300" data-submenu-icon></i>
+      </button>
+      
+      {{- /* 子菜单列表 */ -}}
+      <div class="mobile-submenu max-h-0 overflow-hidden transition-all duration-300" data-submenu>
+        <div class="pl-4 pt-1 space-y-1">
+          {{- range .Children -}}
+          <a href="{{ .URL | relURL }}" 
+             class="mobile-menu-item mobile-menu-child flex items-center px-4 py-2 rounded-lg text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary dark:hover:text-primary transition-colors">
+            {{- if .Pre -}}
+            <i class="{{ .Pre }} fa-fw mr-2"></i>
+            {{- end -}}
+            <span>{{ .Name }}</span>
+          </a>
+          {{- end -}}
+        </div>
+      </div>
+    </div>
+  {{- else -}}
+    {{- /* 普通菜单项 */ -}}
+    <a href="{{ .URL | relURL }}" 
+       class="mobile-menu-item flex items-center px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+      {{- if .Pre -}}
+      <i class="{{ .Pre }} fa-fw mr-2"></i>
+      {{- end -}}
+      <span>{{ .Name }}</span>
+    </a>
+  {{- end -}}
+{{- end -}}

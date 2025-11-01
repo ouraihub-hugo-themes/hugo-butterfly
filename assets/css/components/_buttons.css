@@ -1,0 +1,19 @@
+/**
+ * 按钮组件样式
+ */
+
+.btn {
+  @apply px-6 py-3 rounded-lg font-medium 
+         transition-all duration-200 
+         inline-flex items-center justify-center;
+}
+
+.btn-primary {
+  @apply bg-primary hover:bg-primary-hover 
+         text-white shadow-md hover:shadow-lg;
+}
+
+.btn-secondary {
+  @apply bg-transparent border-2 border-primary 
+         text-primary hover:bg-primary hover:text-white;
+}

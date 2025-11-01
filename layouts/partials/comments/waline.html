@@ -1,0 +1,71 @@
+{{- /*
+  Waline 评论系统
+  简洁、安全的评论系统
+*/ -}}
+
+{{- $waline := .Site.Params.comments.waline -}}
+{{- if $waline.enable -}}
+  <div id="waline-wrap" class="waline-container"></div>
+  
+  <script type="module">
+    (() => {
+      const loadWaline = async () => {
+        const container = document.getElementById('waline-wrap');
+        if (!container) return;
+        
+        try {
+          // 动态导入 Waline
+          const { init } = await import('https://cdn.jsdelivr.net/npm/@waline/client@latest/dist/waline.mjs');
+          
+          // 初始化 Waline
+          const waline = init({
+            el: '#waline-wrap',
+            serverURL: '{{ $waline.serverURL }}',
+            lang: '{{ $waline.lang | default "zh-CN" }}',
+            {{- if $waline.locale -}}
+            locale: {{ $waline.locale | jsonify }},
+            {{- end -}}
+            {{- if $waline.emoji -}}
+            emoji: {{ $waline.emoji | jsonify }},
+            {{- end -}}
+            {{- if $waline.meta -}}
+            meta: {{ $waline.meta | jsonify }},
+            {{- end -}}
+            {{- if $waline.requiredMeta -}}
+            requiredMeta: {{ $waline.requiredMeta | jsonify }},
+            {{- end -}}
+            {{- if $waline.wordLimit -}}
+            wordLimit: {{ $waline.wordLimit }},
+            {{- end -}}
+            pageSize: {{ $waline.pageSize | default 10 }},
+            pageview: {{ $waline.pageview | default false }},
+            dark: 'html.dark',
+            path: window.location.pathname,
+            {{- if not .Site.Params.comments.lazyload -}}
+            comment: {{ .Site.Params.comments.count | default false }},
+            {{- end -}}
+          });
+          
+          // 保存实例以便后续操作
+          window.walineInstance = waline;
+        } catch (error) {
+          console.error('Waline load error:', error);
+          if (window.showCommentError) {
+            window.showCommentError();
+          }
+        }
+      };
+      
+      {{- if .Site.Params.comments.lazyload -}}
+        // 懒加载模式
+        document.addEventListener('loadComments', loadWaline, { once: true });
+      {{- else -}}
+        // 立即加载
+        loadWaline();
+      {{- end -}}
+    })();
+  </script>
+  
+  <!-- Waline CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@waline/client@latest/dist/waline.css">
+{{- end -}}

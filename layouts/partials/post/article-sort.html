@@ -1,0 +1,93 @@
+{{- /*
+  文章时间线排序组件
+  
+  参考: hexo-theme-butterfly/layout/includes/mixins/article-sort.pug
+  
+  功能:
+    - 按年份分组显示文章
+    - 显示文章封面缩略图（可选）
+    - 显示文章标题和日期
+    - 实现时间线式设计
+  
+  参数:
+    . (Pages) - 文章页面列表
+  
+  使用方式:
+    {{ partial "post/article-sort.html" .Pages }}
+  
+  要求:
+    - Requirements: 18.1, 18.2, 18.6, 18.7
+*/ -}}
+
+{{- $pages := . -}}
+{{- $showCover := default true .Site.Params.cover.archives_enable -}}
+
+<div class="article-sort">
+  {{- $currentYear := "" -}}
+  
+  {{- range $pages -}}
+    {{- $year := .Date.Format "2006" -}}
+    {{- $noCoverClass := "" -}}
+    
+    {{- /* 获取封面图 */ -}}
+    {{- $cover := "" -}}
+    {{- with .Params.cover -}}
+      {{- $cover = . -}}
+    {{- end -}}
+    
+    {{- if or (not $cover) (eq .Params.cover false) (not $showCover) -}}
+      {{- $noCoverClass = "no-article-cover" -}}
+    {{- end -}}
+    
+    {{- /* 年份分隔 */ -}}
+    {{- if ne $year $currentYear -}}
+      {{- $currentYear = $year -}}
+      <div class="article-sort-item year">
+        <span class="year-number">{{ $year }}</span>
+      </div>
+    {{- end -}}
+    
+    {{- /* 文章项 */ -}}
+    <div class="article-sort-item {{ $noCoverClass }}">
+      {{- /* 封面缩略图 */ -}}
+      {{- if and $cover (ne .Params.cover false) $showCover -}}
+        <a class="article-sort-item-img" 
+           href="{{ .RelPermalink }}" 
+           title="{{ .Title }}"
+           aria-label="{{ .Title }}">
+          {{- if hasPrefix $cover "http" -}}
+            <img src="{{ $cover }}" 
+                 alt="{{ .Title }}"
+                 loading="lazy"
+                 onerror="this.onerror=null;this.src='{{ $.Site.Params.assets.defaultCover | default "/images/default-cover.jpg" }}'">
+          {{- else -}}
+            <img src="{{ $cover | relURL }}" 
+                 alt="{{ .Title }}"
+                 loading="lazy"
+                 onerror="this.onerror=null;this.src='{{ $.Site.Params.assets.defaultCover | default "/images/default-cover.jpg" }}'">
+          {{- end -}}
+        </a>
+      {{- end -}}
+      
+      {{- /* 文章信息 */ -}}
+      <div class="article-sort-item-info">
+        {{- /* 日期 */ -}}
+        <div class="article-sort-item-time">
+          <i class="far fa-calendar-alt" aria-hidden="true"></i>
+          <time class="post-meta-date-created" 
+                datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}"
+                title="{{ i18n "post.created" | default "发布于" }} {{ .Date.Format "2006-01-02 15:04:05" }}">
+            {{- .Date.Format (.Site.Params.post.meta.dateFormat | default "2006-01-02") -}}
+          </time>
+        </div>
+        
+        {{- /* 标题 */ -}}
+        <a class="article-sort-item-title" 
+           href="{{ .RelPermalink }}" 
+           title="{{ .Title }}">
+          {{- .Title -}}
+        </a>
+      </div>
+    </div>
+  {{- end -}}
+</div>

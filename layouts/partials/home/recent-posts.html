@@ -1,0 +1,230 @@
+{{- /*
+  首页最新文章列表
+  
+  参考: hexo-theme-butterfly/layout/includes/mixins/indexPostUI.pug
+  
+  功能:
+    - 显示最新文章列表
+    - 支持多种布局模式（1-7）
+    - 支持分页
+    - 支持瀑布流布局（模式 6、7）
+    - 支持置顶文章优先显示
+    - 按发布日期倒序排列
+    - 响应式网格布局（移动端 1 列，平板 2 列，桌面 3 列）
+*/ -}}
+
+{{- $indexLayout := .Site.Params.home.indexLayout | default 3 -}}
+
+{{- /* 判断是否为瀑布流布局 */ -}}
+{{- $isMasonry := or (eq $indexLayout 6) (eq $indexLayout 7) -}}
+
+<div id="recent-posts" class="recent-posts {{ if $isMasonry }}masonry{{ end }}">
+  <div class="recent-post-items {{ if $isMasonry }}masonry{{ end }}">
+    {{- /* 获取所有文章并按日期倒序排列 */ -}}
+    {{- $posts := where .Site.RegularPages "Type" "posts" -}}
+    
+    {{- /* 分离置顶文章和普通文章 */ -}}
+    {{- $pinnedPosts := slice -}}
+    {{- $regularPosts := slice -}}
+    
+    {{- range $posts -}}
+      {{- if or .Params.top (gt (.Params.sticky | default 0) 0) -}}
+        {{- $pinnedPosts = $pinnedPosts | append . -}}
+      {{- else -}}
+        {{- $regularPosts = $regularPosts | append . -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{- /* 合并置顶文章和普通文章（置顶文章在前） */ -}}
+    {{- $allPosts := union $pinnedPosts $regularPosts -}}
+    
+    {{- /* 使用分页器 */ -}}
+    {{- $paginator := .Paginate $allPosts -}}
+    
+    {{- /* 渲染文章卡片 */ -}}
+    {{- range $index, $post := $paginator.Pages -}}
+      {{- /* 获取封面图 */ -}}
+      {{- $cover := "" -}}
+      {{- with $post.Params.cover -}}
+        {{- $cover = . -}}
+      {{- else -}}
+        {{- with $.Site.Params.assets.defaultCover -}}
+          {{- $cover = . -}}
+        {{- end -}}
+      {{- end -}}
+      
+      {{- /* 判断是否显示封面 */ -}}
+      {{- $hasCover := and $cover (ne $post.Params.cover false) -}}
+      
+      {{- /* 计算布局类名和封面位置 */ -}}
+      {{- $layoutClass := "" -}}
+      {{- $coverPosition := "" -}}
+      {{- $infoClass := "" -}}
+      
+      {{- if or (eq $indexLayout 1) (eq $indexLayout 2) (eq $indexLayout 3) -}}
+        {{- /* 横向布局 */ -}}
+        {{- $layoutClass = "layout-horizontal" -}}
+        {{- if eq $indexLayout 2 -}}
+          {{- $coverPosition = "right" -}}
+        {{- else if eq $indexLayout 3 -}}
+          {{- /* 交替布局：奇数索引封面在右 */ -}}
+          {{- if eq (mod $index 2) 1 -}}
+            {{- $coverPosition = "right" -}}
+          {{- end -}}
+        {{- end -}}
+      {{- else if or (eq $indexLayout 4) (eq $indexLayout 6) -}}
+        {{- /* 纵向布局 */ -}}
+        {{- $layoutClass = "layout-vertical" -}}
+      {{- else if or (eq $indexLayout 5) (eq $indexLayout 7) -}}
+        {{- /* 覆盖布局 */ -}}
+        {{- $layoutClass = "layout-overlay" -}}
+      {{- end -}}
+      
+      {{- if not $hasCover -}}
+        {{- $infoClass = "no-cover" -}}
+      {{- end -}}
+      
+      <article class="recent-post-item {{ $layoutClass }} {{ if or (eq $indexLayout 6) (eq $indexLayout 7) }}masonry-item{{ end }}">
+        {{- if $hasCover -}}
+          <div class="post-cover {{ $coverPosition }}">
+            <a href="{{ $post.RelPermalink }}" title="{{ $post.Title }}">
+              {{- if hasPrefix $cover "http" -}}
+                <img class="post-bg" 
+                     src="{{ $cover }}" 
+                     alt="{{ $post.Title }}"
+                     loading="lazy"
+                     onerror="this.onerror=null;this.src='{{ $.Site.Params.assets.defaultCover | default "/images/default-cover.jpg" }}'">
+              {{- else -}}
+                <img class="post-bg" 
+                     src="{{ $cover | relURL }}" 
+                     alt="{{ $post.Title }}"
+                     loading="lazy"
+                     onerror="this.onerror=null;this.src='{{ $.Site.Params.assets.defaultCover | default "/images/default-cover.jpg" }}'">
+              {{- end -}}
+            </a>
+          </div>
+        {{- end -}}
+        
+        <div class="recent-post-info {{ $infoClass }}">
+          {{- /* 文章标题 */ -}}
+          <a class="article-title" href="{{ $post.RelPermalink }}" title="{{ $post.Title }}">
+            {{- if or $post.Params.top (gt ($post.Params.sticky | default 0) 0) -}}
+              <i class="fas fa-thumbtack sticky" aria-hidden="true"></i>
+            {{- end -}}
+            {{- $post.Title -}}
+          </a>
+          
+          {{- /* 文章元信息 */ -}}
+          <div class="article-meta-wrap">
+            {{- /* 日期 */ -}}
+            {{- $dateType := default "both" $.Site.Params.post.meta.dateType -}}
+            {{- if or (eq $dateType "created") (eq $dateType "both") -}}
+              <span class="post-meta-date">
+                {{- if eq $dateType "both" -}}
+                  <i class="far fa-calendar-alt" aria-hidden="true"></i>
+                  <span class="article-meta-label">{{ i18n "post.created" | default "发布于" }}</span>
+                  <time class="post-meta-date-created" 
+                        datetime="{{ $post.Date.Format "2006-01-02T15:04:05Z07:00" }}"
+                        title="{{ i18n "post.created" | default "发布于" }} {{ $post.Date.Format "2006-01-02 15:04:05" }}">
+                    {{- $post.Date.Format ($.Site.Params.post.meta.dateFormat | default "2006-01-02") -}}
+                  </time>
+                  {{- if eq $dateType "both" -}}
+                    <span class="article-meta-separator">|</span>
+                    <i class="fas fa-history" aria-hidden="true"></i>
+                    <span class="article-meta-label">{{ i18n "post.updated" | default "更新于" }}</span>
+                    <time class="post-meta-date-updated" 
+                          datetime="{{ $post.Lastmod.Format "2006-01-02T15:04:05Z07:00" }}"
+                          title="{{ i18n "post.updated" | default "更新于" }} {{ $post.Lastmod.Format "2006-01-02 15:04:05" }}">
+                      {{- $post.Lastmod.Format ($.Site.Params.post.meta.dateFormat | default "2006-01-02") -}}
+                    </time>
+                  {{- end -}}
+                {{- else -}}
+                  <i class="far fa-calendar-alt" aria-hidden="true"></i>
+                  <span class="article-meta-label">{{ i18n "post.created" | default "发布于" }}</span>
+                  <time datetime="{{ $post.Date.Format "2006-01-02T15:04:05Z07:00" }}"
+                        title="{{ i18n "post.created" | default "发布于" }} {{ $post.Date.Format "2006-01-02 15:04:05" }}">
+                    {{- $post.Date.Format ($.Site.Params.post.meta.dateFormat | default "2006-01-02") -}}
+                  </time>
+                {{- end -}}
+              </span>
+            {{- else if eq $dateType "updated" -}}
+              <span class="post-meta-date">
+                <i class="fas fa-history" aria-hidden="true"></i>
+                <span class="article-meta-label">{{ i18n "post.updated" | default "更新于" }}</span>
+                <time datetime="{{ $post.Lastmod.Format "2006-01-02T15:04:05Z07:00" }}"
+                      title="{{ i18n "post.updated" | default "更新于" }} {{ $post.Lastmod.Format "2006-01-02 15:04:05" }}">
+                  {{- $post.Lastmod.Format ($.Site.Params.post.meta.dateFormat | default "2006-01-02") -}}
+                </time>
+              </span>
+            {{- end -}}
+            
+            {{- /* 分类 */ -}}
+            {{- if and (default true $.Site.Params.post.meta.categories) $post.Params.categories -}}
+              {{- $categories := $post.GetTerms "categories" -}}
+              {{- if gt (len $categories) 0 -}}
+                <span class="article-meta">
+                  <span class="article-meta-separator">|</span>
+                  {{- range $idx, $category := $categories -}}
+                    <i class="fas fa-folder-open" aria-hidden="true"></i>
+                    <a href="{{ $category.RelPermalink }}" class="article-meta__categories">{{ $category.Title }}</a>
+                    {{- if lt (add $idx 1) (len $categories) -}}
+                      <i class="fas fa-angle-right article-meta-link" aria-hidden="true"></i>
+                    {{- end -}}
+                  {{- end -}}
+                </span>
+              {{- end -}}
+            {{- end -}}
+            
+            {{- /* 标签 */ -}}
+            {{- if and (default true $.Site.Params.post.meta.tags) $post.Params.tags -}}
+              {{- $tags := $post.GetTerms "tags" -}}
+              {{- if gt (len $tags) 0 -}}
+                <span class="article-meta tags">
+                  <span class="article-meta-separator">|</span>
+                  {{- range $idx, $tag := $tags -}}
+                    <i class="fas fa-tag" aria-hidden="true"></i>
+                    <a href="{{ $tag.RelPermalink }}" class="article-meta__tags">{{ $tag.Title }}</a>
+                    {{- if lt (add $idx 1) (len $tags) -}}
+                      <span class="article-meta-link">•</span>
+                    {{- end -}}
+                  {{- end -}}
+                </span>
+              {{- end -}}
+            {{- end -}}
+          </div>
+          
+          {{- /* 文章摘要 */ -}}
+          {{- $showContent := default true $.Site.Params.home.showPostContent -}}
+          {{- if $showContent -}}
+            {{- $content := "" -}}
+            {{- $contentLength := default 500 $.Site.Params.home.postContentLength -}}
+            {{- $contentMethod := default 3 $.Site.Params.home.postContentMethod -}}
+            
+            {{- if eq $contentMethod 1 -}}
+              {{- /* 使用 description */ -}}
+              {{- $content = $post.Description -}}
+            {{- else if eq $contentMethod 2 -}}
+              {{- /* 使用 description 或 summary */ -}}
+              {{- $content = or $post.Description $post.Summary -}}
+            {{- else -}}
+              {{- /* 自动摘要 */ -}}
+              {{- $content = $post.Summary -}}
+            {{- end -}}
+            
+            {{- if $content -}}
+              {{- $content = $content | plainify | truncate $contentLength -}}
+              <div class="content">{{ $content | safeHTML }}</div>
+            {{- end -}}
+          {{- end -}}
+        </div>
+      </article>
+    {{- end -}}
+  </div>
+  
+  {{- /* 分页 */ -}}
+  {{- if gt $paginator.TotalPages 1 -}}
+  <div class="pagination-wrapper">
+    {{- partial "components/pagination.html" . -}}
+  </div>
+  {{- end -}}
+</div>

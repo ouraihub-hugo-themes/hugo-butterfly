@@ -1,0 +1,11 @@
+{{ define "main" }}
+
+{{- /* 首页文章列表 */ -}}
+{{ partial "home/recent-posts.html" . }}
+
+{{ end }}
+
+{{ define "sidebar" }}
+{{- /* 使用默认侧边栏 */ -}}
+{{ partial "aside/aside.html" . }}
+{{ end }}

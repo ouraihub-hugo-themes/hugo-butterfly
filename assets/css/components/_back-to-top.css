@@ -1,0 +1,63 @@
+/**
+ * Back to Top Button Component
+ * 返回顶部按钮组件
+ * 
+ * 使用 Tailwind 类处理大部分样式
+ * 只在这里定义必要的状态切换和动画
+ */
+
+/* 显示状态 */
+.back-to-top-btn.show {
+  opacity: 0.8;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.back-to-top-btn.show:hover {
+  opacity: 1;
+}
+
+/* 显示百分比时的状态切换 */
+.back-to-top-btn.show-percent .scroll-percent {
+  display: flex;
+  opacity: 1;
+  transform: scale(1);
+  animation: fadeInScale 0.4s ease-out;
+}
+
+.back-to-top-btn.show-percent .arrow-icon {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* 悬停时恢复箭头 */
+.back-to-top-btn.show-percent:hover .scroll-percent {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.back-to-top-btn.show-percent:hover .arrow-icon {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+}
+
+/* 淡入缩放动画 */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 暗色模式阴影调整 */
+html.dark .back-to-top-btn {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+html.dark .back-to-top-btn:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+}

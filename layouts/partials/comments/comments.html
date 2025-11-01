@@ -1,0 +1,183 @@
+{{- /*
+  评论系统主组件
+  支持多种评论服务：Utterances, Gitalk, Waline, Giscus, Disqus, Twikoo
+  
+  功能：
+  - 支持多个评论系统切换
+  - 懒加载（滚动到评论区时加载）
+  - 错误处理
+  - 暗色模式适配
+*/ -}}
+
+{{- $comments := .Site.Params.comments -}}
+{{- if and $comments.enable (gt (len $comments.use) 0) -}}
+  {{- $firstComment := index $comments.use 0 -}}
+  {{- $hasMultiple := gt (len $comments.use) 1 -}}
+  
+  <hr class="custom-hr my-8 border-t border-gray-200 dark:border-gray-700">
+  
+  <div id="post-comment" class="comment-section">
+    <!-- 评论区标题 -->
+    <div class="comment-head mb-6">
+      <h3 class="comment-headline text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center">
+        <i class="fas fa-comments mr-2"></i>
+        <span>{{ i18n "comment" | default "评论" }}</span>
+      </h3>
+      
+      {{- if $hasMultiple -}}
+        <!-- 评论系统切换器 -->
+        <div class="comment-switch mt-4 flex items-center justify-center md:justify-start">
+          {{- if $comments.text -}}
+            <span class="first-comment text-sm font-medium text-gray-700 dark:text-gray-300">
+              {{ $firstComment }}
+            </span>
+          {{- end -}}
+          
+          <button 
+            id="switch-btn" 
+            class="mx-3 relative inline-block w-11 h-6 rounded-full bg-primary transition-all duration-300 cursor-pointer"
+            aria-label="{{ i18n "switchComment" | default "切换评论系统" }}"
+            data-comment-switch>
+            <span class="absolute bottom-1 left-1 w-4 h-4 rounded-full bg-white transition-transform duration-300"></span>
+          </button>
+          
+          {{- if $comments.text -}}
+            <span class="second-comment text-sm font-medium text-gray-700 dark:text-gray-300">
+              {{ index $comments.use 1 }}
+            </span>
+          {{- end -}}
+        </div>
+      {{- end -}}
+    </div>
+    
+    <!-- 评论容器 -->
+    <div class="comment-wrap">
+      {{- range $index, $name := $comments.use -}}
+        <div class="comment-item {{ if ne $index 0 }}hidden{{ end }}" data-comment-type="{{ $name }}">
+          {{- if eq $name "Utterances" -}}
+            {{- partial "comments/utterances.html" $ -}}
+          {{- else if eq $name "Gitalk" -}}
+            {{- partial "comments/gitalk.html" $ -}}
+          {{- else if eq $name "Waline" -}}
+            {{- partial "comments/waline.html" $ -}}
+          {{- else if eq $name "Giscus" -}}
+            {{- partial "comments/giscus.html" $ -}}
+          {{- else if eq $name "Disqus" -}}
+            {{- partial "comments/disqus.html" $ -}}
+          {{- else if eq $name "Twikoo" -}}
+            {{- partial "comments/twikoo.html" $ -}}
+          {{- end -}}
+        </div>
+      {{- end -}}
+    </div>
+    
+    <!-- 加载提示 -->
+    <div id="comment-loading" class="hidden text-center py-8">
+      <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <p class="mt-2 text-gray-600 dark:text-gray-400">{{ i18n "loadingComment" | default "加载评论中..." }}</p>
+    </div>
+    
+    <!-- 错误提示 -->
+    <div id="comment-error" class="hidden bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 text-red-700 dark:text-red-400">
+      <i class="fas fa-exclamation-triangle mr-2"></i>
+      <span>{{ i18n "commentLoadError" | default "评论加载失败，请刷新页面重试" }}</span>
+    </div>
+  </div>
+  
+  {{- if $comments.lazyload -}}
+    <!-- 懒加载脚本 -->
+    <script>
+      (() => {
+        const commentSection = document.getElementById('post-comment');
+        if (!commentSection) return;
+        
+        const loadingEl = document.getElementById('comment-loading');
+        const errorEl = document.getElementById('comment-error');
+        let loaded = false;
+        
+        const loadComments = () => {
+          if (loaded) return;
+          loaded = true;
+          
+          // 显示加载提示
+          if (loadingEl) loadingEl.classList.remove('hidden');
+          
+          // 触发评论加载事件
+          const event = new CustomEvent('loadComments');
+          document.dispatchEvent(event);
+          
+          // 3秒后隐藏加载提示
+          setTimeout(() => {
+            if (loadingEl) loadingEl.classList.add('hidden');
+          }, 3000);
+        };
+        
+        // 创建 Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              loadComments();
+              observer.disconnect();
+            }
+          });
+        }, {
+          rootMargin: '200px'
+        });
+        
+        observer.observe(commentSection);
+        
+        // 显示错误
+        window.showCommentError = () => {
+          if (loadingEl) loadingEl.classList.add('hidden');
+          if (errorEl) errorEl.classList.remove('hidden');
+        };
+      })();
+    </script>
+  {{- end -}}
+  
+  {{- if $hasMultiple -}}
+    <!-- 评论切换脚本 -->
+    <script>
+      (() => {
+        const switchBtn = document.querySelector('[data-comment-switch]');
+        const commentSection = document.getElementById('post-comment');
+        if (!switchBtn || !commentSection) return;
+        
+        switchBtn.addEventListener('click', () => {
+          commentSection.classList.toggle('move');
+          
+          const items = commentSection.querySelectorAll('.comment-item');
+          items.forEach((item, index) => {
+            if (index === 0) {
+              item.classList.toggle('hidden');
+            } else if (index === 1) {
+              item.classList.toggle('hidden');
+            }
+          });
+        });
+      })();
+    </script>
+  {{- end -}}
+  
+  <style>
+    /* 评论切换动画 */
+    .comment-section.move #switch-btn span {
+      transform: translateX(20px);
+    }
+    
+    .comment-item {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+{{- end -}}

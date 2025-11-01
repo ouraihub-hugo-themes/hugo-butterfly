@@ -1,0 +1,39 @@
+{{- /*
+分类列表组件
+
+参考: hexo-theme-butterfly/layout/includes/page/categories.pug
+参考: hexo-theme-butterfly/source/css/_page/categories.styl
+
+功能:
+- 显示所有分类及文章数量
+- 支持层级结构（父分类和子分类）
+- 卡片式布局
+- 悬停效果
+- 点击跳转到分类页面
+
+输入:
+- . (Page context)
+*/ -}}
+
+{{- $terms := .Data.Terms.Alphabetical -}}
+
+<div class="category-lists card">
+    {{- if gt (len $terms) 0 -}}
+    <ul class="category-list">
+        {{- range $terms -}}
+        {{- $name := .Name -}}
+        {{- $count := .Count -}}
+        {{- $permalink := .Page.Permalink -}}
+
+        <li class="category-list-item">
+            <a href="{{ $permalink }}" class="category-list-link" title="{{ $name }}">
+                <i class="fas fa-folder" aria-hidden="true"></i>
+                <span class="category-list-name">{{ $name }}</span>
+                <span class="category-list-count">{{ $count }}</span>
+            </a>
+        </li>
+        {{- end -}}
+    </ul>
+    {{- end -}}
+</div>
+

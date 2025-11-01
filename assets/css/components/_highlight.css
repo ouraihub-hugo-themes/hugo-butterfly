@@ -1,0 +1,432 @@
+/**
+ * 代码高亮样式
+ * 参考：hexo-theme-butterfly/source/css/_highlight/highlight.styl
+ */
+
+/* ========================================
+   CSS 变量定义
+   ======================================== */
+:root {
+    /* 亮色模式 */
+    --hl-color: var(--color-code-text);
+    --hl-bg: var(--color-code-bg);
+    --hl-border: var(--color-code-border);
+    --hltools-bg: var(--color-code-tools-bg);
+    --hltools-color: var(--color-code-tools-text);
+    --hlnumber-bg: var(--color-code-number-bg);
+    --hlnumber-color: var(--color-code-number-text);
+    --hlscrollbar-bg: var(--color-code-scrollbar);
+    --hlexpand-bg: linear-gradient(
+        180deg,
+        rgba(250, 250, 250, 0.6),
+        rgba(250, 250, 250, 0.9)
+    );
+    --hl-copy-success: #10b981;
+}
+
+/* 暗色模式 */
+.dark {
+    --hl-color: var(--color-code-text);
+    --hl-bg: var(--color-code-bg);
+    --hl-border: var(--color-code-border);
+    --hltools-bg: var(--color-code-tools-bg);
+    --hltools-color: var(--color-code-tools-text);
+    --hlnumber-bg: var(--color-code-number-bg);
+    --hlnumber-color: var(--color-code-number-text);
+    --hlscrollbar-bg: var(--color-code-scrollbar);
+    --hlexpand-bg: linear-gradient(
+        180deg,
+        rgba(30, 30, 30, 0.6),
+        rgba(30, 30, 30, 0.9)
+    );
+}
+
+/* ========================================
+   基础代码样式
+   ======================================== */
+.container {
+    /* 行内代码 */
+    code {
+        padding: 2px 6px;
+        background: var(--hl-bg);
+        color: var(--hl-color);
+        border: 1px solid var(--hl-border);
+        border-radius: 4px;
+        font-size: 0.9em;
+        font-family: "Consolas", "Monaco", "Courier New", monospace;
+    }
+
+    /* 代码块 */
+    pre {
+        margin: 0 0 1.5rem;
+        padding: 1rem 1.25rem;
+        background: var(--hl-bg);
+        color: var(--hl-color);
+        border: 1px solid var(--hl-border);
+        border-radius: 8px;
+        overflow-x: auto;
+        line-height: 1.6;
+        font-size: 0.9em;
+
+        code {
+            padding: 0;
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: inherit;
+        }
+    }
+}
+
+/* ========================================
+   Hugo Highlight 代码块
+   ======================================== */
+.highlight-wrapper {
+    position: relative;
+    margin: 0 0 1.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/* Mac 风格装饰 */
+.highlight-wrapper.mac-style {
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+
+    .highlight-tools {
+        padding-left: 12px;
+
+        .mac-buttons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: 12px;
+
+            span {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                display: block;
+            }
+
+            .mac-close {
+                background: #fc625d;
+            }
+
+            .mac-minimize {
+                background: #fdbc40;
+            }
+
+            .mac-maximize {
+                background: #35cd4b;
+            }
+        }
+    }
+}
+
+/* 工具栏 */
+.highlight-tools {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    min-height: 2.5rem;
+    background: var(--hltools-bg);
+    color: var(--hltools-color);
+    font-size: 0.875rem;
+    border-bottom: 1px solid var(--hl-border);
+
+    .code-lang {
+        flex: 1;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        user-select: none;
+    }
+
+    .copy-button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.375rem 0.75rem;
+        background: transparent;
+        border: 1px solid var(--hl-border);
+        border-radius: 4px;
+        color: var(--hltools-color);
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: var(--hl-bg);
+            border-color: var(--primary-color, #49b1f5);
+            color: var(--primary-color, #49b1f5);
+        }
+
+        &.copied {
+            border-color: var(--hl-copy-success);
+            color: var(--hl-copy-success);
+        }
+
+        i {
+            font-size: 1rem;
+        }
+    }
+
+    .expand-button {
+        display: flex;
+        align-items: center;
+        padding: 0.375rem;
+        background: transparent;
+        border: none;
+        color: var(--hltools-color);
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            color: var(--primary-color, #49b1f5);
+        }
+
+        i {
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        &.collapsed i {
+            transform: rotate(-90deg);
+        }
+    }
+}
+
+/* 代码内容区域 */
+.highlight {
+    position: relative;
+    background: var(--hl-bg);
+    overflow: hidden;
+
+    pre {
+        margin: 0;
+        padding: 1rem 1.25rem;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        overflow-x: auto;
+
+        /* 自定义滚动条 */
+        &::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: var(--hl-bg);
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: var(--hlscrollbar-bg);
+            border-radius: 4px;
+
+            &:hover {
+                background: var(--hlnumber-color);
+            }
+        }
+    }
+
+    /* 行号样式 */
+    .ln {
+        color: var(--hlnumber-color);
+        user-select: none;
+        padding-right: 1rem;
+    }
+
+    /* 表格布局（带行号） */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+
+        td {
+            padding: 0;
+            border: none;
+        }
+
+        .lntd:first-child {
+            width: 1%;
+            padding-right: 1rem;
+            text-align: right;
+            vertical-align: top;
+            user-select: none;
+
+            pre {
+                padding: 1rem 0.5rem 1rem 1.25rem;
+                background: var(--hlnumber-bg);
+                border-right: 1px solid var(--hl-border);
+            }
+        }
+
+        .lntd:last-child {
+            width: 99%;
+            vertical-align: top;
+        }
+    }
+}
+
+/* 折叠状态 */
+.highlight-wrapper.collapsed {
+    .highlight {
+        display: none;
+    }
+
+    .highlight-tools .expand-button i {
+        transform: rotate(-90deg);
+    }
+}
+
+/* 高度限制和展开按钮 */
+.highlight-wrapper.has-height-limit {
+    .highlight {
+        max-height: 400px;
+        overflow: hidden;
+        position: relative;
+
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: var(--hlexpand-bg);
+            pointer-events: none;
+        }
+    }
+
+    .code-expand-btn {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        padding: 0.75rem;
+        background: transparent;
+        border: none;
+        color: var(--hlnumber-color);
+        text-align: center;
+        cursor: pointer;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: var(--primary-color, #49b1f5);
+        }
+
+        i {
+            animation: code-expand-pulse 1.5s infinite;
+        }
+    }
+
+    &.expanded {
+        .highlight {
+            max-height: none;
+
+            &::after {
+                display: none;
+            }
+        }
+
+        .code-expand-btn i {
+            transform: rotate(180deg);
+            animation: none;
+        }
+    }
+}
+
+/* 全屏模式 */
+.highlight-wrapper.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    margin: 0;
+    border-radius: 0;
+    animation: code-fullscreen 0.3s ease;
+
+    .highlight {
+        max-height: none;
+        height: calc(100vh - 2.5rem);
+
+        pre {
+            height: 100%;
+        }
+    }
+
+    .code-expand-btn,
+    .expand-button {
+        display: none;
+    }
+}
+
+/* ========================================
+   动画
+   ======================================== */
+@keyframes code-expand-pulse {
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 0.2;
+    }
+}
+
+@keyframes code-fullscreen {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    20%,
+    60% {
+        transform: translateX(-5px);
+    }
+    40%,
+    80% {
+        transform: translateX(5px);
+    }
+}
+
+/* ========================================
+   响应式设计
+   ======================================== */
+@media (max-width: 768px) {
+    .highlight-wrapper {
+        border-radius: 6px;
+    }
+
+    .highlight-tools {
+        padding: 0 0.75rem;
+        font-size: 0.8125rem;
+
+        .code-lang {
+            font-size: 0.8125rem;
+        }
+
+        .copy-button {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8125rem;
+
+            span {
+                display: none;
+            }
+        }
+    }
+
+    .highlight pre {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+}

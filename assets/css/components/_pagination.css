@@ -1,0 +1,165 @@
+/**
+ * 分页组件样式
+ */
+
+#pagination {
+  margin-top: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+}
+
+/* 分页按钮和页码通用样式 */
+.pagination-btn,
+.page-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 0.75rem;
+  background: white;
+  color: rgb(55, 65, 81);
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 1px solid var(--color-gray-200);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  user-select: none;
+}
+
+.dark .pagination-btn,
+.dark .page-number {
+  background: rgb(31, 41, 55);
+  color: rgb(209, 213, 219);
+  border-color: rgb(55, 65, 81);
+}
+
+/* 悬停效果 */
+.pagination-btn:not(.disabled):hover,
+.page-number:not(.current):hover {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.dark .pagination-btn:not(.disabled):hover,
+.dark .page-number:not(.current):hover {
+  background: rgba(73, 177, 245, 0.1);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+/* 当前页样式 */
+.page-number.current {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+  cursor: default;
+  box-shadow: 0 2px 4px rgba(73, 177, 245, 0.3);
+}
+
+.dark .page-number.current {
+  background: var(--color-primary);
+  color: white;
+}
+
+/* 禁用状态 */
+.pagination-btn.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* 省略号样式 */
+.pagination-numbers .space {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  color: rgb(156, 163, 175);
+  font-weight: 500;
+  user-select: none;
+}
+
+.dark .pagination-numbers .space {
+  color: rgb(107, 114, 128);
+}
+
+/* 页码列表容器 */
+.pagination-numbers {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+/* 上一页/下一页按钮图标 */
+.pagination-btn i {
+  font-size: 0.875rem;
+}
+
+/* 移动端适配 */
+@media (max-width: 640px) {
+  #pagination {
+    margin-top: 2rem;
+  }
+  
+  .pagination-container {
+    gap: 0.25rem;
+  }
+  
+  .pagination-btn,
+  .page-number {
+    min-width: 2.25rem;
+    height: 2.25rem;
+    padding: 0 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .pagination-numbers .space {
+    min-width: 2.25rem;
+    height: 2.25rem;
+  }
+  
+  /* 移动端隐藏部分页码 */
+  .pagination-numbers .page-number:not(.current) {
+    display: none;
+  }
+  
+  /* 只显示当前页和相邻页 */
+  .pagination-numbers .page-number.current,
+  .pagination-numbers .page-number.current + .page-number,
+  .pagination-numbers .page-number:has(+ .page-number.current) {
+    display: inline-flex;
+  }
+  
+  /* 始终显示第一页和最后一页 */
+  .pagination-numbers .page-number:first-of-type,
+  .pagination-numbers .page-number:last-of-type {
+    display: inline-flex;
+  }
+}
+
+/* 平板适配 */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .pagination-btn,
+  .page-number {
+    min-width: 2.375rem;
+    height: 2.375rem;
+  }
+}
+
+/* 分页包装器 */
+.pagination-wrapper {
+  margin-top: 2rem;
+}

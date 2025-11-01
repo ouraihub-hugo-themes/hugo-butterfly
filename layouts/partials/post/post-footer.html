@@ -1,0 +1,37 @@
+{{- /* 文章底部组件 - 整合版权、标签、分享、打赏、导航、相关文章等功能 */ -}}
+<div class="post-footer mt-8 space-y-8">
+  {{- /* 1. 版权信息 */ -}}
+  {{- if and .Site.Params.post.copyright (ne .Params.copyright false) -}}
+    {{ partial "post/post-copyright.html" . }}
+  {{- end -}}
+  
+  {{- /* 2. 标签和分享区域 */ -}}
+  {{- if or (and .Params.tags (gt (len .Params.tags) 0)) .Site.Params.share.enable -}}
+  <div class="tag-share-wrapper flex flex-col md:flex-row md:items-center md:justify-between gap-4 py-4">
+    {{- /* 标签列表 */ -}}
+    {{- if and .Params.tags (gt (len .Params.tags) 0) -}}
+      {{ partial "post/post-tags.html" . }}
+    {{- end -}}
+    
+    {{- /* 分享按钮 */ -}}
+    {{- if .Site.Params.share.enable -}}
+      {{ partial "post/post-share.html" . }}
+    {{- end -}}
+  </div>
+  {{- end -}}
+  
+  {{- /* 3. 打赏功能 */ -}}
+  {{- if and .Site.Params.post.reward (ne .Params.reward false) -}}
+    {{ partial "post/post-reward.html" . }}
+  {{- end -}}
+  
+  {{- /* 4. 上一篇/下一篇导航 */ -}}
+  {{- if .Site.Params.post.postNavigation -}}
+    {{ partial "post/post-navigation.html" . }}
+  {{- end -}}
+  
+  {{- /* 5. 相关文章推荐 */ -}}
+  {{- if .Site.Params.post.relatedPosts -}}
+    {{ partial "post/post-related.html" . }}
+  {{- end -}}
+</div>

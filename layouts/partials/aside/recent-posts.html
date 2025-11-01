@@ -1,0 +1,78 @@
+{{- /* 最新文章侧边栏组件 */ -}}
+{{- if .Site.Params.aside.recentPosts.enable -}}
+{{- $limit := default 5 .Site.Params.aside.recentPosts.limit -}}
+{{- $sort := default "date" .Site.Params.aside.recentPosts.sort -}}
+{{- $coverEnable := default true .Site.Params.cover.aside_enable -}}
+
+{{- /* 获取文章列表 */ -}}
+{{- $posts := slice -}}
+{{- if eq $sort "updated" -}}
+{{- $posts = where .Site.RegularPages "Type" "posts" | first $limit -}}
+{{- $posts = sort $posts "Lastmod" "desc" -}}
+{{- else -}}
+{{- $posts = where .Site.RegularPages "Type" "posts" | first $limit -}}
+{{- end -}}
+
+<div
+  class="card-widget card-recent-post rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6 mb-5">
+  {{- /* 卡片标题 */ -}}
+  <div class="item-headline flex items-center text-lg font-semibold mb-4">
+    <i class="fas fa-history mr-2 text-primary"></i>
+    <span>{{ i18n "aside.card_recent_post" | default "最新文章" }}</span>
+  </div>
+
+  {{- /* 文章列表 */ -}}
+  <div class="aside-list space-y-0">
+    {{- range $index, $post := $posts -}}
+    {{- $title := $post.Title | default (i18n "no_title" | default "无标题") -}}
+    {{- $cover := $post.Params.cover -}}
+    {{- $hasCover := and $cover $coverEnable (ne $post.Params.cover false) -}}
+    {{- $noCoverClass := cond $hasCover "" "no-cover" -}}
+
+    <div
+      class="aside-list-item flex items-center py-3 {{ if ne $index 0 }}border-t border-dashed border-gray-200/40 dark:border-gray-600/30{{ end }} {{ $noCoverClass }}">
+      {{- /* 文章缩略图 */ -}}
+      {{- if $hasCover -}}
+      <a href="{{ $post.RelPermalink }}" title="{{ $title }}"
+        class="thumbnail flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden group">
+        {{- if eq $post.Params.cover_type "img" -}}
+        {{- $defaultCover := .Site.Params.assets.defaultCover | default "/images/default-cover.jpg" | relURL -}}
+        <img src="{{ $cover | relURL }}" alt="{{ $title }}" onerror="this.onerror=null;this.src='{{ $defaultCover }}'"
+          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy">
+        {{- else -}}
+        <div style="background: {{ $cover }}"
+          class="w-full h-full transition-transform duration-300 group-hover:scale-110"></div>
+        {{- end -}}
+      </a>
+      {{- end -}}
+
+      {{- /* 文章信息 */ -}}
+      <div class="content flex-1 {{ if $hasCover }}pl-3{{ end }} min-w-0">
+        {{- /* 文章标题 */ -}}
+        <a href="{{ $post.RelPermalink }}" title="{{ $title }}"
+          class="title block text-[var(--color-card-text)] hover:text-primary transition-colors duration-200 line-clamp-2 leading-relaxed text-sm">
+          {{ $title }}
+        </a>
+
+        {{- /* 文章日期 */ -}}
+        {{- if eq $sort "updated" -}}
+        {{- $updatedTitle := printf "%s %s" (i18n "post.updated" | default "更新于") ($post.Lastmod.Format "2006-01-02 15:04:05") -}}
+        <time datetime="{{ $post.Lastmod.Format "2006-01-02T15:04:05Z07:00" }}"
+              title="{{ $updatedTitle }}"
+              class="block text-xs text-[var(--color-card-text-secondary)] mt-1">
+          {{ $post.Lastmod.Format (.Site.Params.dateFormat | default "2006-01-02") }}
+        </time>
+        {{- else -}}
+        {{- $createdTitle := printf "%s %s" (i18n "post.created" | default "发布于") ($post.Date.Format "2006-01-02 15:04:05") -}}
+        <time datetime="{{ $post.Date.Format "2006-01-02T15:04:05Z07:00" }}"
+              title="{{ $createdTitle }}"
+              class="block text-xs text-[var(--color-card-text-secondary)] mt-1">
+          {{ $post.Date.Format (.Site.Params.dateFormat | default "2006-01-02") }}
+        </time>
+        {{- end -}}
+      </div>
+    </div>
+    {{- end -}}
+  </div>
+</div>
+{{- end -}}

@@ -1,0 +1,58 @@
+{{- /* 网站信息卡片组件 */ -}}
+{{- if .Site.Params.aside.webinfo.enable -}}
+<div class="card-widget card-webinfo">
+  {{- /* 卡片标题 */ -}}
+  <div class="item-headline">
+    <i class="fas fa-chart-line"></i>
+    <span>{{- if eq .Language.Lang "en" -}}Site Info{{- else if eq .Language.Lang "zh-tw" -}}網站資訊{{- else -}}网站资讯{{- end -}}</span>
+  </div>
+  
+  {{- /* 网站信息列表 */ -}}
+  <div class="webinfo">
+    {{- /* 文章总数 */ -}}
+    {{- if .Site.Params.aside.webinfo.postCount -}}
+    <div class="webinfo-item">
+      <div class="item-name">{{- if eq .Language.Lang "en" -}}Article Count{{- else if eq .Language.Lang "zh-tw" -}}文章數目{{- else -}}文章数目{{- end -}}:</div>
+      <div class="item-count">{{ len .Site.RegularPages }}</div>
+    </div>
+    {{- end -}}
+    
+    {{- /* 分类总数 */ -}}
+    {{- if .Site.Params.aside.webinfo.categoryCount -}}
+    <div class="webinfo-item">
+      <div class="item-name">{{- if eq .Language.Lang "en" -}}Category Count{{- else if eq .Language.Lang "zh-tw" -}}分類數目{{- else -}}分类数目{{- end -}}:</div>
+      <div class="item-count">{{ len .Site.Taxonomies.categories }}</div>
+    </div>
+    {{- end -}}
+    
+    {{- /* 标签总数 */ -}}
+    {{- if .Site.Params.aside.webinfo.tagCount -}}
+    <div class="webinfo-item">
+      <div class="item-name">{{- if eq .Language.Lang "en" -}}Tag Count{{- else if eq .Language.Lang "zh-tw" -}}標籤數目{{- else -}}标签数目{{- end -}}:</div>
+      <div class="item-count">{{ len .Site.Taxonomies.tags }}</div>
+    </div>
+    {{- end -}}
+    
+    {{- /* 网站运行时间 */ -}}
+    {{- if .Site.Params.aside.webinfo.runtimeDate -}}
+    <div class="webinfo-item">
+      <div class="item-name">{{- if eq .Language.Lang "en" -}}Running Days{{- else if eq .Language.Lang "zh-tw" -}}運行天數{{- else -}}运行天数{{- end -}}:</div>
+      <div class="item-count" id="runtimeshow" data-publish-date="{{ .Site.Params.aside.webinfo.runtimeDate }}">
+        <i class="fas fa-spinner fa-spin"></i>
+      </div>
+    </div>
+    {{- end -}}
+    
+    {{- /* 最后更新时间 */ -}}
+    {{- if .Site.Params.aside.webinfo.lastPushDate -}}
+    {{- $lastmod := .Site.Lastmod -}}
+    <div class="webinfo-item">
+      <div class="item-name">{{- if eq .Language.Lang "en" -}}Last Update{{- else if eq .Language.Lang "zh-tw" -}}最後更新{{- else -}}最后更新{{- end -}}:</div>
+      <div class="item-count" id="last-push-date" data-last-push-date="{{ $lastmod.Format "2006-01-02T15:04:05Z07:00" }}">
+        <i class="fas fa-spinner fa-spin"></i>
+      </div>
+    </div>
+    {{- end -}}
+  </div>
+</div>
+{{- end -}}

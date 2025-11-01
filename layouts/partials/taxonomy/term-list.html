@@ -1,0 +1,31 @@
+{{- /*
+  通用分类法列表组件
+  
+  功能:
+    - 显示任意分类法的所有术语
+    - 简单的列表布局
+    - 显示文章数量
+    - 悬停效果
+  
+  输入:
+    - . (Page context)
+*/ -}}
+
+{{- $terms := .Data.Terms.Alphabetical -}}
+
+<div class="term-list card">
+  {{- if gt (len $terms) 0 -}}
+    <ul class="term-items">
+      {{- range $terms -}}
+        <li class="term-item">
+          <a href="{{ .Page.Permalink }}" class="term-link" title="{{ .Page.Title }}">
+            <span class="term-name">{{ .Page.Title }}</span>
+            <span class="term-count">{{ .Count }}</span>
+          </a>
+        </li>
+      {{- end -}}
+    </ul>
+  {{- end -}}
+</div>
+
+

@@ -1,0 +1,193 @@
+{{- /*
+  scripts.html - JavaScript 脚本加载
+  参考: hexo-theme-butterfly/layout/includes/additional-js.pug
+  
+  功能：
+  1. 加载主要的 JavaScript bundle
+  2. 条件加载第三方库
+  3. 内联关键脚本（防止闪烁）
+  4. 确保正确的加载顺序
+*/ -}}
+
+{{- /* 主题初始化内联脚本 - 必须在页面加载前执行，防止暗色模式闪烁 */ -}}
+<script>
+  (function() {
+    // 从 localStorage 读取主题设置
+    const getTheme = () => {
+      try {
+        const stored = localStorage.getItem('theme-mode');
+        if (stored) return stored;
+      } catch (e) {}
+      
+      // 如果没有存储，检测系统偏好
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
+      return 'light';
+    };
+    
+    // 立即应用主题，避免闪烁
+    const theme = getTheme();
+    document.documentElement.setAttribute('data-theme', theme);
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>
+
+{{- /* 加载主 JavaScript bundle */ -}}
+{{- $js := resources.Get "js/bundle.js" -}}
+{{- if $js -}}
+  {{- if hugo.IsProduction -}}
+    {{- /* 生产环境：压缩并添加指纹 */ -}}
+    {{- $js = $js | minify | fingerprint -}}
+    <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"></script>
+  {{- else -}}
+    {{- /* 开发环境：直接加载 */ -}}
+    <script src="{{ $js.RelPermalink }}"></script>
+  {{- end -}}
+{{- else -}}
+  {{- warnf "JavaScript bundle not found at assets/js/bundle.js. Run 'pnpm run ts:build' to compile TypeScript." -}}
+{{- end -}}
+
+{{- /* Font Awesome (如果启用) */ -}}
+{{- if .Site.Params.fontawesome.enable -}}
+  <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/js/all.min.js" defer></script>
+{{- end -}}
+
+{{- /* 数学公式支持 */ -}}
+{{- if and .Site.Params.math.enable (or .Params.math (eq .Site.Params.math.perPage false)) -}}
+  {{- if eq .Site.Params.math.use "katex" -}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/contrib/auto-render.min.js" 
+            onload="renderMathInElement(document.body);"></script>
+  {{- else if eq .Site.Params.math.use "mathjax" -}}
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          processEscapes: true,
+          processEnvironments: true
+        },
+        options: {
+          skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  {{- end -}}
+{{- end -}}
+
+{{- /* Mermaid 图表支持 */ -}}
+{{- if and .Site.Params.mermaid.enable (or .Params.mermaid (eq .Kind "page")) -}}
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+    });
+  </script>
+{{- end -}}
+
+{{- /* 图片灯箱 */ -}}
+{{- if .Site.Params.lightbox.enable -}}
+  {{- if eq .Site.Params.lightbox.type "fancybox" -}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5/dist/fancybox/fancybox.css">
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5/dist/fancybox/fancybox.umd.js" defer></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        Fancybox.bind('[data-fancybox]', {
+          // Fancybox 配置
+        });
+      });
+    </script>
+  {{- else if eq .Site.Params.lightbox.type "medium-zoom" -}}
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js" defer></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        mediumZoom('.post-content img', {
+          background: 'rgba(0, 0, 0, 0.8)'
+        });
+      });
+    </script>
+  {{- end -}}
+{{- end -}}
+
+{{- /* 评论系统 */ -}}
+{{- if and .Site.Params.comments.enable (ne .Params.comments false) (eq .Kind "page") -}}
+  {{- partial "comments/load.html" . -}}
+{{- end -}}
+
+{{- /* 搜索功能配置 */ -}}
+{{- if .Site.Params.search.enable -}}
+<script>
+  window.searchConfig = {
+    enable: true,
+    type: '{{ .Site.Params.search.type | default "local" }}',
+    path: '{{ .Site.Params.search.path | default "/index.json" }}',
+    preload: {{ .Site.Params.search.preload | default false }},
+    topNPerArticle: {{ .Site.Params.search.topNPerArticle | default 1 }},
+    unescape: {{ .Site.Params.search.unescape | default false }},
+    {{- if .Site.Params.search.pagination -}}
+    pagination: {
+      enable: {{ .Site.Params.search.pagination.enable | default false }},
+      hitsPerPage: {{ .Site.Params.search.pagination.hitsPerPage | default 10 }}
+    },
+    {{- else -}}
+    pagination: {
+      enable: false,
+      hitsPerPage: 10
+    },
+    {{- end -}}
+    languages: {
+      hits_stats: '{{ i18n "search_hits_stats" | default "找到 ${hits} 条结果" }}',
+      hits_empty: '{{ i18n "search_hits_empty" | default "未找到 \"${query}\" 的搜索结果" }}'
+    }
+  };
+</script>
+  {{- if eq .Site.Params.search.type "algolia" -}}
+    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js" defer></script>
+  {{- end -}}
+{{- end -}}
+
+{{- /* Google Analytics */ -}}
+{{- if and hugo.IsProduction .Site.Params.seo.googleAnalytics -}}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Params.seo.googleAnalytics }}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '{{ .Site.Params.seo.googleAnalytics }}');
+  </script>
+{{- end -}}
+
+{{- /* 百度统计 */ -}}
+{{- if and hugo.IsProduction .Site.Params.seo.baiduAnalytics -}}
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?{{ .Site.Params.seo.baiduAnalytics }}";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+{{- end -}}
+
+{{- /* 自定义脚本注入 */ -}}
+{{- with .Site.Params.customScripts -}}
+  {{ . | safeHTML }}
+{{- end -}}
+
+{{- /* Service Worker (PWA) */ -}}
+{{- if and hugo.IsProduction .Site.Params.pwa.enable -}}
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .then(registration => console.log('SW registered:', registration))
+        .catch(error => console.log('SW registration failed:', error));
+    }
+  </script>
+{{- end -}}

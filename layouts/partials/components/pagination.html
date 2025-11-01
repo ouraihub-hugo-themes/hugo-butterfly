@@ -1,0 +1,122 @@
+{{- /*
+  分页组件
+  
+  参考: hexo-theme-butterfly/layout/includes/pagination.pug
+  参考: hexo-theme-butterfly/source/css/_layout/pagination.styl
+  
+  功能:
+    - 显示上一页/下一页按钮
+    - 显示页码列表
+    - 高亮当前页
+    - 响应式分页布局
+    - 支持首页和列表页
+  
+  使用方式:
+    {{ partial "components/pagination.html" . }}
+  
+  要求:
+    - Requirements: 5.6, 5.7, 2.1, 2.2, 2.3
+*/ -}}
+
+{{- $paginator := .Paginator -}}
+
+{{- if gt $paginator.TotalPages 1 -}}
+<nav id="pagination" class="pagination" role="navigation" aria-label="{{ i18n "pagination.label" | default "分页导航" }}">
+  <div class="pagination-container">
+    {{- /* 上一页按钮 */ -}}
+    {{- if $paginator.HasPrev -}}
+      <a href="{{ $paginator.Prev.URL }}" 
+         class="pagination-btn prev-page" 
+         rel="prev"
+         aria-label="{{ i18n "pagination.prev" | default "上一页" }}">
+        <i class="fas fa-chevron-left fa-fw" aria-hidden="true"></i>
+      </a>
+    {{- else -}}
+      <span class="pagination-btn prev-page disabled" aria-disabled="true">
+        <i class="fas fa-chevron-left fa-fw" aria-hidden="true"></i>
+      </span>
+    {{- end -}}
+    
+    {{- /* 页码列表 */ -}}
+    <div class="pagination-numbers">
+      {{- $currentPage := $paginator.PageNumber -}}
+      {{- $totalPages := $paginator.TotalPages -}}
+      
+      {{- /* 计算显示范围 */ -}}
+      {{- $midSize := 1 -}}
+      {{- $sideSize := 1 -}}
+      
+      {{- /* 第一页 */ -}}
+      {{- if eq $currentPage 1 -}}
+        <span class="page-number current" aria-current="page">1</span>
+      {{- else -}}
+        <a href="{{ $paginator.First.URL }}" 
+           class="page-number" 
+           aria-label="{{ i18n "pagination.page" | default "第" }} 1 {{ i18n "pagination.pageUnit" | default "页" }}">
+          1
+        </a>
+      {{- end -}}
+      
+      {{- /* 左侧省略号 */ -}}
+      {{- if gt (sub $currentPage $midSize $sideSize) 2 -}}
+        <span class="space">…</span>
+      {{- end -}}
+      
+      {{- /* 中间页码 */ -}}
+      {{- range $paginator.Pagers -}}
+        {{- $pageNum := .PageNumber -}}
+        {{- if and (gt $pageNum 1) (lt $pageNum $totalPages) -}}
+          {{- /* 判断是否在显示范围内 */ -}}
+          {{- $inLeftRange := and (ge $pageNum 2) (le $pageNum (add $sideSize 1)) -}}
+          {{- $inMiddleRange := and (ge $pageNum (sub $currentPage $midSize)) (le $pageNum (add $currentPage $midSize)) -}}
+          {{- $inRightRange := and (ge $pageNum (sub $totalPages $sideSize)) (lt $pageNum $totalPages) -}}
+          
+          {{- if or $inLeftRange $inMiddleRange $inRightRange -}}
+            {{- if eq $pageNum $currentPage -}}
+              <span class="page-number current" aria-current="page">{{ $pageNum }}</span>
+            {{- else -}}
+              <a href="{{ .URL }}" 
+                 class="page-number"
+                 aria-label="{{ i18n "pagination.page" | default "第" }} {{ $pageNum }} {{ i18n "pagination.pageUnit" | default "页" }}">
+                {{ $pageNum }}
+              </a>
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+      
+      {{- /* 右侧省略号 */ -}}
+      {{- if lt (add $currentPage $midSize $sideSize) (sub $totalPages 1) -}}
+        <span class="space">…</span>
+      {{- end -}}
+      
+      {{- /* 最后一页 */ -}}
+      {{- if gt $totalPages 1 -}}
+        {{- if eq $currentPage $totalPages -}}
+          <span class="page-number current" aria-current="page">{{ $totalPages }}</span>
+        {{- else -}}
+          <a href="{{ $paginator.Last.URL }}" 
+             class="page-number"
+             aria-label="{{ i18n "pagination.page" | default "第" }} {{ $totalPages }} {{ i18n "pagination.pageUnit" | default "页" }}">
+            {{ $totalPages }}
+          </a>
+        {{- end -}}
+      {{- end -}}
+    </div>
+    
+    {{- /* 下一页按钮 */ -}}
+    {{- if $paginator.HasNext -}}
+      <a href="{{ $paginator.Next.URL }}" 
+         class="pagination-btn next-page" 
+         rel="next"
+         aria-label="{{ i18n "pagination.next" | default "下一页" }}">
+        <i class="fas fa-chevron-right fa-fw" aria-hidden="true"></i>
+      </a>
+    {{- else -}}
+      <span class="pagination-btn next-page disabled" aria-disabled="true">
+        <i class="fas fa-chevron-right fa-fw" aria-hidden="true"></i>
+      </span>
+    {{- end -}}
+  </div>
+</nav>
+{{- end -}}

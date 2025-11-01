@@ -1,0 +1,12 @@
+{{- /* announcement.html - 公告卡片组件 (占位符) 将在后续任务中实现 */ -}} {{-
+if .Site.Params.aside.announcement.content -}}
+<div id="card-announcement" class="card-widget card-announcement">
+    <div class="item-headline">
+        <i class="fas fa-bullhorn text-red-500"></i>
+        <span>{{ i18n "announcement" | default "公告" }}</span>
+    </div>
+    <div class="announcement-content text-[var(--color-card-text)]">
+        {{ .Site.Params.aside.announcement.content | markdownify }}
+    </div>
+</div>
+{{- end -}}

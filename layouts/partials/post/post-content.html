@@ -1,0 +1,48 @@
+{{- /* 文章内容渲染 */ -}}
+
+{{- /* 过期提醒 */ -}}
+{{- if and .Site.Params.post.outdateNotice (ne .Params.outdateNotice false) -}}
+  {{- $daysAgo := div (sub now.Unix .Date.Unix) 86400 -}}
+  {{- $outdateDays := .Site.Params.post.outdateNoticeDays | default 365 -}}
+  {{- if ge $daysAgo $outdateDays -}}
+  <div class="post-outdate-notice mb-6 p-4 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800">
+    <div class="flex items-start gap-3">
+      <i class="fas fa-exclamation-triangle text-yellow-600 dark:text-yellow-500 mt-1"></i>
+      <div class="flex-1 text-sm text-yellow-800 dark:text-yellow-200">
+        <p class="font-semibold mb-1">{{ i18n "post.outdate_notice_title" | default "文章时效性提示" }}</p>
+        <p>
+          {{ i18n "post.outdate_notice_text" | default "这篇文章最后更新于" }} 
+          <strong>{{ $daysAgo }}</strong> 
+          {{ i18n "post.outdate_notice_days" | default "天前，其中的信息可能已经过时。" }}
+        </p>
+      </div>
+    </div>
+  </div>
+  {{- end -}}
+{{- end -}}
+
+{{- /* 文章正文内容 */ -}}
+<div class="post-content prose prose-lg dark:prose-invert max-w-none
+  prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-gray-100
+  prose-h1:text-3xl prose-h1:mt-8 prose-h1:mb-4
+  prose-h2:text-2xl prose-h2:mt-6 prose-h2:mb-3
+  prose-h3:text-xl prose-h3:mt-5 prose-h3:mb-2
+  prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-p:my-4
+  prose-a:text-primary prose-a:no-underline hover:prose-a:text-primary-hover hover:prose-a:underline
+  prose-strong:text-gray-900 dark:prose-strong:text-gray-100 prose-strong:font-semibold
+  prose-code:text-pink-600 dark:prose-code:text-pink-400 prose-code:bg-gray-100 dark:prose-code:bg-gray-800 
+  prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-mono
+  prose-pre:bg-gray-900 dark:prose-pre:bg-gray-950 prose-pre:text-gray-100 prose-pre:rounded-lg prose-pre:shadow-lg
+  prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-gray-50 dark:prose-blockquote:bg-gray-800/50
+  prose-blockquote:pl-4 prose-blockquote:py-2 prose-blockquote:italic prose-blockquote:text-gray-600 dark:prose-blockquote:text-gray-400
+  prose-ul:list-disc prose-ul:pl-6 prose-ul:my-4
+  prose-ol:list-decimal prose-ol:pl-6 prose-ol:my-4
+  prose-li:text-gray-700 dark:prose-li:text-gray-300 prose-li:my-1
+  prose-img:rounded-lg prose-img:shadow-md prose-img:my-6
+  prose-hr:border-gray-300 dark:prose-hr:border-gray-700 prose-hr:my-8
+  prose-table:border-collapse prose-table:w-full prose-table:my-6
+  prose-th:bg-gray-100 dark:prose-th:bg-gray-800 prose-th:px-4 prose-th:py-2 prose-th:text-left prose-th:font-semibold
+  prose-td:border prose-td:border-gray-300 dark:prose-td:border-gray-700 prose-td:px-4 prose-td:py-2
+">
+  {{ .Content }}
+</div>

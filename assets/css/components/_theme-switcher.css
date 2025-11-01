@@ -1,0 +1,191 @@
+/**
+ * 主题切换器组件样式
+ * Theme Switcher Component Styles
+ */
+
+/* ============================================================================
+   主题切换器容器
+   ============================================================================ */
+
+[data-theme-switcher-btn] {
+    @apply relative inline-flex items-center justify-center
+         w-10 h-10 rounded-lg
+         transition-all duration-200
+         text-gray-700 hover:text-primary
+         hover:bg-gray-100 dark:hover:bg-gray-800
+         cursor-pointer;
+}
+
+[data-theme-switcher-btn]:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2;
+}
+
+[data-theme-switcher-btn] svg {
+    @apply w-5 h-5;
+}
+
+/* ============================================================================
+   主题选择面板
+   ============================================================================ */
+
+[data-theme-panel] {
+    @apply absolute top-full right-0 mt-2
+         min-w-max bg-white dark:bg-gray-800
+         rounded-lg shadow-lg dark:shadow-black/30
+         border border-gray-200 dark:border-gray-700
+         opacity-0 invisible
+         transition-all duration-200
+         pointer-events-none z-50;
+}
+
+[data-theme-panel].active {
+    @apply opacity-100 visible pointer-events-auto;
+}
+
+/* ============================================================================
+   主题网格布局
+   ============================================================================ */
+
+[data-theme-panel] [data-theme-category] {
+    @apply p-3;
+}
+
+[data-theme-panel] [data-theme-category]:first-child {
+    @apply border-b border-gray-200 dark:border-gray-700;
+}
+
+[data-theme-panel] [data-theme-category-title] {
+    @apply text-xs font-semibold text-gray-500 dark:text-gray-400
+         uppercase tracking-wide mb-2;
+}
+
+[data-theme-panel] [data-theme-grid] {
+    @apply grid grid-cols-4 gap-2;
+}
+
+/* ============================================================================
+   主题项目按钮
+   ============================================================================ */
+
+[data-theme-item] {
+    @apply relative w-10 h-10 rounded-lg
+         border-2 border-gray-300 dark:border-gray-600
+         transition-all duration-200
+         cursor-pointer
+         overflow-hidden;
+}
+
+[data-theme-item]:hover {
+    @apply border-primary scale-110 shadow-md;
+}
+
+[data-theme-item].active {
+    @apply border-primary scale-100 shadow-md ring-2 ring-primary ring-offset-2
+         dark:ring-offset-gray-800;
+}
+
+/* 主题项目的颜色圆点 */
+[data-theme-item]::before {
+    @apply absolute inset-0
+         transition-transform duration-200;
+}
+
+[data-theme-item]:hover::before {
+    @apply scale-110;
+}
+
+/* 各主题的颜色 */
+[data-theme-item="sapphire"]::before {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+}
+
+[data-theme-item="purple"]::before {
+    background: linear-gradient(135deg, #6d28d9 0%, #a78bfa 100%);
+}
+
+[data-theme-item="cyan"]::before {
+    background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+}
+
+[data-theme-item="cool-gray"]::before {
+    background: linear-gradient(135deg, #334155 0%, #64748b 100%);
+}
+
+[data-theme-item="crimson"]::before {
+    background: linear-gradient(135deg, #7f1d1d 0%, #ef4444 100%);
+}
+
+[data-theme-item="orange"]::before {
+    background: linear-gradient(135deg, #92400e 0%, #f97316 100%);
+}
+
+[data-theme-item="pink"]::before {
+    background: linear-gradient(135deg, #831843 0%, #ec4899 100%);
+}
+
+[data-theme-item="brown"]::before {
+    background: linear-gradient(135deg, #78350f 0%, #d97706 100%);
+}
+
+/* 主题项目的选中标记 */
+[data-theme-item]::after {
+    @apply absolute inset-0 flex items-center justify-center
+         opacity-0 transition-opacity duration-200;
+    content: "✓";
+    @apply text-white font-bold text-lg;
+}
+
+[data-theme-item].active::after {
+    @apply opacity-100;
+}
+
+/* 主题项目的悬停提示 */
+[data-theme-item] [data-theme-name] {
+    @apply absolute bottom-full left-1/2 -translate-x-1/2 mb-2
+         px-2 py-1 rounded
+         bg-gray-900 dark:bg-gray-100
+         text-white dark:text-gray-900
+         text-xs font-medium whitespace-nowrap
+         opacity-0 invisible
+         transition-all duration-200 pointer-events-none;
+}
+
+[data-theme-item]:hover [data-theme-name] {
+    @apply opacity-100 visible;
+}
+
+/* ============================================================================
+   主题过渡动画
+   ============================================================================ */
+
+html.theme-transitioning {
+    @apply transition-colors duration-300;
+}
+
+html.theme-transitioning * {
+    @apply transition-colors duration-300;
+}
+
+/* ============================================================================
+   主题选择器面板 - 响应式布局
+   ============================================================================ */
+
+@media (max-width: 768px) {
+    [data-theme-panel] [data-theme-grid] {
+        @apply grid-cols-3;
+    }
+
+    [data-theme-panel] {
+        @apply right-auto left-0;
+    }
+}
+
+@media (max-width: 480px) {
+    [data-theme-panel] {
+        @apply w-64 max-h-80 overflow-y-auto;
+    }
+
+    [data-theme-panel] [data-theme-grid] {
+        @apply grid-cols-4;
+    }
+}

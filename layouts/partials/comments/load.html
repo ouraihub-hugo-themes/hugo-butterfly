@@ -1,0 +1,104 @@
+{{- /*
+  comments/load.html - 评论系统加载脚本
+  根据配置加载不同的评论系统
+*/ -}}
+
+{{- $commentType := .Site.Params.comments.use -}}
+
+{{- if eq $commentType "disqus" -}}
+  {{- /* Disqus */ -}}
+  {{- with .Site.DisqusShortname -}}
+    <script>
+      var disqus_config = function () {
+        this.page.url = '{{ .Permalink }}';
+        this.page.identifier = '{{ .File.UniqueID }}';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://{{ . }}.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+  {{- end -}}
+
+{{- else if eq $commentType "utterances" -}}
+  {{- /* Utterances */ -}}
+  {{- with .Site.Params.comments.utterances -}}
+    <script src="https://utteranc.es/client.js"
+            repo="{{ .repo }}"
+            issue-term="{{ .issueTerm | default "pathname" }}"
+            theme="{{ .theme | default "github-light" }}"
+            crossorigin="anonymous"
+            async>
+    </script>
+  {{- end -}}
+
+{{- else if eq $commentType "giscus" -}}
+  {{- /* Giscus */ -}}
+  {{- with .Site.Params.comments.giscus -}}
+    <script src="https://giscus.app/client.js"
+            data-repo="{{ .repo }}"
+            data-repo-id="{{ .repoId }}"
+            data-category="{{ .category }}"
+            data-category-id="{{ .categoryId }}"
+            data-mapping="{{ .mapping | default "pathname" }}"
+            data-strict="{{ .strict | default "0" }}"
+            data-reactions-enabled="{{ .reactionsEnabled | default "1" }}"
+            data-emit-metadata="{{ .emitMetadata | default "0" }}"
+            data-input-position="{{ .inputPosition | default "bottom" }}"
+            data-theme="{{ .theme | default "light" }}"
+            data-lang="{{ .lang | default "zh-CN" }}"
+            crossorigin="anonymous"
+            async>
+    </script>
+  {{- end -}}
+
+{{- else if eq $commentType "waline" -}}
+  {{- /* Waline */ -}}
+  {{- with .Site.Params.comments.waline -}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@waline/client@2/dist/waline.css">
+    <script type="module">
+      import { init } from 'https://cdn.jsdelivr.net/npm/@waline/client@2/dist/waline.mjs';
+      init({
+        el: '#waline',
+        serverURL: '{{ .serverURL }}',
+        lang: '{{ .lang | default "zh-CN" }}',
+        dark: document.documentElement.getAttribute('data-theme') === 'dark'
+      });
+    </script>
+  {{- end -}}
+
+{{- else if eq $commentType "gitalk" -}}
+  {{- /* Gitalk */ -}}
+  {{- with .Site.Params.comments.gitalk -}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+    <script>
+      const gitalk = new Gitalk({
+        clientID: '{{ .clientID }}',
+        clientSecret: '{{ .clientSecret }}',
+        repo: '{{ .repo }}',
+        owner: '{{ .owner }}',
+        admin: {{ .admin | jsonify }},
+        id: '{{ .File.UniqueID }}',
+        distractionFreeMode: {{ .distractionFreeMode | default false }}
+      });
+      gitalk.render('gitalk-container');
+    </script>
+  {{- end -}}
+
+{{- else if eq $commentType "twikoo" -}}
+  {{- /* Twikoo */ -}}
+  {{- with .Site.Params.comments.twikoo -}}
+    <script src="https://cdn.jsdelivr.net/npm/twikoo@1/dist/twikoo.all.min.js"></script>
+    <script>
+      twikoo.init({
+        envId: '{{ .envId }}',
+        el: '#twikoo',
+        lang: '{{ .lang | default "zh-CN" }}'
+      });
+    </script>
+  {{- end -}}
+
+{{- end -}}

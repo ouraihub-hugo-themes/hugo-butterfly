@@ -1,0 +1,92 @@
+{{- /* 文章元信息：日期、分类、标签、阅读时间等 */ -}}
+{{- $dateType := .Site.Params.post.meta.dateType | default "both" -}}
+{{- $showCategories := .Site.Params.post.meta.categories | default true -}}
+{{- $showReadingTime := .Site.Params.post.meta.readingTime | default true -}}
+{{- $showWordCount := .Site.Params.post.meta.wordCount | default true -}}
+
+<div id="post-meta" class="post-meta text-sm text-gray-600 dark:text-gray-400">
+  {{- /* 第一行：日期和分类 */ -}}
+  <div class="meta-firstline flex flex-wrap items-center gap-x-4 gap-y-2 mb-3">
+    {{- /* 日期信息 */ -}}
+    {{- if or (eq $dateType "created") (eq $dateType "both") -}}
+    <span class="post-meta-date flex items-center gap-2">
+      <i class="far fa-calendar-alt fa-fw post-meta-icon"></i>
+      <span class="post-meta-label">{{ i18n "post.created" | default "发布于" }}:</span>
+      <time 
+        class="post-meta-date-created" 
+        datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}"
+        title="{{ .Date.Format "2006-01-02 15:04:05" }}"
+      >
+        {{ .Date.Format (.Site.Params.post.meta.dateFormat | default "2006-01-02") }}
+      </time>
+    </span>
+    {{- end -}}
+    
+    {{- if eq $dateType "both" -}}
+    <span class="post-meta-separator text-gray-400">|</span>
+    {{- end -}}
+    
+    {{- if or (eq $dateType "updated") (eq $dateType "both") -}}
+    {{- if .Lastmod -}}
+    <span class="post-meta-date flex items-center gap-2">
+      <i class="fas fa-history fa-fw post-meta-icon"></i>
+      <span class="post-meta-label">{{ i18n "post.updated" | default "更新于" }}:</span>
+      <time 
+        class="post-meta-date-updated" 
+        datetime="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}"
+        title="{{ .Lastmod.Format "2006-01-02 15:04:05" }}"
+      >
+        {{ .Lastmod.Format (.Site.Params.post.meta.dateFormat | default "2006-01-02") }}
+      </time>
+    </span>
+    {{- end -}}
+    {{- end -}}
+    
+    {{- /* 分类信息 */ -}}
+    {{- if and $showCategories .Params.categories (gt (len .Params.categories) 0) -}}
+    <span class="post-meta-separator text-gray-400">|</span>
+    <span class="post-meta-categories flex items-center gap-2">
+      {{- range $index, $category := .Params.categories -}}
+        {{- if gt $index 0 -}}
+        <i class="fas fa-angle-right post-meta-separator text-xs text-gray-400"></i>
+        {{- end -}}
+        {{- $categoryPage := $.Site.GetPage (printf "/categories/%s" ($category | urlize)) -}}
+        <i class="fas fa-folder fa-fw post-meta-icon"></i>
+        <a 
+          href="{{ $categoryPage.RelPermalink }}" 
+          class="post-meta-category-link hover:text-primary transition-colors"
+        >
+          {{ $category }}
+        </a>
+      {{- end -}}
+    </span>
+    {{- end -}}
+  </div>
+  
+  {{- /* 第二行：字数统计和阅读时间 */ -}}
+  {{- if or $showWordCount $showReadingTime -}}
+  <div class="meta-secondline flex flex-wrap items-center gap-x-4 gap-y-2">
+    {{- /* 字数统计 */ -}}
+    {{- if $showWordCount -}}
+    <span class="post-meta-wordcount flex items-center gap-2">
+      <i class="far fa-file-word fa-fw post-meta-icon"></i>
+      <span class="post-meta-label">{{ i18n "post.wordcount" | default "字数" }}:</span>
+      <span class="word-count">{{ .WordCount }}</span>
+    </span>
+    {{- end -}}
+    
+    {{- if and $showWordCount $showReadingTime -}}
+    <span class="post-meta-separator text-gray-400">|</span>
+    {{- end -}}
+    
+    {{- /* 阅读时间 */ -}}
+    {{- if $showReadingTime -}}
+    <span class="post-meta-readtime flex items-center gap-2">
+      <i class="far fa-clock fa-fw post-meta-icon"></i>
+      <span class="post-meta-label">{{ i18n "post.min2read" | default "阅读时长" }}:</span>
+      <span>{{ .ReadingTime }} {{ i18n "post.min2read_unit" | default "分钟" }}</span>
+    </span>
+    {{- end -}}
+  </div>
+  {{- end -}}
+</div>

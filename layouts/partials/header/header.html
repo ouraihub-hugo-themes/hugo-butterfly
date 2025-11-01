@@ -1,0 +1,107 @@
+{{- /*
+  Header Component - 响应式导航栏
+  参考: hexo-theme-butterfly/layout/includes/header/
+*/ -}}
+<header id="page-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" data-header>
+  <nav id="nav" class="container mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between opacity-0 transition-opacity duration-500" data-nav>
+
+    {{- /* Logo 和标题 */ -}}
+    <div id="blog-info" class="flex items-center flex-1 min-w-0">
+      <a href="{{ "/" | relURL }}" class="flex items-center space-x-2 min-w-0">
+        {{- if .Site.Params.nav.logo -}}
+        <img src="{{ .Site.Params.nav.logo | relURL }}"
+             alt="{{ .Site.Title }}"
+             class="site-icon h-9 w-auto flex-shrink-0">
+        {{- end -}}
+        {{- if .Site.Params.nav.displayTitle -}}
+        <span class="site-name text-xl font-bold text-gray-100 dark:text-white truncate">
+          {{ .Site.Title }}
+        </span>
+        {{- end -}}
+      </a>
+    </div>
+
+    {{- /* 桌面端菜单 */ -}}
+    <div id="menus" class="flex items-center space-x-1">
+      {{- /* 搜索按钮 */ -}}
+      {{- if .Site.Params.search.enable -}}
+      <div id="search-button" class="hidden lg:block">
+        <button class="search site-page px-3 py-2 text-sm transition-colors"
+                aria-label="{{ i18n "search_open" | default "打开搜索" }}">
+          <i class="fas fa-search fa-fw"></i>
+          <span class="ml-1">{{ i18n "search_title" | default "搜索" }}</span>
+        </button>
+      </div>
+      {{- end -}}
+
+      {{- /* 菜单项 */ -}}
+      <div class="menus_items hidden lg:flex items-center">
+        {{ partial "header/menu-items.html" . }}
+      </div>
+
+      {{- /* 语言切换器 */ -}}
+      {{ partial "header/language-switcher.html" . }}
+
+      {{- /* 暗色模式切换按钮 */ -}}
+      {{- if .Site.Params.darkmode.enable -}}
+      <button data-darkmode-toggle
+              class="site-page p-2 rounded-lg transition-colors"
+              aria-label="Toggle dark mode"
+              aria-pressed="false"
+              title="Toggle dark mode">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+      </button>
+      {{- end -}}
+
+      {{- /* 移动端菜单按钮 */ -}}
+      <div id="toggle-menu" class="lg:hidden">
+        <button data-menu-toggle
+                class="site-page p-2 rounded-lg transition-colors"
+                aria-label="Toggle menu"
+                aria-expanded="false">
+          <i class="fas fa-bars fa-fw text-xl"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+{{- /* 移动端菜单面板 */ -}}
+<div id="sidebar-menus"
+     class="fixed inset-y-0 right-0 w-72 bg-white dark:bg-gray-900 shadow-2xl transform translate-x-full transition-transform duration-300 z-[100] lg:hidden overflow-y-auto"
+     data-mobile-menu>
+  <div class="p-6">
+    {{- /* 关闭按钮 */ -}}
+    <div class="flex justify-end mb-6">
+      <button data-menu-close
+              class="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label="Close menu">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+    </div>
+
+    {{- /* 移动端菜单项 */ -}}
+    <div class="flex flex-col space-y-2">
+      {{- if .Site.Params.search.enable -}}
+      <button class="search mobile-menu-item text-left px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label="{{ i18n "search_open" | default "打开搜索" }}">
+        <i class="fas fa-search fa-fw mr-2"></i>
+        <span>{{ i18n "search_title" | default "搜索" }}</span>
+      </button>
+      {{- end -}}
+
+      {{ partial "header/mobile-menu-items.html" . }}
+
+      {{- /* 移动端语言切换器 */ -}}
+      {{ partial "header/language-switcher.html" . }}
+    </div>
+  </div>
+</div>
+
+{{- /* 遮罩层 */ -}}
+<div id="menu-mask"
+     class="fixed inset-0 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 z-[99] lg:hidden"
+     data-menu-overlay></div>

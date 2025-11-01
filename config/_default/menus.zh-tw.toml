@@ -1,0 +1,52 @@
+# 繁體中文菜單
+
+[[main]]
+  name = "首頁"
+  url = "/zh-tw/"
+  weight = 1
+  pre = "fas fa-home"
+
+[[main]]
+  name = "文章"
+  url = "/zh-tw/posts/"
+  weight = 2
+  pre = "fas fa-book"
+
+[[main]]
+  name = "分類"
+  url = "/zh-tw/categories/"
+  weight = 3
+  pre = "fas fa-folder-open"
+
+[[main]]
+  name = "標籤"
+  url = "/zh-tw/tags/"
+  weight = 4
+  pre = "fas fa-tags"
+
+[[main]]
+  name = "更多"
+  weight = 5
+  pre = "fas fa-ellipsis-h"
+  identifier = "more"
+
+  [[main]]
+    name = "歸檔"
+    url = "/zh-tw/archives/"
+    weight = 1
+    parent = "more"
+    pre = "fas fa-archive"
+
+  [[main]]
+    name = "友情連結"
+    url = "/zh-tw/links/"
+    weight = 2
+    parent = "more"
+    pre = "fas fa-link"
+
+  [[main]]
+    name = "關於"
+    url = "/zh-tw/about/"
+    weight = 3
+    parent = "more"
+    pre = "fas fa-user"

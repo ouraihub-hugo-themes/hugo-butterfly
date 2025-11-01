@@ -1,0 +1,85 @@
+{{- /* 文章分享按钮 */ -}}
+<div class="post-share">
+  <div class="flex items-center gap-4">
+    <span class="text-sm text-gray-600 dark:text-gray-400 font-medium">
+      {{ i18n "post_share" | default "分享到" }}:
+    </span>
+    <div class="flex items-center gap-2">
+      {{- /* Twitter */ -}}
+      <a 
+        href="https://twitter.com/intent/tweet?text={{ .Title }}&url={{ .Permalink }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="share-button inline-flex items-center justify-center w-10 h-10 rounded-full
+          bg-[#1da1f2] hover:bg-[#1a8cd8] text-white transition-colors"
+        title="分享到 Twitter"
+      >
+        <i class="fab fa-twitter"></i>
+      </a>
+      
+      {{- /* Facebook */ -}}
+      <a 
+        href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="share-button inline-flex items-center justify-center w-10 h-10 rounded-full
+          bg-[#1877f2] hover:bg-[#166fe5] text-white transition-colors"
+        title="分享到 Facebook"
+      >
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      
+      {{- /* LinkedIn */ -}}
+      <a 
+        href="https://www.linkedin.com/shareArticle?mini=true&url={{ .Permalink }}&title={{ .Title }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="share-button inline-flex items-center justify-center w-10 h-10 rounded-full
+          bg-[#0077b5] hover:bg-[#006399] text-white transition-colors"
+        title="分享到 LinkedIn"
+      >
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      
+      {{- /* 复制链接 */ -}}
+      <button 
+        type="button"
+        class="share-button inline-flex items-center justify-center w-10 h-10 rounded-full
+          bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 
+          text-white transition-colors"
+        title="复制链接"
+        data-clipboard-text="{{ .Permalink }}"
+        onclick="copyToClipboard('{{ .Permalink }}')"
+      >
+        <i class="fas fa-link"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+function copyToClipboard(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('链接已复制到剪贴板！');
+    }).catch(err => {
+      console.error('复制失败:', err);
+    });
+  } else {
+    // 降级方案
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      alert('链接已复制到剪贴板！');
+    } catch (err) {
+      console.error('复制失败:', err);
+    }
+    document.body.removeChild(textarea);
+  }
+}
+</script>

@@ -1,0 +1,83 @@
+{{- /*
+  author.html - 作者卡片组件
+  显示作者信息、头像、简介、统计数据和社交链接
+  参考: hexo-theme-butterfly/layout/includes/widget/card_author.pug
+  参考: hexo-theme-butterfly/source/css/_layout/aside.styl
+*/ -}}
+{{- if .Site.Params.aside.author.enable -}}
+<div class="card-widget card-info text-center">
+  {{- /* 作者头像 */ -}}
+  <div class="avatar-img">
+    <img
+      src="{{ .Site.Params.author.avatar | default "/images/avatar.png" }}"
+      alt="{{ .Site.Params.author.name }}"
+      onerror="this.onerror=null;this.src='/images/avatar.png';"
+    >
+  </div>
+
+  {{- /* 作者名称 */ -}}
+  <div class="author-info-name text-[var(--color-card-text)]">
+    {{ .Site.Params.author.name | default .Site.Author.name }}
+  </div>
+
+  {{- /* 作者简介 */ -}}
+  <div class="author-info-description text-[var(--color-card-text-secondary)]">
+    {{ .Site.Params.aside.author.description | default .Site.Params.author.description | default .Site.Params.description }}
+  </div>
+
+  {{- /* 网站统计数据 */ -}}
+  <div class="site-data">
+    {{- /* 文章数 */ -}}
+    <a href="{{ "posts" | relLangURL }}">
+      <div class="headline text-[var(--color-card-text-secondary)]">{{ i18n "articles" | default "文章" }}</div>
+      <div class="length-num text-[var(--color-card-text)]">{{ len (where .Site.RegularPages "Type" "posts") }}</div>
+    </a>
+
+    {{- /* 标签数 */ -}}
+    <a href="{{ "tags" | relLangURL }}">
+      <div class="headline text-[var(--color-card-text-secondary)]">{{ i18n "tags" | default "标签" }}</div>
+      <div class="length-num text-[var(--color-card-text)]">{{ len .Site.Taxonomies.tags }}</div>
+    </a>
+
+    {{- /* 分类数 */ -}}
+    <a href="{{ "categories" | relLangURL }}">
+      <div class="headline text-[var(--color-card-text-secondary)]">{{ i18n "categories" | default "分类" }}</div>
+      <div class="length-num text-[var(--color-card-text)]">{{ len .Site.Taxonomies.categories }}</div>
+    </a>
+  </div>
+
+  {{- /* Follow 按钮 */ -}}
+  {{- if and .Site.Params.aside.author.followButton .Site.Params.aside.author.followButtonLink -}}
+  <a
+    id="card-info-btn"
+    href="{{ .Site.Params.aside.author.followButtonLink }}"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="text-[var(--color-card-text)]"
+  >
+    {{- if .Site.Params.aside.author.followButtonIcon -}}
+    <i class="{{ .Site.Params.aside.author.followButtonIcon }}"></i>
+    {{- end -}}
+    <span>{{ .Site.Params.aside.author.followButtonText | default "Follow Me" }}</span>
+  </a>
+  {{- end -}}
+
+  {{- /* 社交媒体图标 */ -}}
+  {{- if .Site.Params.social -}}
+  <div class="card-info-social-icons">
+    {{- range .Site.Params.social -}}
+    <a
+      href="{{ .url }}"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="social-icon"
+      title="{{ .name }}"
+      {{- if .color }} style="color: {{ .color }}" {{- end }}
+    >
+      <i class="{{ .icon }}"></i>
+    </a>
+    {{- end -}}
+  </div>
+  {{- end -}}
+</div>
+{{- end -}}

@@ -1,0 +1,36 @@
+{{ define "main" }}
+{{- $showCover := and .Params.cover (ne .Params.cover "") -}}
+
+<article id="post" class="post-article">
+  {{- if $showCover -}}
+  <div class="post-cover-wrapper">
+    <img 
+      src="{{ .Params.cover }}" 
+      alt="{{ .Title }}"
+      class="post-cover-image"
+      loading="lazy"
+    >
+  </div>
+  {{- end -}}
+
+  <div class="post-container">
+    {{- /* 文章头部 */ -}}
+    {{ partial "post/post-header.html" . }}
+    
+    {{- /* 文章内容 */ -}}
+    <div id="article-container" class="post-content-wrapper">
+      {{ partial "post/post-content.html" . }}
+    </div>
+    
+    {{- /* 文章底部：版权、标签、分享、打赏、导航、相关文章等 */ -}}
+    {{ partial "post/post-footer.html" . }}
+    
+    {{- /* 评论区 */ -}}
+    {{- if and .Site.Params.comments.enable (ne .Params.comments false) -}}
+      <div id="post-comment" class="mt-12">
+        {{ partial "comments/comments.html" . }}
+      </div>
+    {{- end -}}
+  </div>
+</article>
+{{ end }}

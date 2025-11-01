@@ -1,0 +1,208 @@
+{{- /*
+  文章卡片组件
+  
+  参数:
+    . (Page) - 文章页面对象
+    
+  功能:
+    - 显示文章封面图（支持默认图）
+    - 显示文章标题、摘要、日期
+    - 显示分类和标签
+    - 实现悬停效果（阴影、缩放）
+    - 支持多种布局模式（1-7）
+    - 实现响应式卡片布局
+    
+  布局模式:
+    1: 封面左，信息右（默认）
+    2: 封面右，信息左
+    3: 封面左右交替
+    4: 封面上，信息下
+    5: 信息覆盖在封面上
+    6: 瀑布流（封面上，信息下）
+    7: 瀑布流（信息覆盖在封面上）
+*/ -}}
+
+{{- /* 处理参数：可以是页面对象或 dict */ -}}
+{{- $page := . -}}
+{{- $site := .Site -}}
+{{- if reflect.IsMap . -}}
+  {{- $page = .Page -}}
+  {{- $site = .Site -}}
+{{- end -}}
+
+{{- $indexLayout := default 3 $site.Params.home.indexLayout -}}
+{{- $showContent := default true $site.Params.home.showPostContent -}}
+{{- $contentLength := default 500 $site.Params.home.postContentLength -}}
+
+{{- /* 获取封面图 */ -}}
+{{- $cover := "" -}}
+{{- with $page.Params.cover -}}
+  {{- $cover = . -}}
+{{- else -}}
+  {{- with $site.Params.assets.defaultCover -}}
+    {{- $cover = . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* 判断是否显示封面 */ -}}
+{{- $hasCover := and $cover (ne $page.Params.cover false) -}}
+
+{{- /* 计算布局类名 */ -}}
+{{- $layoutClass := "" -}}
+{{- $coverPosition := "" -}}
+{{- $infoClass := "" -}}
+
+{{- if or (eq $indexLayout 1) (eq $indexLayout 2) (eq $indexLayout 3) -}}
+  {{- /* 横向布局 */ -}}
+  {{- $layoutClass = "layout-horizontal" -}}
+  {{- if eq $indexLayout 2 -}}
+    {{- $coverPosition = "right" -}}
+  {{- else if eq $indexLayout 3 -}}
+    {{- /* 交替布局在外部处理 */ -}}
+  {{- end -}}
+{{- else if or (eq $indexLayout 4) (eq $indexLayout 6) -}}
+  {{- /* 纵向布局 */ -}}
+  {{- $layoutClass = "layout-vertical" -}}
+{{- else if or (eq $indexLayout 5) (eq $indexLayout 7) -}}
+  {{- /* 覆盖布局 */ -}}
+  {{- $layoutClass = "layout-overlay" -}}
+{{- end -}}
+
+{{- if not $hasCover -}}
+  {{- $infoClass = "no-cover" -}}
+{{- end -}}
+
+<article class="recent-post-item {{ $layoutClass }} {{ if or (eq $indexLayout 6) (eq $indexLayout 7) }}masonry-item{{ end }}">
+  {{- if $hasCover -}}
+    <div class="post-cover {{ $coverPosition }}">
+      <a href="{{ $page.RelPermalink }}" title="{{ $page.Title }}">
+        {{- if hasPrefix $cover "http" -}}
+          <img class="post-bg" 
+               src="{{ $cover }}" 
+               alt="{{ $page.Title }}"
+               loading="lazy"
+               onerror="this.onerror=null;this.src='{{ $.Site.Params.assets.defaultCover | default "/images/default-cover.jpg" }}'">
+        {{- else -}}
+          <img class="post-bg" 
+               src="{{ $cover | relURL }}" 
+               alt="{{ $page.Title }}"
+               loading="lazy"
+               onerror="this.onerror=null;this.src='{{ $.Site.Params.assets.defaultCover | default "/images/default-cover.jpg" }}'">
+        {{- end -}}
+      </a>
+    </div>
+  {{- end -}}
+  
+  <div class="recent-post-info {{ $infoClass }}">
+    {{- /* 文章标题 */ -}}
+    <a class="article-title" href="{{ $page.RelPermalink }}" title="{{ $page.Title }}">
+      {{- if or $page.Params.top (gt ($page.Params.sticky | default 0) 0) -}}
+        <i class="fas fa-thumbtack sticky" aria-hidden="true"></i>
+      {{- end -}}
+      {{- $page.Title -}}
+    </a>
+    
+    {{- /* 文章元信息 */ -}}
+    <div class="article-meta-wrap">
+      {{- /* 日期 */ -}}
+      {{- $dateType := default "both" .Site.Params.post.meta.dateType -}}
+      {{- if or (eq $dateType "created") (eq $dateType "both") -}}
+        <span class="post-meta-date">
+          {{- if eq $dateType "both" -}}
+            <i class="far fa-calendar-alt" aria-hidden="true"></i>
+            <span class="article-meta-label">{{ i18n "post.created" | default "发布于" }}</span>
+            <time class="post-meta-date-created" 
+                  datetime="{{ $page.Date.Format "2006-01-02T15:04:05Z07:00" }}"
+                  title="{{ i18n "post.created" | default "发布于" }} {{ $page.Date.Format "2006-01-02 15:04:05" }}">
+              {{- $page.Date.Format (.Site.Params.post.meta.dateFormat | default "2006-01-02") -}}
+            </time>
+            {{- if eq $dateType "both" -}}
+              <span class="article-meta-separator">|</span>
+              <i class="fas fa-history" aria-hidden="true"></i>
+              <span class="article-meta-label">{{ i18n "post.updated" | default "更新于" }}</span>
+              <time class="post-meta-date-updated" 
+                    datetime="{{ $page.Lastmod.Format "2006-01-02T15:04:05Z07:00" }}"
+                    title="{{ i18n "post.updated" | default "更新于" }} {{ $page.Lastmod.Format "2006-01-02 15:04:05" }}">
+                {{- $page.Lastmod.Format (.Site.Params.post.meta.dateFormat | default "2006-01-02") -}}
+              </time>
+            {{- end -}}
+          {{- else -}}
+            <i class="far fa-calendar-alt" aria-hidden="true"></i>
+            <span class="article-meta-label">{{ i18n "post.created" | default "发布于" }}</span>
+            <time datetime="{{ $page.Date.Format "2006-01-02T15:04:05Z07:00" }}"
+                  title="{{ i18n "post.created" | default "发布于" }} {{ $page.Date.Format "2006-01-02 15:04:05" }}">
+              {{- $page.Date.Format (.Site.Params.post.meta.dateFormat | default "2006-01-02") -}}
+            </time>
+          {{- end -}}
+        </span>
+      {{- else if eq $dateType "updated" -}}
+        <span class="post-meta-date">
+          <i class="fas fa-history" aria-hidden="true"></i>
+          <span class="article-meta-label">{{ i18n "post.updated" | default "更新于" }}</span>
+          <time datetime="{{ $page.Lastmod.Format "2006-01-02T15:04:05Z07:00" }}"
+                title="{{ i18n "post.updated" | default "更新于" }} {{ $page.Lastmod.Format "2006-01-02 15:04:05" }}">
+            {{- $page.Lastmod.Format (.Site.Params.post.meta.dateFormat | default "2006-01-02") -}}
+          </time>
+        </span>
+      {{- end -}}
+      
+      {{- /* 分类 */ -}}
+      {{- if and (default true .Site.Params.post.meta.categories) $page.Params.categories -}}
+        {{- with $page.GetTerms "categories" -}}
+          {{- if gt (len .) 0 -}}
+            <span class="article-meta">
+              <span class="article-meta-separator">|</span>
+              {{- range $index, $category := . -}}
+                <i class="fas fa-folder-open" aria-hidden="true"></i>
+                <a href="{{ $category.RelPermalink }}" class="article-meta__categories">{{ $category.Title }}</a>
+                {{- if lt (add $index 1) (len $) -}}
+                  <i class="fas fa-angle-right article-meta-link" aria-hidden="true"></i>
+                {{- end -}}
+              {{- end -}}
+            </span>
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+      
+      {{- /* 标签 */ -}}
+      {{- if and (default true .Site.Params.post.meta.tags) $page.Params.tags -}}
+        {{- with $page.GetTerms "tags" -}}
+          {{- if gt (len .) 0 -}}
+            <span class="article-meta tags">
+              <span class="article-meta-separator">|</span>
+              {{- range $index, $tag := . -}}
+                <i class="fas fa-tag" aria-hidden="true"></i>
+                <a href="{{ $tag.RelPermalink }}" class="article-meta__tags">{{ $tag.Title }}</a>
+                {{- if lt (add $index 1) (len $) -}}
+                  <span class="article-meta-link">•</span>
+                {{- end -}}
+              {{- end -}}
+            </span>
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    </div>
+    
+    {{- /* 文章摘要 */ -}}
+    {{- if $showContent -}}
+      {{- $content := "" -}}
+      {{- $contentMethod := default 3 .Site.Params.home.postContentMethod -}}
+      
+      {{- if eq $contentMethod 1 -}}
+        {{- /* 使用 description */ -}}
+        {{- $content = $page.Description -}}
+      {{- else if eq $contentMethod 2 -}}
+        {{- /* 使用 description 或 summary */ -}}
+        {{- $content = or $page.Description $page.Summary -}}
+      {{- else -}}
+        {{- /* 自动摘要 */ -}}
+        {{- $content = $page.Summary -}}
+      {{- end -}}
+      
+      {{- if $content -}}
+        {{- $content = $content | plainify | truncate $contentLength -}}
+        <div class="content">{{ $content | safeHTML }}</div>
+      {{- end -}}
+    {{- end -}}
+  </div>
+</article>

@@ -1,0 +1,18 @@
+# 简体中文参数配置
+
+# 网站基础信息
+description = "一个基于 Hugo 的 Butterfly 主题博客"
+
+# 作者信息
+[author]
+  description = "这是我的个人简介"
+
+# 首页配置
+[home.hero]
+  title = "欢迎来到 Hugo Butterfly"
+  subtitle = "一个优雅的 Hugo 博客主题"
+  typedStrings = ["技术博客", "生活记录", "知识分享"]
+
+# 侧边栏配置
+[aside.announcement]
+  content = "欢迎访问我的博客！"

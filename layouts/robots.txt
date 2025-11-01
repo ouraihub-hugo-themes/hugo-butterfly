@@ -1,0 +1,35 @@
+{{- /*
+  robots.txt - 搜索引擎爬虫配置
+  自动生成 robots.txt 文件
+*/ -}}
+User-agent: *
+{{- if hugo.IsProduction }}
+Allow: /
+{{- else }}
+Disallow: /
+{{- end }}
+
+# Sitemap
+Sitemap: {{ "sitemap.xml" | absURL }}
+
+# 禁止爬取的路径
+Disallow: /admin/
+Disallow: /private/
+Disallow: /_pagefind/
+Disallow: /search/
+
+# 允许爬取的资源
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /fonts/
+
+# 爬取延迟（可选，避免过度爬取）
+{{- with .Site.Params.seo.crawlDelay }}
+Crawl-delay: {{ . }}
+{{- end }}
+
+# 特定爬虫配置
+{{- with .Site.Params.seo.robotsExtra }}
+{{ . }}
+{{- end }}

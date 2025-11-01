@@ -1,0 +1,50 @@
+{{- /* 桌面端菜单项组件 支持多级菜单 参考:
+hexo-theme-butterfly/layout/includes/header/menu_item.pug */ -}} {{- range
+.Site.Menus.main -}} {{- if .HasChildren -}} {{- /* 有子菜单的项 */ -}}
+<div class="menus_item relative group">
+    <span
+        class="site-page flex items-center px-3 py-2 text-sm text-[var(--color-nav-text)] hover:text-[var(--color-nav-text-hover)] hover:bg-[var(--color-nav-bg-hover)] cursor-pointer transition-colors"
+    >
+        {{- if .Pre -}}
+        <i class="{{ .Pre }} fa-fw mr-1"></i>
+        {{- end -}}
+        <span>{{ .Name }}</span>
+        <i
+            class="fas fa-chevron-down ml-1 text-xs transition-transform duration-300 group-hover:rotate-180"
+        ></i>
+    </span>
+
+    {{- /* 子菜单下拉列表 */ -}}
+    <ul
+        class="menus_item_child absolute right-[-60px] mt-2 w-40 bg-white dark:bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-hidden"
+    >
+        {{- range .Children -}}
+        <li
+            class="hover:bg-gray-100 dark:hover:bg-gray-700 first:rounded-t-lg last:rounded-b-lg"
+        >
+            <a
+                href="{{ .URL | relURL }}"
+                class="site-page child flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
+            >
+                {{- if .Pre -}}
+                <i class="{{ .Pre }} fa-fw mr-2"></i>
+                {{- end -}}
+                <span>{{ .Name }}</span>
+            </a>
+        </li>
+        {{- end -}}
+    </ul>
+</div>
+{{- else -}} {{- /* 普通菜单项 */ -}}
+<div class="menus_item">
+    <a
+        href="{{ .URL | relURL }}"
+        class="site-page relative flex items-center px-3 py-2 text-sm text-[var(--color-nav-text)] hover:text-[var(--color-nav-text-hover)] hover:bg-[var(--color-nav-bg-hover)] transition-colors group"
+    >
+        {{- if .Pre -}}
+        <i class="{{ .Pre }} fa-fw mr-1"></i>
+        {{- end -}}
+        <span>{{ .Name }}</span>
+    </a>
+</div>
+{{- end -}} {{- end -}}

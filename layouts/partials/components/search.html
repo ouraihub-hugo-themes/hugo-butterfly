@@ -1,0 +1,29 @@
+{{- if .Site.Params.search.enable -}}
+<div id="local-search">
+  <div class="search-dialog">
+    <nav class="search-nav">
+      <span class="search-dialog-title">{{ i18n "search_title" | default "搜索" }}</span>
+      <i class="fas fa-spinner fa-pulse" id="loading-status" hidden></i>
+      <button class="search-close-button" aria-label="{{ i18n "search_close" | default "关闭搜索" }}">
+        <i class="fas fa-times"></i>
+      </button>
+    </nav>
+
+    <div class="local-search-input">
+      <input 
+        id="pagefind-search-input"
+        type="text" 
+        placeholder="{{ .Site.Params.search.placeholder | default (i18n "search_input_placeholder") | default "搜索文章..." }}"
+        aria-label="{{ i18n "search_input_label" | default "搜索输入框" }}"
+      >
+    </div>
+
+    <hr>
+
+    <div id="local-search-results"></div>
+    <div id="local-search-stats"></div>
+  </div>
+
+  <div id="search-mask"></div>
+</div>
+{{- end -}}

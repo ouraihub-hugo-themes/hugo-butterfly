@@ -1,0 +1,64 @@
+{{ define "main" }}
+<div class="container mx-auto px-4 py-8">
+  <article class="links-page">
+    <!-- 页面标题 -->
+    <header class="page-header mb-8">
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+        {{ .Title }}
+      </h1>
+      {{ if .Description }}
+      <div class="page-description text-gray-600 dark:text-gray-400">
+        {{ .Description }}
+      </div>
+      {{ end }}
+    </header>
+
+    <!-- 页面内容（如果有） -->
+    {{ if .Content }}
+    <div class="page-content prose dark:prose-invert max-w-none mb-8">
+      {{ .Content }}
+    </div>
+    {{ end }}
+
+    <!-- 友情链接列表 -->
+    {{ $links := .Site.Data.links }}
+    {{ if $links }}
+      {{ if $links.links }}
+        {{ range $links.links }}
+          {{ if .class_name }}
+          <section class="link-group mb-8">
+            <h2 id="{{ .class_name | urlize }}" class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+              <a href="#{{ .class_name | urlize }}" class="headerlink" title="{{ .class_name }}"></a>
+              {{ .class_name }}
+            </h2>
+            {{ if .class_desc }}
+            <div class="link-group-desc text-gray-600 dark:text-gray-400 mb-4">
+              {{ .class_desc }}
+            </div>
+            {{ end }}
+            
+            <!-- 友链卡片网格 -->
+            <div class="flink-list">
+              {{ range .link_list }}
+                {{ partial "components/link-card.html" . }}
+              {{ end }}
+            </div>
+          </section>
+          {{ else }}
+          <!-- 无分组的友链 -->
+          <div class="flink-list mb-8">
+            {{ range .link_list }}
+              {{ partial "components/link-card.html" . }}
+            {{ end }}
+          </div>
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    {{ else }}
+    <div class="text-center text-gray-500 dark:text-gray-400 py-12">
+      <p>{{ i18n "links_no_data" }}</p>
+    </div>
+    {{ end }}
+  </article>
+</div>
+{{ end }}

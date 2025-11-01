@@ -1,0 +1,15 @@
+{{- /*
+  newest-comments.html - 最新评论组件 (占位符)
+  将在后续任务中实现
+*/ -}}
+{{- if .Site.Params.aside.newestComments.enable -}}
+<div id="card-newest-comments" class="card-widget">
+    <div class="item-headline">
+        <i class="fas fa-comments"></i>
+        <span>{{ i18n "newestComments" | default "最新评论" }}</span>
+    </div>
+    <div class="newest-comments-content">
+        <p class="text-gray-500 text-center">暂无评论</p>
+    </div>
+</div>
+{{- end -}}

@@ -1,0 +1,43 @@
+{{- /*
+  Disqus 评论系统
+  老牌评论系统，功能强大
+*/ -}}
+
+{{- $disqus := .Site.Params.comments.disqus -}}
+{{- if $disqus.enable -}}
+  <div id="disqus_thread" class="disqus-container"></div>
+  
+  <script>
+    (() => {
+      const loadDisqus = () => {
+        const container = document.getElementById('disqus_thread');
+        if (!container) return;
+        
+        // Disqus 配置
+        window.disqus_config = function () {
+          this.page.url = window.location.href;
+          this.page.identifier = window.location.pathname;
+        };
+        
+        // 加载 Disqus
+        const script = document.createElement('script');
+        script.src = 'https://{{ $disqus.shortname }}.disqus.com/embed.js';
+        script.setAttribute('data-timestamp', +new Date());
+        (document.head || document.body).appendChild(script);
+      };
+      
+      {{- if .Site.Params.comments.lazyload -}}
+        // 懒加载模式
+        document.addEventListener('loadComments', loadDisqus, { once: true });
+      {{- else -}}
+        // 立即加载
+        loadDisqus();
+      {{- end -}}
+    })();
+  </script>
+  
+  <noscript>
+    Please enable JavaScript to view the 
+    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+  </noscript>
+{{- end -}}

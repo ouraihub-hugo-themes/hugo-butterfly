@@ -1,0 +1,59 @@
+{{- if .Site.Params.search.enable -}}
+<!-- Pagefind 搜索界面 - 使用与原主题相同的样式结构 -->
+<div id="local-search">
+  <div class="search-dialog">
+    <nav class="search-nav">
+      <span class="search-dialog-title">{{ i18n "search_label" | default "搜索" }}</span>
+      <i class="fas fa-spinner fa-pulse" id="loading-status" hidden></i>
+      <button class="search-close-button" aria-label="{{ i18n "search_close" | default "关闭搜索" }}">
+        <i class="fas fa-times"></i>
+      </button>
+    </nav>
+
+    <div class="local-search-input">
+      <input
+        type="text"
+        id="pagefind-search-input"
+        placeholder="{{ .Site.Params.search.placeholder | default (i18n "search_placeholder") | default "搜索文章..." }}"
+        aria-label="{{ i18n "search_input_label" | default "搜索输入框" }}"
+        autocomplete="off"
+      >
+    </div>
+
+    <hr>
+
+    <div id="local-search-results"></div>
+
+    <div id="local-search-stats"></div>
+  </div>
+
+  <div id="search-mask"></div>
+</div>
+
+<!-- 加载 Pagefind JS API -->
+<script type="module">
+  // 异步导入 pagefind 以避免 import.meta 错误
+  (async () => {
+    try {
+      const module = await import('/_pagefind/pagefind.js');
+      window.pagefind = module.default || module;
+      console.log('✨ Pagefind module loaded successfully');
+
+      // 等待 initPagefindSearch 被定义（由 bundle.js 在 DOMContentLoaded 时定义）
+      const waitForInit = () => {
+        if (typeof window.initPagefindSearch === 'function') {
+          window.initPagefindSearch();
+          console.log('✨ Pagefind search initialized');
+        } else {
+          // 延迟再试，最多试 20 次（2 秒）
+          setTimeout(waitForInit, 100);
+        }
+      };
+
+      waitForInit();
+    } catch (err) {
+      console.error('❌ Failed to load pagefind module:', err);
+    }
+  })();
+</script>
+{{- end -}}

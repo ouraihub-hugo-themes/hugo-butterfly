@@ -1,0 +1,225 @@
+{{- /*
+  head.html - HTML Head 部分
+  包含所有 meta 标签、CSS 引用、favicon 等
+  参考: hexo-theme-butterfly/layout/includes/head.pug
+*/ -}}
+
+{{- /* 构建页面标题 */ -}}
+{{- $pageTitle := "" -}}
+{{- if .IsHome -}}
+  {{- $pageTitle = .Site.Title -}}
+  {{- with .Site.Params.description -}}
+    {{- $pageTitle = printf "%s - %s" $.Site.Title . -}}
+  {{- end -}}
+{{- else if eq .Kind "404" -}}
+  {{- $pageTitle = printf "404 Not Found | %s" .Site.Title -}}
+{{- else if eq .Kind "taxonomy" -}}
+  {{- if eq .Type "tags" -}}
+    {{- $pageTitle = printf "Tag: %s | %s" .Title .Site.Title -}}
+  {{- else if eq .Type "categories" -}}
+    {{- $pageTitle = printf "Category: %s | %s" .Title .Site.Title -}}
+  {{- else -}}
+    {{- $pageTitle = printf "%s | %s" .Title .Site.Title -}}
+  {{- end -}}
+{{- else -}}
+  {{- $pageTitle = printf "%s | %s" .Title .Site.Title -}}
+{{- end -}}
+
+{{- /* 页面描述 */ -}}
+{{- $description := .Site.Params.description -}}
+{{- if .Description -}}
+  {{- $description = .Description -}}
+{{- else if .Summary -}}
+  {{- $description = .Summary | plainify | truncate 150 -}}
+{{- else if .Content -}}
+  {{- $description = .Content | plainify | truncate 150 -}}
+{{- end -}}
+
+{{- /* 页面关键词 */ -}}
+{{- $keywords := slice -}}
+{{- if .Keywords -}}
+  {{- $keywords = .Keywords -}}
+{{- else if .Params.tags -}}
+  {{- $keywords = .Params.tags -}}
+{{- else if .Site.Params.keywords -}}
+  {{- $keywords = .Site.Params.keywords -}}
+{{- end -}}
+
+{{- /* 作者信息 */ -}}
+{{- $author := .Site.Params.author.name | default .Site.Author.name -}}
+{{- $authorEmail := .Site.Params.author.email | default .Site.Author.email -}}
+{{- $pageAuthor := $author -}}
+{{- if $authorEmail -}}
+  {{- $pageAuthor = printf "%s,%s" $author $authorEmail -}}
+{{- end -}}
+
+{{- /* 版权信息 */ -}}
+{{- $copyright := .Site.Copyright | default $author -}}
+
+{{- /* 主题颜色 */ -}}
+{{- $themeColorLight := "#ffffff" -}}
+{{- $themeColorDark := "#0d0d0d" -}}
+{{- $displayMode := .Site.Params.display_mode | default "light" -}}
+{{- $themeColor := cond (eq $displayMode "dark") $themeColorDark $themeColorLight -}}
+
+{{- /* 基础 Meta 标签 */ -}}
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>{{ $pageTitle }}</title>
+<meta name="author" content="{{ $pageAuthor }}">
+<meta name="copyright" content="{{ $copyright }}">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="{{ $themeColor }}" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="{{ $themeColorDark }}" media="(prefers-color-scheme: dark)">
+
+{{- /* SEO Meta 标签 */ -}}
+{{- if $description -}}
+<meta name="description" content="{{ $description }}">
+{{- end -}}
+{{- if $keywords -}}
+<meta name="keywords" content="{{ delimit $keywords ", " }}">
+{{- end -}}
+
+{{- /* Robots Meta 标签 */ -}}
+{{- $robotsContent := slice -}}
+{{- if or .Params.noindex (and (not hugo.IsProduction) (not .Site.Params.seo.indexInDev)) -}}
+  {{- $robotsContent = $robotsContent | append "noindex" -}}
+{{- else -}}
+  {{- $robotsContent = $robotsContent | append "index" -}}
+{{- end -}}
+{{- if .Params.nofollow -}}
+  {{- $robotsContent = $robotsContent | append "nofollow" -}}
+{{- else -}}
+  {{- $robotsContent = $robotsContent | append "follow" -}}
+{{- end -}}
+{{- if .Params.noarchive -}}
+  {{- $robotsContent = $robotsContent | append "noarchive" -}}
+{{- end -}}
+{{- if .Params.nosnippet -}}
+  {{- $robotsContent = $robotsContent | append "nosnippet" -}}
+{{- end -}}
+{{- if .Params.noimageindex -}}
+  {{- $robotsContent = $robotsContent | append "noimageindex" -}}
+{{- end -}}
+<meta name="robots" content="{{ delimit $robotsContent ", " }}">
+<meta name="googlebot" content="{{ delimit $robotsContent ", " }}">
+
+{{- /* Open Graph 和 Twitter Card */ -}}
+{{- partial "head/seo.html" . -}}
+
+{{- /* Canonical URL */ -}}
+<link rel="canonical" href="{{ .Permalink }}">
+
+{{- /* Favicon */ -}}
+{{- $favicon := .Site.Params.assets.favicon | default "/favicon.ico" -}}
+<link rel="icon" href="{{ $favicon | relURL }}">
+<link rel="shortcut icon" href="{{ $favicon | relURL }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ .Site.Params.assets.appleTouchIcon | default "/images/apple-touch-icon.png" | relURL }}">
+
+{{- /* DNS 预解析 */ -}}
+{{- with .Site.Params.preconnect -}}
+  {{- range . -}}
+<link rel="preconnect" href="{{ . }}" crossorigin>
+  {{- end -}}
+{{- end -}}
+
+{{- /* 网站验证 */ -}}
+{{- with .Site.Params.seo.googleSiteVerification -}}
+<meta name="google-site-verification" content="{{ . }}">
+{{- end -}}
+{{- with .Site.Params.seo.bingSiteVerification -}}
+<meta name="msvalidate.01" content="{{ . }}">
+{{- end -}}
+{{- with .Site.Params.seo.yandexVerification -}}
+<meta name="yandex-verification" content="{{ . }}">
+{{- end -}}
+{{- with .Site.Params.seo.baiduVerification -}}
+<meta name="baidu-site-verification" content="{{ . }}">
+{{- end -}}
+
+{{- /* RSS Feed */ -}}
+{{- with .OutputFormats.Get "RSS" -}}
+<link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
+{{- end -}}
+
+{{- /* 主样式表 */ -}}
+{{- /* Tailwind CSS 编译到 static/css/main.css，直接引用 */ -}}
+<link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
+
+{{- /* Font Awesome (如果启用) */ -}}
+{{- if .Site.Params.fontawesome.enable -}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+{{- end -}}
+
+{{- /* 自定义字体 */ -}}
+{{- with .Site.Params.fonts -}}
+  {{- range . -}}
+<link rel="preload" href="{{ .url }}" as="font" type="font/{{ .type }}" crossorigin>
+  {{- end -}}
+{{- end -}}
+
+{{- /* PWA Manifest */ -}}
+{{- if .Site.Params.pwa.enable -}}
+<link rel="manifest" href="{{ .Site.Params.pwa.manifest | default "/manifest.json" | relURL }}">
+{{- end -}}
+
+{{- /* 数学公式支持 */ -}}
+{{- if and .Site.Params.math.enable (or .Params.math (not .Site.Params.math.perPage)) -}}
+  {{- if eq .Site.Params.math.use "katex" -}}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  {{- else if eq .Site.Params.math.use "mathjax" -}}
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  {{- end -}}
+{{- end -}}
+
+{{- /* Google Analytics */ -}}
+{{- with .Site.Params.seo.googleAnalytics -}}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ . }}');
+</script>
+{{- end -}}
+
+{{- /* 百度统计 */ -}}
+{{- with .Site.Params.seo.baiduAnalytics -}}
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?{{ . }}";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+{{- end -}}
+
+{{- /* 暗色模式初始化脚本 (避免闪烁) - 必须在页面渲染前执行 */ -}}
+{{- if .Site.Params.darkmode.enable -}}
+{{ partial "head/theme-init.html" . }}
+{{- end -}}
+
+{{- /* Pagefind 搜索 */ -}}
+{{- if .Site.Params.search.enable -}}
+{{- end -}}
+
+{{- /* 自定义 Head 注入 */ -}}
+{{- with .Site.Params.customHead -}}
+{{ . | safeHTML }}
+{{- end -}}

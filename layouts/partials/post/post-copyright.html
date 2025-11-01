@@ -1,0 +1,63 @@
+{{- /* 文章版权信息 */ -}}
+{{- $author := .Params.author | default .Site.Params.author.name -}}
+{{- $authorLink := .Params.authorLink | default .Site.Params.author.link | default .Site.BaseURL -}}
+{{- $license := .Site.Params.post.copyrightLicense | default "CC BY-NC-SA 4.0" -}}
+{{- $licenseUrl := .Site.Params.post.copyrightLicenseUrl | default "https://creativecommons.org/licenses/by-nc-sa/4.0/" -}}
+
+<div class="post-copyright mt-8 p-6 rounded-lg bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700">
+  <div class="space-y-3 text-sm">
+    {{- /* 作者信息 */ -}}
+    <div class="post-copyright-author flex items-start gap-3">
+      <span class="post-copyright-meta flex items-center gap-2 text-gray-600 dark:text-gray-400 min-w-[80px]">
+        <i class="fas fa-user-circle fa-fw"></i>
+        <span>{{ i18n "post_copyright_author" | default "作者" }}:</span>
+      </span>
+      <span class="post-copyright-info flex-1">
+        <a 
+          href="{{ $authorLink }}" 
+          class="text-primary hover:text-primary-hover transition-colors"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{ $author }}
+        </a>
+      </span>
+    </div>
+    
+    {{- /* 文章链接 */ -}}
+    <div class="post-copyright-link flex items-start gap-3">
+      <span class="post-copyright-meta flex items-center gap-2 text-gray-600 dark:text-gray-400 min-w-[80px]">
+        <i class="fas fa-link fa-fw"></i>
+        <span>{{ i18n "post_copyright_link" | default "链接" }}:</span>
+      </span>
+      <span class="post-copyright-info flex-1 break-all">
+        <a 
+          href="{{ .Permalink }}" 
+          class="text-primary hover:text-primary-hover transition-colors"
+        >
+          {{ .Permalink }}
+        </a>
+      </span>
+    </div>
+    
+    {{- /* 版权声明 */ -}}
+    <div class="post-copyright-notice flex items-start gap-3">
+      <span class="post-copyright-meta flex items-center gap-2 text-gray-600 dark:text-gray-400 min-w-[80px]">
+        <i class="fas fa-copyright fa-fw"></i>
+        <span>{{ i18n "post_copyright_license" | default "版权" }}:</span>
+      </span>
+      <span class="post-copyright-info flex-1 text-gray-700 dark:text-gray-300">
+        {{ i18n "post_copyright_license_text" | default "本文采用" }}
+        <a 
+          href="{{ $licenseUrl }}" 
+          class="text-primary hover:text-primary-hover transition-colors"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{ $license }}
+        </a>
+        {{ i18n "post_copyright_license_suffix" | default "许可协议，转载请注明出处。" }}
+      </span>
+    </div>
+  </div>
+</div>

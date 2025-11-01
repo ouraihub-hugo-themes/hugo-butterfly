@@ -1,0 +1,19 @@
+{{- /* 文章目录 (Table of Contents) */ -}}
+<div id="card-toc" class="card-widget toc-card" data-toc>
+  {{- /* 标题栏 */ -}}
+  <div class="item-headline flex items-center justify-between">
+    <div class="flex items-center">
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+      <span class="font-medium">{{ i18n "toc" | default "目录" }}</span>
+    </div>
+    {{- /* 阅读进度百分比 */ -}}
+    <span class="toc-percentage text-sm text-gray-400 italic" data-toc-percentage>0%</span>
+  </div>
+  
+  {{- /* 目录内容 */ -}}
+  <div class="toc-content mt-4" data-toc-content>
+    {{ .TableOfContents }}
+  </div>
+</div>

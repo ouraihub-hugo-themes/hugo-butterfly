@@ -1,0 +1,39 @@
+{{- /* 侧边栏容器 */ -}}
+<div class="sidebar-wrapper sticky top-24 space-y-6">
+  {{- /* 文章目录 (TOC) - 仅在文章页显示 */ -}}
+  {{- if eq .Kind "page" -}}
+  {{- if and .Site.Params.post.toc (ne .Params.toc false) -}}
+  {{ partial "sidebar/toc.html" . }}
+  {{- end -}}
+  {{- end -}}
+
+  {{- /* 作者卡片 */ -}}
+  {{- if .Site.Params.aside.author.enable -}}
+  {{ partial "aside/author.html" . }}
+  {{- end -}}
+
+  {{- /* 最新文章 */ -}}
+  {{- if .Site.Params.aside.recentPosts.enable -}}
+  {{ partial "aside/recent-posts.html" . }}
+  {{- end -}}
+
+  {{- /* 分类 */ -}}
+  {{- if .Site.Params.aside.categories.enable -}}
+  {{ partial "sidebar/categories.html" . }}
+  {{- end -}}
+
+  {{- /* 标签云 */ -}}
+  {{- if .Site.Params.aside.tags.enable -}}
+  {{ partial "sidebar/tags.html" . }}
+  {{- end -}}
+
+  {{- /* 归档 */ -}}
+  {{- if .Site.Params.aside.archives.enable -}}
+  {{ partial "sidebar/archives.html" . }}
+  {{- end -}}
+
+  {{- /* 网站信息 */ -}}
+  {{- if .Site.Params.aside.webinfo.enable -}}
+  {{ partial "sidebar/webinfo.html" . }}
+  {{- end -}}
+</div>

@@ -1,0 +1,178 @@
+/**
+ * 评论系统样式
+ * 支持多种评论服务的统一样式
+ */
+
+@layer components {
+  /* 评论区域容器 */
+  .comment-section {
+    @apply mt-12 mb-8;
+  }
+  
+  /* 评论标题 */
+  .comment-head {
+    @apply mb-6;
+  }
+  
+  .comment-headline {
+    @apply text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center;
+  }
+  
+  .comment-headline i {
+    @apply mr-2 text-primary;
+  }
+  
+  /* 评论切换器 */
+  .comment-switch {
+    @apply mt-4 flex items-center justify-center md:justify-start;
+  }
+  
+  .first-comment,
+  .second-comment {
+    @apply text-sm font-medium text-gray-700 dark:text-gray-300;
+  }
+  
+  #switch-btn {
+    @apply mx-3 relative inline-block w-11 h-6 rounded-full bg-primary transition-all duration-300 cursor-pointer;
+  }
+  
+  #switch-btn span {
+    @apply absolute bottom-1 left-1 w-4 h-4 rounded-full bg-white transition-transform duration-300;
+  }
+  
+  /* 切换后的状态 */
+  .comment-section.move #switch-btn {
+    @apply bg-accent;
+  }
+  
+  .comment-section.move #switch-btn span {
+    @apply translate-x-5;
+  }
+  
+  /* 评论容器 */
+  .comment-wrap {
+    @apply relative;
+  }
+  
+  .comment-item {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  /* 各评论系统容器 */
+  .utterances-container,
+  .gitalk-container,
+  .waline-container,
+  .giscus-container,
+  .disqus-container,
+  .twikoo-container {
+    @apply min-h-[200px];
+  }
+  
+  /* 加载和错误提示 */
+  #comment-loading {
+    @apply text-center py-8;
+  }
+  
+  #comment-loading .animate-spin {
+    @apply inline-block rounded-full h-8 w-8 border-b-2 border-primary;
+  }
+  
+  #comment-loading p {
+    @apply mt-2 text-gray-600 dark:text-gray-400;
+  }
+  
+  #comment-error {
+    @apply bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 text-red-700 dark:text-red-400;
+  }
+  
+  /* 自定义分隔线 */
+  .custom-hr {
+    @apply my-8 border-t border-gray-200 dark:border-gray-700;
+  }
+  
+  /* Utterances 样式适配 */
+  .utterances {
+    @apply max-w-none;
+  }
+  
+  .utterances-frame {
+    @apply w-full;
+  }
+  
+  /* Gitalk 样式适配 */
+  #gitalk-container .gt-container {
+    @apply font-sans;
+  }
+  
+  #gitalk-container .gt-header-textarea {
+    @apply bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100;
+  }
+  
+  #gitalk-container .gt-btn {
+    @apply bg-primary hover:bg-primary-hover;
+  }
+  
+  /* Waline 样式适配 */
+  .waline-container .wl-panel {
+    @apply bg-white dark:bg-gray-800;
+  }
+  
+  .waline-container .wl-editor {
+    @apply bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100;
+  }
+  
+  .waline-container .wl-btn {
+    @apply bg-primary hover:bg-primary-hover;
+  }
+  
+  /* Giscus 样式适配 */
+  .giscus-frame {
+    @apply w-full;
+  }
+  
+  /* Disqus 样式适配 */
+  #disqus_thread {
+    @apply min-h-[300px];
+  }
+  
+  /* Twikoo 样式适配 */
+  .twikoo-container .tk-submit {
+    @apply bg-primary hover:bg-primary-hover;
+  }
+  
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .comment-headline {
+      @apply text-xl;
+    }
+    
+    .comment-switch {
+      @apply justify-center;
+    }
+    
+    .first-comment,
+    .second-comment {
+      @apply text-xs;
+    }
+    
+    #switch-btn {
+      @apply w-10 h-5;
+    }
+    
+    #switch-btn span {
+      @apply w-3 h-3;
+    }
+  }
+  
+  /* 动画 */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

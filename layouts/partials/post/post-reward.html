@@ -1,0 +1,58 @@
+{{- /* 文章打赏功能 */ -}}
+{{- if .Site.Params.post.reward -}}
+<div class="post-reward mt-8">
+  <div class="text-center">
+    <button 
+      type="button"
+      class="reward-button inline-flex items-center gap-2 px-6 py-3 rounded-lg
+        bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600
+        text-white font-medium shadow-lg hover:shadow-xl
+        transition-all duration-200 transform hover:scale-105"
+      onclick="toggleRewardQR()"
+    >
+      <i class="fas fa-coffee"></i>
+      <span>{{ .Site.Params.post.rewardText | default "请我喝杯咖啡" }}</span>
+    </button>
+    
+    <div id="reward-qr" class="reward-qr-wrapper hidden mt-6">
+      <div class="inline-block p-6 rounded-lg bg-white dark:bg-gray-800 shadow-xl">
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+          {{ i18n "post_reward_scan" | default "扫码支持" }}
+        </p>
+        <div class="flex gap-6 justify-center">
+          {{- if .Site.Params.post.rewardWechat -}}
+          <div class="text-center">
+            <img 
+              src="{{ .Site.Params.post.rewardWechat }}" 
+              alt="微信支付"
+              class="w-40 h-40 rounded-lg"
+            >
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">微信</p>
+          </div>
+          {{- end -}}
+          
+          {{- if .Site.Params.post.rewardAlipay -}}
+          <div class="text-center">
+            <img 
+              src="{{ .Site.Params.post.rewardAlipay }}" 
+              alt="支付宝"
+              class="w-40 h-40 rounded-lg"
+            >
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">支付宝</p>
+          </div>
+          {{- end -}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleRewardQR() {
+  const qrWrapper = document.getElementById('reward-qr');
+  if (qrWrapper) {
+    qrWrapper.classList.toggle('hidden');
+  }
+}
+</script>
+{{- end -}}

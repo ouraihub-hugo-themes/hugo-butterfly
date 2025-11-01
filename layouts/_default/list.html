@@ -1,0 +1,107 @@
+{{- /*
+  列表页模板
+  
+  参考: hexo-theme-butterfly/layout/category.pug
+  参考: hexo-theme-butterfly/layout/tag.pug
+  参考: hexo-theme-butterfly/source/css/_page/common.styl
+  
+  功能:
+    - 显示页面标题和描述
+    - 复用文章卡片组件
+    - 集成分页组件
+    - 支持分类页、标签页、文章列表页
+    - 实现响应式布局
+  
+  适用页面:
+    - /posts/ (文章列表)
+    - /categories/xxx/ (分类页)
+    - /tags/xxx/ (标签页)
+  
+  要求:
+    - Requirements: 18.1, 18.2, 18.6, 18.7
+*/ -}}
+
+{{ define "main" }}
+{{- $listUI := default "index" .Site.Params.list.ui -}}
+{{- $paginator := .Paginate .Pages -}}
+
+<div id="list-page" class="list-page">
+  {{- /* 页面标题 */ -}}
+  {{- if .Title -}}
+    <header class="list-header">
+      <h1 class="list-title">
+        {{- if eq .Section "categories" -}}
+          <i class="fas fa-folder-open" aria-hidden="true"></i>
+          <span>{{ i18n "page.category" | default "分类" }} - {{ .Title }}</span>
+        {{- else if eq .Section "tags" -}}
+          <i class="fas fa-tag" aria-hidden="true"></i>
+          <span>{{ i18n "page.tag" | default "标签" }} - {{ .Title }}</span>
+        {{- else if eq .Section "posts" -}}
+          <i class="fas fa-book" aria-hidden="true"></i>
+          <span>{{ .Title }}</span>
+        {{- else -}}
+          <span>{{ .Title }}</span>
+        {{- end -}}
+      </h1>
+      
+      {{- /* 页面描述 */ -}}
+      {{- with .Description -}}
+        <div class="list-description">{{ . }}</div>
+      {{- end -}}
+      
+      {{- /* 文章数量统计 */ -}}
+      {{- if gt (len .Pages) 0 -}}
+        <div class="list-count">
+          <i class="fas fa-archive" aria-hidden="true"></i>
+          <span>{{ i18n "list.totalPosts" (dict "Count" (len .Pages)) | default (printf "共 %d 篇文章" (len .Pages)) }}</span>
+        </div>
+      {{- end -}}
+    </header>
+  {{- end -}}
+  
+  {{- /* 文章列表 */ -}}
+  {{- if eq $listUI "index" -}}
+    {{- /* 使用卡片式布局（与首页相同） */ -}}
+    {{- $indexLayout := default 3 .Site.Params.home.indexLayout -}}
+    {{- $masonryLayoutClass := "" -}}
+    {{- if or (eq $indexLayout 6) (eq $indexLayout 7) -}}
+      {{- $masonryLayoutClass = "masonry" -}}
+    {{- end -}}
+    
+    <div id="recent-posts" class="recent-posts {{ $masonryLayoutClass }}">
+      <div class="recent-post-items">
+        {{- range $index, $page := $paginator.Pages -}}
+          {{- /* 处理交替布局 */ -}}
+          {{- if eq $indexLayout 3 -}}
+            {{- if eq (mod $index 2) 0 -}}
+              {{- partial "post/post-card.html" (dict "Page" $page "Site" $.Site "LayoutMode" 1) -}}
+            {{- else -}}
+              {{- partial "post/post-card.html" (dict "Page" $page "Site" $.Site "LayoutMode" 2) -}}
+            {{- end -}}
+          {{- else -}}
+            {{- partial "post/post-card.html" (dict "Page" $page "Site" $.Site) -}}
+          {{- end -}}
+        {{- end -}}
+      </div>
+    </div>
+  {{- else -}}
+    {{- /* 使用时间线式布局 */ -}}
+    <div class="article-sort-container">
+      {{- partial "post/article-sort.html" $paginator.Pages -}}
+    </div>
+  {{- end -}}
+  
+  {{- /* 分页 */ -}}
+  {{- partial "components/pagination.html" . -}}
+  
+  {{- /* 空状态 */ -}}
+  {{- if eq (len .Pages) 0 -}}
+    <div class="empty-state">
+      <i class="fas fa-inbox fa-3x" aria-hidden="true"></i>
+      <p>{{ i18n "list.noPosts" | default "暂无文章" }}</p>
+    </div>
+  {{- end -}}
+</div>
+{{ end }}
+
+

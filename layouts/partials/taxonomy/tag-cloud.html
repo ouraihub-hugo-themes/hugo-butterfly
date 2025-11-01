@@ -1,0 +1,97 @@
+{{- /*
+  标签云组件
+  
+  参考: hexo-theme-butterfly/layout/includes/page/tags.pug
+  参考: hexo-theme-butterfly/source/css/_page/tags.styl
+  
+  功能:
+    - 以标签云形式显示所有标签
+    - 根据文章数量调整标签大小和颜色
+    - 支持多种排序方式（随机/名称/数量）
+    - 悬停效果和动画
+    - 点击跳转到标签页面
+  
+  输入:
+    - . (Page context)
+*/ -}}
+
+{{- $terms := .Data.Terms -}}
+{{- $orderby := default "random" .Params.orderby -}}
+{{- $order := default 1 .Params.order -}}
+
+{{- /* 排序标签 */ -}}
+{{- $sortedTerms := slice -}}
+{{- if eq $orderby "name" -}}
+  {{- $sortedTerms = $terms.Alphabetical -}}
+  {{- if eq $order -1 -}}
+    {{- $sortedTerms = $terms.Alphabetical.Reverse -}}
+  {{- end -}}
+{{- else if eq $orderby "count" -}}
+  {{- $sortedTerms = $terms.ByCount -}}
+  {{- if eq $order -1 -}}
+    {{- $sortedTerms = $terms.ByCount.Reverse -}}
+  {{- end -}}
+{{- else -}}
+  {{- /* 随机排序 - 先转换为 slice */ -}}
+  {{- $termsSlice := slice -}}
+  {{- range $terms -}}
+    {{- $termsSlice = $termsSlice | append . -}}
+  {{- end -}}
+  {{- $sortedTerms = shuffle $termsSlice -}}
+{{- end -}}
+
+{{- /* 计算标签大小范围 */ -}}
+{{- $minCount := 999999 -}}
+{{- $maxCount := 0 -}}
+{{- range $sortedTerms -}}
+  {{- $count := .Weight -}}
+  {{- if lt $count $minCount -}}
+    {{- $minCount = $count -}}
+  {{- end -}}
+  {{- if gt $count $maxCount -}}
+    {{- $maxCount = $count -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* 字体大小范围 (em) */ -}}
+{{- $minFontSize := 1.0 -}}
+{{- $maxFontSize := 1.8 -}}
+
+{{- /* 预定义的标签颜色 */ -}}
+{{- $colors := slice "#49B1F5" "#00c4b6" "#ff6b6b" "#feca57" "#48dbfb" "#ff9ff3" "#54a0ff" "#00d2d3" "#1dd1a1" "#ffeaa7" "#fd79a8" "#a29bfe" "#6c5ce7" "#fd79a8" "#fdcb6e" "#e17055" "#74b9ff" "#a29bfe" "#dfe6e9" "#00b894" -}}
+
+<div class="tag-cloud-list card">
+  {{- if gt (len $sortedTerms) 0 -}}
+    <div class="tag-cloud-tags">
+      {{- range $index, $term := $sortedTerms -}}
+        {{- $count := .Weight -}}
+        {{- $name := .Name -}}
+        {{- $permalink := .Page.Permalink -}}
+        
+        {{- /* 计算字体大小 */ -}}
+        {{- $fontSize := $minFontSize -}}
+        {{- if gt $maxCount $minCount -}}
+          {{- $ratio := div (sub (float $count) (float $minCount)) (sub (float $maxCount) (float $minCount)) -}}
+          {{- $fontSize = add $minFontSize (mul $ratio (sub $maxFontSize $minFontSize)) -}}
+        {{- end -}}
+        
+        {{- /* 选择颜色 */ -}}
+        {{- $colorIndex := mod $index (len $colors) -}}
+        {{- $color := index $colors $colorIndex -}}
+        
+        <a 
+          href="{{ $permalink }}" 
+          class="tag-cloud-tag"
+          style="font-size: {{ $fontSize }}em; background-color: {{ $color }};"
+          title="{{ $name }} ({{ $count }} {{ if eq $count 1 }}{{ i18n "tag.post" | default "篇" }}{{ else }}{{ i18n "tag.posts" | default "篇" }}{{ end }})"
+          data-count="{{ $count }}"
+        >
+          <span class="tag-name">{{ $name }}</span>
+          <span class="tag-count">{{ $count }}</span>
+        </a>
+      {{- end -}}
+    </div>
+  {{- end -}}
+</div>
+
+

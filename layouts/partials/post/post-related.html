@@ -1,0 +1,58 @@
+{{- /* 相关文章推荐 */ -}}
+{{- $related := .Site.RegularPages.Related . | first (.Site.Params.post.relatedPostsCount | default 6) -}}
+
+{{- if $related -}}
+<section class="post-related mt-12">
+  <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+    {{ i18n "post_related" | default "相关文章" }}
+  </h3>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {{- range $related -}}
+    <article class="related-post-item group">
+      <a 
+        href="{{ .RelPermalink }}" 
+        class="block rounded-lg overflow-hidden bg-white dark:bg-gray-800 
+          border border-gray-200 dark:border-gray-700
+          hover:shadow-lg dark:hover:shadow-gray-900/50
+          transition-all duration-200"
+      >
+        {{- /* 封面图 */ -}}
+        {{- $cover := .Params.cover | default .Site.Params.assets.defaultCover -}}
+        {{- if $cover -}}
+        <div class="related-post-cover aspect-video overflow-hidden">
+          <img 
+            src="{{ $cover }}" 
+            alt="{{ .Title }}"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            loading="lazy"
+          >
+        </div>
+        {{- end -}}
+        
+        {{- /* 文章信息 */ -}}
+        <div class="p-4">
+          <h4 class="text-base font-semibold text-gray-900 dark:text-gray-100 
+            group-hover:text-primary transition-colors line-clamp-2 mb-2">
+            {{ .Title }}
+          </h4>
+          
+          {{- if .Summary -}}
+          <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-3">
+            {{ .Summary }}
+          </p>
+          {{- end -}}
+          
+          <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500">
+            <i class="far fa-calendar-alt"></i>
+            <time datetime="{{ .Date.Format "2006-01-02" }}">
+              {{ .Date.Format "2006-01-02" }}
+            </time>
+          </div>
+        </div>
+      </a>
+    </article>
+    {{- end -}}
+  </div>
+</section>
+{{- end -}}

@@ -1,0 +1,115 @@
+# 基础配置 - 所有环境共享
+
+baseURL = 'https://example.org/'
+languageCode = 'zh-cn'
+defaultContentLanguage = 'zh'
+title = '我的 Butterfly 博客'
+
+# 让默认语言也显示在子目录中（所有语言都有前缀）
+defaultContentLanguageInSubdir = true
+
+# 多语言配置在 languages.toml 中定义
+# 如果不需要多语言，可以删除或重命名 languages.toml 文件
+
+# 时区设置
+timeZone = 'Asia/Shanghai'
+
+# 主题名称（如果作为独立主题使用，留空表示当前目录就是主题）
+# theme = ''
+
+# 启用 Emoji
+enableEmoji = true
+
+# 启用 Git 信息（用于显示最后更新时间）
+# 注意：需要在 Git 仓库中才能启用
+enableGitInfo = false
+
+# 分页配置
+[pagination]
+  pagerSize = 10
+  path = 'page'
+
+# 启用 robots.txt 生成
+enableRobotsTXT = true
+
+# 输出格式
+[outputs]
+  home = ['HTML', 'RSS', 'JSON']
+  page = ['HTML']
+  section = ['HTML', 'RSS']
+  taxonomy = ['HTML', 'RSS']
+  term = ['HTML', 'RSS']
+
+# Sitemap 配置
+[sitemap]
+  changefreq = 'weekly'
+  filename = 'sitemap.xml'
+  priority = 0.5
+
+# 构建配置
+[build]
+  writeStats = true
+  useResourceCacheWhen = 'fallback'
+
+# Markdown 渲染配置
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true  # 允许在 Markdown 中使用 HTML
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = true  # 启用语法猜测
+    lineNos = true
+    lineNumbersInTable = true
+    noClasses = true  # 使用内联样式（更好的主题切换支持）
+    style = 'monokai'  # 亮色模式主题
+    tabWidth = 4
+  [markup.tableOfContents]
+    endLevel = 4
+    ordered = false
+    startLevel = 2
+
+# 永久链接配置
+[permalinks]
+  # 方案 1：使用年月和 slug（当前）
+  posts = '/:year/:month/:slug/'
+  
+  # 方案 2：仅使用 slug（WordPress 风格）
+  # posts = '/:slug/'
+  
+  # 方案 3：使用自定义 ID（需要在 Front Matter 中设置 id）
+  # posts = '/:slug.html'
+  # 然后在文章中设置 slug: "123"
+  
+  categories = '/categories/:slug/'
+  tags = '/tags/:slug/'
+
+# 分类法配置
+[taxonomies]
+  tag = 'tags'
+  category = 'categories'
+  series = 'series'
+
+# 相关内容配置
+[related]
+  includeNewer = true
+  threshold = 80
+  toLower = false
+  [[related.indices]]
+    name = 'keywords'
+    weight = 100
+  [[related.indices]]
+    name = 'tags'
+    weight = 80
+  [[related.indices]]
+    name = 'categories'
+    weight = 60
+  [[related.indices]]
+    name = 'date'
+    weight = 10
+
+# 隐私配置
+[privacy]
+  [privacy.youtube]
+    privacyEnhanced = true

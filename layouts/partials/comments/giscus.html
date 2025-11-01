@@ -1,0 +1,82 @@
+{{- /*
+  Giscus 评论系统
+  基于 GitHub Discussions 的评论系统
+*/ -}}
+
+{{- $giscus := .Site.Params.comments.giscus -}}
+{{- if $giscus.enable -}}
+  <div id="giscus-wrap" class="giscus-container"></div>
+  
+  <script>
+    (() => {
+      const loadGiscus = () => {
+        const container = document.getElementById('giscus-wrap');
+        if (!container) return;
+        
+        // 清空容器
+        container.innerHTML = '';
+        
+        // 创建 script 标签
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', '{{ $giscus.repo }}');
+        script.setAttribute('data-repo-id', '{{ $giscus.repoId }}');
+        script.setAttribute('data-category', '{{ $giscus.category }}');
+        script.setAttribute('data-category-id', '{{ $giscus.categoryId }}');
+        script.setAttribute('data-mapping', '{{ $giscus.mapping | default "pathname" }}');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '{{ $giscus.reactionsEnabled | default "1" }}');
+        script.setAttribute('data-emit-metadata', '{{ $giscus.emitMetadata | default "0" }}');
+        script.setAttribute('data-input-position', '{{ $giscus.inputPosition | default "bottom" }}');
+        script.setAttribute('data-theme', 
+          document.documentElement.classList.contains('dark')
+            ? '{{ $giscus.darkTheme | default "dark" }}'
+            : '{{ $giscus.lightTheme | default "light" }}'
+        );
+        script.setAttribute('data-lang', '{{ $giscus.lang | default "zh-CN" }}');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        
+        container.appendChild(script);
+      };
+      
+      // 主题切换时更新 Giscus 主题
+      const changeGiscusTheme = (theme) => {
+        const iframe = document.querySelector('#giscus-wrap iframe');
+        if (iframe) {
+          const message = {
+            setConfig: {
+              theme: theme === 'dark'
+                ? '{{ $giscus.darkTheme | default "dark" }}'
+                : '{{ $giscus.lightTheme | default "light" }}'
+            }
+          };
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+      };
+      
+      // 监听主题变化
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.attributeName === 'class') {
+            const isDark = document.documentElement.classList.contains('dark');
+            changeGiscusTheme(isDark ? 'dark' : 'light');
+          }
+        });
+      });
+      
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+      
+      {{- if .Site.Params.comments.lazyload -}}
+        // 懒加载模式
+        document.addEventListener('loadComments', loadGiscus, { once: true });
+      {{- else -}}
+        // 立即加载
+        loadGiscus();
+      {{- end -}}
+    })();
+  </script>
+{{- end -}}

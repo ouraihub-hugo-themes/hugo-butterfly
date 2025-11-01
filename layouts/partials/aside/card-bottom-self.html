@@ -1,0 +1,9 @@
+{{- /*
+  card-bottom-self.html - 自定义底部卡片组件 (占位符)
+  用户可以自定义此组件添加自己的内容
+*/ -}}
+{{- if .Site.Params.aside.cardBottomSelf.enable -}}
+<div id="card-bottom-self" class="card-widget">
+    {{- .Site.Params.aside.cardBottomSelf.content | markdownify -}}
+</div>
+{{- end -}}

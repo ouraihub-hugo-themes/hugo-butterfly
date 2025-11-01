@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div id="archive" class="container mx-auto px-4 py-8">
+  <!-- 归档标题 -->
+  <div class="archive-header mb-8">
+    <h1 class="archive-title">
+      {{ i18n "archive_articles" }} - {{ len (where .Site.RegularPages "Type" "posts") }}
+    </h1>
+  </div>
+
+  <!-- 时间线容器 -->
+  {{ partial "archive/timeline.html" . }}
+</div>
+{{ end }}

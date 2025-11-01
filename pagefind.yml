@@ -1,0 +1,33 @@
+# Pagefind 配置
+# 用于 Hugo Butterfly 主题的搜索功能
+
+# 构建输出目录
+site: public
+
+# 内容源目录（可选，Pagefind 会自动从 site 目录索引）
+# source: content
+
+# Pagefind 资源输出子目录（相对于 site 目录）
+output_subdir: _pagefind
+
+# 排除不需要索引的页面元素
+exclude_selectors:
+  - "nav"           # 导航栏
+  - "header"        # 页头
+  - "footer"        # 页脚
+  - ".sidebar"      # 侧边栏
+  - ".search-dialog" # 搜索对话框本身
+  - ".toc"          # 文章目录
+  - ".post-nav"     # 文章导航
+  - ".post-footer"  # 文章页脚
+  - ".comments"     # 评论区
+  - "#local-search" # 本地搜索组件
+  - "script"        # 脚本标签
+  - "style"         # 样式标签
+
+# 强制语言设置（用于中文分词）
+force_language: "zh"
+
+# 自定义索引内容的根选择器
+# 只索引 main 标签内的内容，提高索引质量
+root_selector: "main"

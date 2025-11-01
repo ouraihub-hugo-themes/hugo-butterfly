@@ -1,0 +1,18 @@
+# 繁體中文參數配置
+
+# 網站基礎資訊
+description = "一個基於 Hugo 的 Butterfly 主題部落格"
+
+# 作者資訊
+[author]
+  description = "這是我的個人簡介"
+
+# 首頁配置
+[home.hero]
+  title = "歡迎來到 Hugo Butterfly"
+  subtitle = "一個優雅的 Hugo 部落格主題"
+  typedStrings = ["技術部落格", "生活記錄", "知識分享"]
+
+# 側邊欄配置
+[aside.announcement]
+  content = "歡迎訪問我的部落格！"

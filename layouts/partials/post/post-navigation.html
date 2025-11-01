@@ -1,0 +1,46 @@
+{{- /* 文章导航：上一篇/下一篇 */ -}}
+<nav class="post-navigation mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {{- /* 上一篇 */ -}}
+    {{- with .PrevInSection -}}
+    <a 
+      href="{{ .RelPermalink }}" 
+      class="post-nav-item group flex flex-col p-4 rounded-lg
+        bg-gray-50 dark:bg-gray-800/50 
+        hover:bg-gray-100 dark:hover:bg-gray-800
+        border border-gray-200 dark:border-gray-700
+        transition-all duration-200"
+    >
+      <span class="text-xs text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-2">
+        <i class="fas fa-chevron-left"></i>
+        {{ i18n "post_prev" | default "上一篇" }}
+      </span>
+      <span class="text-sm font-medium text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors line-clamp-2">
+        {{ .Title }}
+      </span>
+    </a>
+    {{- else -}}
+    <div class="post-nav-item-placeholder"></div>
+    {{- end -}}
+    
+    {{- /* 下一篇 */ -}}
+    {{- with .NextInSection -}}
+    <a 
+      href="{{ .RelPermalink }}" 
+      class="post-nav-item group flex flex-col p-4 rounded-lg text-right
+        bg-gray-50 dark:bg-gray-800/50 
+        hover:bg-gray-100 dark:hover:bg-gray-800
+        border border-gray-200 dark:border-gray-700
+        transition-all duration-200"
+    >
+      <span class="text-xs text-gray-500 dark:text-gray-400 mb-2 flex items-center justify-end gap-2">
+        {{ i18n "post_next" | default "下一篇" }}
+        <i class="fas fa-chevron-right"></i>
+      </span>
+      <span class="text-sm font-medium text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors line-clamp-2">
+        {{ .Title }}
+      </span>
+    </a>
+    {{- end -}}
+  </div>
+</nav>

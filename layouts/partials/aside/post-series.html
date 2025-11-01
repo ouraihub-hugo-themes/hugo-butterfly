@@ -1,0 +1,15 @@
+{{- /*
+  post-series.html - 文章系列组件 (占位符)
+  将在后续任务中实现
+*/ -}}
+{{- if .Params.series -}}
+<div id="card-post-series" class="card-widget">
+    <div class="item-headline">
+        <i class="fas fa-book"></i>
+        <span>{{ i18n "series" | default "系列文章" }}</span>
+    </div>
+    <div class="series-content">
+        <p>系列: {{ .Params.series }}</p>
+    </div>
+</div>
+{{- end -}}

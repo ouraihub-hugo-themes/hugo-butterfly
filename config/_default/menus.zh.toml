@@ -1,0 +1,52 @@
+# 简体中文菜单
+
+[[main]]
+  name = "首页"
+  url = "/zh/"
+  weight = 1
+  pre = "fas fa-home"
+
+[[main]]
+  name = "文章"
+  url = "/zh/posts/"
+  weight = 2
+  pre = "fas fa-book"
+
+[[main]]
+  name = "分类"
+  url = "/zh/categories/"
+  weight = 3
+  pre = "fas fa-folder-open"
+
+[[main]]
+  name = "标签"
+  url = "/zh/tags/"
+  weight = 4
+  pre = "fas fa-tags"
+
+[[main]]
+  name = "更多"
+  weight = 5
+  pre = "fas fa-ellipsis-h"
+  identifier = "more"
+
+  [[main]]
+    name = "归档"
+    url = "/zh/archives/"
+    weight = 1
+    parent = "more"
+    pre = "fas fa-archive"
+
+  [[main]]
+    name = "友情链接"
+    url = "/zh/links/"
+    weight = 2
+    parent = "more"
+    pre = "fas fa-link"
+
+  [[main]]
+    name = "关于"
+    url = "/zh/about/"
+    weight = 3
+    parent = "more"
+    pre = "fas fa-user"

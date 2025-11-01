@@ -1,0 +1,25 @@
+{{- /*
+  archives.html - 归档列表组件 (占位符)
+  将在任务 18 中实现
+*/ -}}
+{{- $limit := .Site.Params.aside.archives.limit | default 8 -}}
+{{- $pages := where .Site.RegularPages "Type" "posts" -}}
+
+{{- if $pages -}}
+<div id="card-archives" class="card-widget card-archives">
+    <div class="item-headline">
+        <i class="fas fa-archive"></i>
+        <span>{{ i18n "archives" | default "归档" }}</span>
+    </div>
+    <ul class="card-archive-list">
+        {{- range ($pages.GroupByDate "2006-01" | first $limit) -}}
+        <li class="card-archive-list-item">
+            <a href="/archives/">
+                <span>{{ .Key }}</span>
+                <span>{{ len .Pages }}</span>
+            </a>
+        </li>
+        {{- end -}}
+    </ul>
+</div>
+{{- end -}}

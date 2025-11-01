@@ -1,0 +1,18 @@
+{{- /*
+  tags.html - 标签云组件 (占位符)
+  将在任务 17 中实现
+*/ -}}
+{{- $tags := .Site.Taxonomies.tags -}}
+{{- if $tags -}}
+<div id="card-tags" class="card-widget card-tags">
+    <div class="item-headline">
+        <i class="fas fa-tags"></i>
+        <span>{{ i18n "tags" | default "标签" }}</span>
+    </div>
+    <div class="card-tag-cloud">
+        {{- range $name, $taxonomy := $tags -}}
+        <a href="{{ .Page.RelPermalink }}">{{ $name }}</a>
+        {{- end -}}
+    </div>
+</div>
+{{- end -}}

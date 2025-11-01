@@ -1,0 +1,18 @@
+# English Parameters Configuration
+
+# Site basic information
+description = "A Hugo Butterfly theme blog"
+
+# Author information
+[author]
+  description = "This is my personal bio"
+
+# Home page configuration
+[home.hero]
+  title = "Welcome to Hugo Butterfly"
+  subtitle = "An elegant Hugo blog theme"
+  typedStrings = ["Tech Blog", "Life Records", "Knowledge Sharing"]
+
+# Sidebar configuration
+[aside.announcement]
+  content = "Welcome to my blog!"

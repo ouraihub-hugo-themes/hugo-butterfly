@@ -1,0 +1,87 @@
+{{- /*
+  aside.html - 侧边栏容器
+  包含各种侧边栏组件
+  参考: hexo-theme-butterfly/layout/includes/widget/index.pug
+  参考: hexo-theme-butterfly/source/css/_layout/aside.styl
+*/ -}}
+{{- $isPost := eq .Kind "page" -}}
+{{- $showToc := and $isPost .Params.toc (ne .Params.toc false) -}}
+{{- $tocStyleSimple := .Params.toc_style_simple | default .Site.Params.post.tocStyleSimple | default false -}}
+{{- $asidePosition := .Site.Params.aside.position | default "right" -}}
+{{- $asideMobile := .Site.Params.aside.mobile | default true -}}
+
+<aside id="aside-content" class="aside-content {{ if eq $asidePosition "left" }}aside-left{{ else }}aside-right{{ end }}{{ if not $asideMobile }} hide-mobile{{ end }}">
+    {{- /* 文章页面且启用简洁目录样式时，只显示目录 */ -}}
+    {{- if and $isPost $showToc $tocStyleSimple -}}
+        <div class="sticky_layout">
+            {{- partial "aside/toc.html" . -}}
+        </div>
+    {{- else -}}
+        {{- /* 非 sticky 组件 */ -}}
+        {{- if .Site.Params.aside.author.enable -}}
+            {{- partial "aside/author.html" . -}}
+        {{- end -}}
+
+        {{- if .Site.Params.aside.announcement.enable -}}
+            {{- partial "aside/announcement.html" . -}}
+        {{- end -}}
+
+        {{- /* 自定义顶部组件 */ -}}
+        {{- if .Site.Params.aside.cardTopSelf.enable -}}
+            {{- partial "aside/card-top-self.html" . -}}
+        {{- end -}}
+
+        {{- /* Sticky 布局容器 - 包含需要固定定位的组件 */ -}}
+        <div class="sticky_layout">
+            {{- /* 文章目录 (文章页面) */ -}}
+            {{- if and $isPost $showToc -}}
+                {{- partial "aside/toc.html" . -}}
+            {{- end -}}
+
+            {{- /* 文章系列 (文章页面) */ -}}
+            {{- if and $isPost .Params.series .Site.Params.aside.postSeries.enable -}}
+                {{- partial "aside/post-series.html" . -}}
+            {{- end -}}
+
+            {{- /* 最新文章 */ -}}
+            {{- if .Site.Params.aside.recentPosts.enable -}}
+                {{- partial "aside/recent-posts.html" . -}}
+            {{- end -}}
+
+            {{- /* 广告位 (可选) */ -}}
+            {{- if .Site.Params.aside.ad.enable -}}
+                {{- partial "aside/ad.html" . -}}
+            {{- end -}}
+
+            {{- /* 最新评论 (非文章页面) */ -}}
+            {{- if and (not $isPost) .Site.Params.aside.newestComments.enable -}}
+                {{- partial "aside/newest-comments.html" . -}}
+            {{- end -}}
+
+            {{- /* 分类 */ -}}
+            {{- if .Site.Params.aside.categories.enable -}}
+                {{- partial "aside/categories.html" . -}}
+            {{- end -}}
+
+            {{- /* 标签云 */ -}}
+            {{- if .Site.Params.aside.tags.enable -}}
+                {{- partial "aside/tags.html" . -}}
+            {{- end -}}
+
+            {{- /* 归档 */ -}}
+            {{- if .Site.Params.aside.archives.enable -}}
+                {{- partial "aside/archives.html" . -}}
+            {{- end -}}
+
+            {{- /* 网站信息 */ -}}
+            {{- if .Site.Params.aside.webinfo.enable -}}
+                {{- partial "sidebar/webinfo.html" . -}}
+            {{- end -}}
+
+            {{- /* 自定义底部组件 */ -}}
+            {{- if .Site.Params.aside.cardBottomSelf.enable -}}
+                {{- partial "aside/card-bottom-self.html" . -}}
+            {{- end -}}
+        </div>
+    {{- end -}}
+</aside>
