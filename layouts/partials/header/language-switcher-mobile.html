@@ -1,0 +1,58 @@
+{{- /*
+  Mobile Language Switcher - 移动端语言切换器
+  只在移动端侧边栏菜单中使用
+*/ -}}
+
+{{- if hugo.IsMultilingual -}}
+{{- $currentLang := .Language -}}
+{{- $currentPage := . -}}
+
+<div class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
+  <div class="menu-section-title text-xs text-gray-500 dark:text-gray-400 uppercase px-4 mb-2 font-semibold">
+    {{ i18n "language_switch" | default "语言 / Language" }}
+  </div>
+  {{- range .Site.Languages -}}
+    {{- $isCurrentLang := eq . $currentLang -}}
+    {{- $langCode := .Lang -}}
+
+    {{- /* 获取对应语言版本的链接 */ -}}
+    {{- $url := "" -}}
+    {{- if $isCurrentLang -}}
+      {{- $url = $currentPage.RelPermalink -}}
+    {{- else -}}
+      {{- if $currentPage.IsTranslated -}}
+        {{- range $currentPage.Translations -}}
+          {{- if eq .Language.Lang $langCode -}}
+            {{- $url = .RelPermalink -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+      {{- if not $url -}}
+        {{- if eq $langCode "zh" -}}
+          {{- $url = "/" -}}
+        {{- else -}}
+          {{- $url = printf "/%s/" $langCode -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+
+    <a href="{{ $url }}"
+       class="mobile-menu-item flex items-center justify-between px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors {{ if $isCurrentLang }}bg-gray-100 dark:bg-gray-800 text-primary dark:text-primary font-semibold{{ end }}"
+       lang="{{ .LanguageCode }}"
+       hreflang="{{ .LanguageCode }}"
+       {{ if $isCurrentLang }}aria-current="true"{{ end }}>
+      <span class="flex items-center">
+        <i class="fas fa-globe fa-fw mr-2"></i>
+        {{- if .Params.languageFlag -}}
+        <span class="mr-2">{{ .Params.languageFlag }}</span>
+        {{- end -}}
+        <span>{{ .LanguageName }}</span>
+      </span>
+      {{- if $isCurrentLang -}}
+        <i class="fas fa-check text-primary"></i>
+      {{- end -}}
+    </a>
+  {{- end -}}
+</div>
+
+{{- end -}}

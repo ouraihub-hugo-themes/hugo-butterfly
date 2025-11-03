@@ -39,8 +39,10 @@
         {{ partial "header/menu-items.html" . }}
       </div>
 
-      {{- /* 语言切换器 */ -}}
-      {{ partial "header/language-switcher.html" . }}
+      {{- /* 桌面端语言切换器 */ -}}
+      <div class="hidden lg:block">
+        {{ partial "header/language-switcher-desktop.html" . }}
+      </div>
 
       {{- /* 暗色模式切换按钮 */ -}}
       {{- if .Site.Params.darkmode.enable -}}
@@ -96,7 +98,7 @@
       {{ partial "header/mobile-menu-items.html" . }}
 
       {{- /* 移动端语言切换器 */ -}}
-      {{ partial "header/language-switcher.html" . }}
+      {{ partial "header/language-switcher-mobile.html" . }}
     </div>
   </div>
 </div>

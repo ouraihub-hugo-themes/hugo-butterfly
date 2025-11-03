@@ -8,53 +8,46 @@
  * - layout/     布局样式（导航、页脚、侧边栏）
  * - pages/      页面样式（首页、文章、列表）
  * - utilities/  工具类
+ *
+ * 注意：Tailwind CSS v4 不支持在 @layer 内部使用 @import
+ * 所有 @import 必须在文件顶部，@layer 之外
  */
 
 /* stylelint-disable at-rule-no-unknown */
 @import "tailwindcss";
 
 /* ========================================
-   基础样式 (Base)
+   导入所有样式文件（必须在 @layer 之外）
    ======================================== */
+
+/* 基础样式 */
 @import "./base/_variables.css";
 @import "./base/_themes.css";
+@import "./base/_reset.css";
 
-@layer base {
-    @import "./base/_reset.css";
-}
+/* 通用组件 */
+@import "./components/_buttons.css";
+@import "./components/_cards.css";
+@import "./components/_pagination.css";
+@import "./components/_highlight.css";
+@import "./components/_back-to-top.css";
+@import "./components/_theme-switcher.css";
 
-/* ========================================
-   组件样式 (Components)
-   ======================================== */
-@layer components {
-    /* 通用组件 */
-    @import "./components/_buttons.css";
-    @import "./components/_cards.css";
-    @import "./components/_pagination.css";
-    @import "./components/_highlight.css";
-    @import "./components/_back-to-top.css";
-    @import "./components/_theme-switcher.css";
+/* 布局组件 */
+@import "./layout/_header.css";
+@import "./layout/_footer.css";
+@import "./layout/_aside.css";
+@import "./layout/_rightside.css";
 
-    /* 布局组件 */
-    @import "./layout/_header.css";
-    @import "./layout/_footer.css";
-    @import "./layout/_aside.css";
-    @import "./layout/_rightside.css";
+/* 页面样式 */
+@import "./pages/_home.css";
+@import "./pages/_post.css";
+@import "./pages/_list.css";
+@import "./pages/_terms.css";
+@import "./pages/_archive.css";
+@import "./pages/_search.css";
+@import "./pages/_links.css";
+@import "./pages/_comments.css";
 
-    /* 页面样式 */
-    @import "./pages/_home.css";
-    @import "./pages/_post.css";
-    @import "./pages/_list.css";
-    @import "./pages/_terms.css";
-    @import "./pages/_archive.css";
-    @import "./pages/_search.css";
-    @import "./pages/_links.css";
-    @import "./pages/_comments.css";
-}
-
-/* ========================================
-   工具类 (Utilities)
-   ======================================== */
-@layer utilities {
-    @import "./utilities/_helpers.css";
-}
+/* 工具类 */
+@import "./utilities/_helpers.css";

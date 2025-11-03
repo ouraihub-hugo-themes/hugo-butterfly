@@ -7,7 +7,7 @@
     "ts:build": "esbuild assets/ts/main.ts --bundle --minify --outfile=assets/js/bundle.js --target=es2020",
     "ts:watch": "esbuild assets/ts/main.ts --bundle --watch --outfile=assets/js/bundle.js --target=es2020",
     "ts:dev": "esbuild assets/ts/main.ts --bundle --sourcemap --outfile=assets/js/bundle.js --target=es2020",
-    "css:build": "tailwindcss -i ./assets/css/main.css -o ./static/css/main.css --minify",
+    "css:build": "tailwindcss -i ./assets/css/main.css -o ./static/css/main.css --minify --optimize",
     "css:watch": "tailwindcss -i ./assets/css/main.css -o ./static/css/main.css --watch",
     "css:dev": "tailwindcss -i ./assets/css/main.css -o ./static/css/main.css",
     "dev": "concurrently -n \"TS,CSS,Hugo\" -c \"blue,green,yellow\" \"pnpm run ts:watch\" \"pnpm run css:watch\" \"hugo server --environment development --buildDrafts --buildFuture --disableFastRender\"",

@@ -155,13 +155,22 @@ html.dark .menus_item > a.site-page.active {
    ======================================== */
 
 /* 桌面端语言切换器 */
-.language-switcher {
+.language-switcher-desktop {
     position: relative;
+    display: none;
 }
 
-/* 语言切换按钮 */
-.language-switcher button {
+.language-switcher-desktop button {
     white-space: nowrap;
+}
+
+.language-switcher-desktop button .fa-chevron-down {
+    transition: transform 0.2s ease;
+}
+
+.language-switcher-desktop:hover button .fa-chevron-down,
+.language-switcher-desktop:focus-within button .fa-chevron-down {
+    transform: rotate(180deg);
 }
 
 /* 语言菜单下拉动画 */
@@ -174,12 +183,11 @@ html.dark .menus_item > a.site-page.active {
     transform: translateY(-10px);
 }
 
-.language-switcher:hover .language-menu,
-.language-switcher:focus-within .language-menu {
+.language-switcher-desktop:hover .language-menu,
+.language-switcher-desktop:focus-within .language-menu {
     transform: translateY(0);
 }
 
-/* 语言菜单项样式 */
 .language-menu li a {
     white-space: nowrap;
 }
@@ -192,18 +200,20 @@ html.dark .menus_item > a.site-page.active {
     border-radius: 0 0 0.5rem 0.5rem;
 }
 
-/* 当前语言高亮 */
-.language-menu li a[aria-current="true"] {
-    background-color: rgba(73, 177, 245, 0.1);
+.language-menu li a[aria-current="true"],
+.mobile-language-switcher .mobile-menu-item[aria-current="true"] {
+    background-color: rgb(73 177 245 / 0.1);
 }
 
-.dark .language-menu li a[aria-current="true"] {
-    background-color: rgba(73, 177, 245, 0.15);
+.dark .language-menu li a[aria-current="true"],
+.dark .mobile-language-switcher .mobile-menu-item[aria-current="true"] {
+    background-color: rgb(73 177 245 / 0.15);
 }
 
 /* 移动端语言切换器 */
 .mobile-language-switcher {
     margin-top: 1rem;
+    display: block;
 }
 
 .mobile-language-switcher .menu-section-title {
@@ -214,22 +224,39 @@ html.dark .menus_item > a.site-page.active {
     font-size: 0.9375rem;
 }
 
-.mobile-language-switcher .mobile-menu-item[aria-current="true"] {
-    background-color: rgba(73, 177, 245, 0.1);
+/* 响应式媒体查询 - 合并优化 */
+@media (min-width: 1024px) {
+    .language-switcher-desktop {
+        display: block !important;
+    }
+
+    .mobile-language-switcher {
+        display: none !important;
+        visibility: hidden !important;
+    }
 }
 
-.dark .mobile-language-switcher .mobile-menu-item[aria-current="true"] {
-    background-color: rgba(73, 177, 245, 0.15);
+@media (max-width: 1023px) {
+    .language-switcher-desktop,
+    .language-switcher-desktop *,
+    .language-menu {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+
+    .mobile-language-switcher {
+        display: block !important;
+    }
 }
 
-/* 语言切换器图标动画 */
-.language-switcher button .fa-chevron-down {
-    transition: transform 0.2s ease;
-}
-
-.language-switcher:hover button .fa-chevron-down,
-.language-switcher:focus-within button .fa-chevron-down {
-    transform: rotate(180deg);
+/* 强制在桌面端隐藏移动端语言切换器 */
+@media (min-width: 1024px) {
+    .mobile-language-switcher {
+        display: none !important;
+        visibility: hidden !important;
+    }
 }
 
 /* ========================================
