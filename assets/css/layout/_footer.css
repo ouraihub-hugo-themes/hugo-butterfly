@@ -3,28 +3,18 @@
  */
 
 /* 页脚容器 */
+/* 注意：背景色和文字颜色由 HTML 模板中的 Tailwind 类控制 */
+/* footer.html 中设置: bg-[#49b1f5] dark:bg-gray-900 text-gray-100 */
 #footer {
-  background: white;
-  border-top: 1px solid var(--color-gray-200);
-  padding: 2rem 0;
-  margin-top: 3rem;
-}
-
-.dark #footer {
-  background: rgb(31, 41, 55);
-  border-top-color: rgb(55, 65, 81);
+  /* 不设置背景色，使用 HTML 中的 Tailwind 类 */
 }
 
 /* 页脚内容 */
+/* 文字颜色由 HTML 模板中的 text-gray-100 控制，在蓝色背景上显示为浅色 */
 .footer-content {
   text-align: center;
-  color: rgb(107, 114, 128);
   font-size: 0.9rem;
   line-height: 1.8;
-}
-
-.dark .footer-content {
-  color: rgb(156, 163, 175);
 }
 
 /* 页脚链接 */
@@ -45,7 +35,7 @@
 }
 
 /* 页脚分隔符 */
+/* 颜色继承父元素的 text-gray-100 */
 .footer-separator {
   margin: 0 0.5rem;
-  color: var(--color-gray-400);
 }

@@ -1,6 +1,6 @@
 {
   "name": "hugo-butterfly",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "A Hugo theme inspired by hexo-theme-butterfly",
   "main": "index.js",
   "scripts": {
@@ -38,7 +38,12 @@
     "validate": "node scripts/validate-config.js && pnpm run type-check",
     "validate:full": "pnpm run validate && pnpm run build:dev",
     "new": "node scripts/new-post.js",
-    "new:draft": "node scripts/new-post.js --draft"
+    "new:draft": "node scripts/new-post.js --draft",
+    "release": "standard-version && git push --follow-tags origin main",
+    "release:minor": "standard-version --release-as minor && git push --follow-tags origin main",
+    "release:major": "standard-version --release-as major && git push --follow-tags origin main",
+    "release:patch": "standard-version --release-as patch && git push --follow-tags origin main",
+    "release:first": "standard-version --first-release && git push --follow-tags origin main"
   },
   "keywords": [
     "hugo",
@@ -62,6 +67,7 @@
     "hugo-extended": "^0.151.2",
     "jsdom": "^27.0.1",
     "pagefind": "^1.4.0",
+    "standard-version": "^9.5.0",
     "tailwindcss": "^4.1.16",
     "typescript": "^5.3.0",
     "vitest": "^4.0.5"
