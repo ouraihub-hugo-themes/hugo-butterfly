@@ -6,33 +6,39 @@
    导航栏样式
    ======================================== */
 
-/* 导航栏背景 - 光亮模式半透明白色 */
+/* 导航栏背景 - 透明 + 毛玻璃效果 */
 #page-header {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-/* 首页导航栏完全透明 */
-.index-page #page-header {
     background: transparent;
+    backdrop-filter: blur(10px) brightness(0.95);
+    -webkit-backdrop-filter: blur(10px) brightness(0.95);
     box-shadow: none;
 }
 
-/* 暗色模式导航栏半透明深色背景 */
+/* 首页导航栏完全透明 - 无背景框 */
+.index-page #page-header {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+}
+
+/* 暗色模式导航栏 - 半透明深色背景确保文字可见 */
 #page-header.dark,
 .dark #page-header,
 html.dark #page-header {
-    background: rgba(31, 41, 55, 0.9);
+    background: rgba(17, 24, 39, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-/* 暗色模式首页导航栏完全透明 */
+/* 暗色模式首页导航栏也使用半透明深色背景 */
 html.dark .index-page #page-header,
 html.dark body.index-page #page-header {
-    background: transparent;
-    box-shadow: none;
+    background: rgba(17, 24, 39, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* 菜单项基础样式 - 默认深色文字（非首页） */
@@ -40,12 +46,22 @@ html.dark body.index-page #page-header {
     position: relative;
     color: rgb(31, 41, 55);
     transition: color 0.3s ease-in-out;
+    border: none;
+    outline: none;
 }
 
-/* 首页使用白色文字（紫色背景） */
-.index-page .site-page {
-    color: rgba(255, 255, 255, 0.95);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+.menus_item {
+    border: none;
+    outline: none;
+}
+
+/* 首页使用深色文字 - 在浅紫色背景上清晰可见 */
+html:not(.dark) body.index-page .site-page,
+html:not(.dark) .index-page #page-header .site-page,
+html:not(.dark) .index-page .menus_item .site-page,
+body.index-page:not(.dark) .site-page {
+    color: rgb(31, 41, 55) !important;
+    text-shadow: none;
 }
 
 /* 下拉菜单中的链接恢复深色文字 */
@@ -65,17 +81,20 @@ html.dark body.index-page #page-header {
     font-weight: 600;
 }
 
-/* 首页使用白色标题（紫色背景） */
-.index-page .site-name {
-    color: #ffffff !important;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+/* 首页标题使用深色 - 在浅紫色背景上清晰可见 */
+html:not(.dark) body.index-page .site-name,
+html:not(.dark) .index-page #page-header .site-name,
+body.index-page:not(.dark) .site-name {
+    color: rgb(17, 24, 39) !important;
+    text-shadow: none;
 }
 
-/* 暗色模式下的网站标题 - 默认白色（非首页） */
+/* 暗色模式下的网站标题 - 白色 + 深色阴影增强可见性 */
 .dark .site-name,
 html.dark .site-name,
 :is(.dark, html.dark) .site-name {
     color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.5);
 }
 
 /* 暗色模式首页使用白色标题 */
@@ -84,12 +103,12 @@ html.dark body.index-page .site-name {
     color: #ffffff !important;
 }
 
-/* 暗色模式下的菜单项 - 默认白色（非首页） */
+/* 暗色模式下的菜单项 - 白色 + 深色阴影增强可见性 */
 .dark .site-page,
 html.dark .site-page,
 :is(.dark, html.dark) .site-page {
-    color: rgba(255, 255, 255, 0.9) !important;
-    text-shadow: none;
+    color: rgba(255, 255, 255, 0.95) !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.5);
 }
 
 /* 暗色模式首页使用白色文字 */

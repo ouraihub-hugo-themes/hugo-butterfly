@@ -81,6 +81,11 @@
     @apply translate-x-full opacity-0 pointer-events-none;
   }
 
+  /* 主题切换器容器 */
+  #rightside > div > div[style*="position: relative"] {
+    @apply block;
+  }
+
   /* 移动端适配 */
   @media (max-width: 768px) {
     #rightside {
@@ -90,6 +95,11 @@
     #rightside button,
     #rightside a {
       @apply w-9 h-9 text-sm;
+    }
+    
+    /* 确保主题切换器容器在移动端显示 */
+    #rightside > div > div[style*="position: relative"] {
+      @apply block w-9 h-9;
     }
   }
 

@@ -193,7 +193,11 @@ html.theme-transitioning * {
 
 @media (max-width: 480px) {
     [data-theme-panel] {
-        @apply w-64 max-h-80 overflow-y-auto;
+        @apply w-64 max-h-96 overflow-y-auto;
+        bottom: 100%;
+        top: auto;
+        margin-bottom: 0.5rem;
+        margin-top: 0;
     }
 
     [data-theme-panel] [data-theme-grid] {
