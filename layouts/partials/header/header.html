@@ -11,10 +11,10 @@
         {{- if .Site.Params.nav.logo -}}
         <img src="{{ .Site.Params.nav.logo | relURL }}"
              alt="{{ .Site.Title }}"
-             class="site-icon h-9 w-auto flex-shrink-0">
+             class="site-icon h-9 w-auto shrink-0">
         {{- end -}}
         {{- if .Site.Params.nav.displayTitle -}}
-        <span class="site-name text-xl font-bold text-gray-100 dark:text-white truncate">
+        <span class="site-name text-xl font-bold text-gray-700 dark:text-white truncate">
           {{ .Site.Title }}
         </span>
         {{- end -}}
@@ -73,7 +73,7 @@
 
 {{- /* 移动端菜单面板 */ -}}
 <div id="sidebar-menus"
-     class="fixed inset-y-0 right-0 w-72 bg-white dark:bg-gray-900 shadow-2xl transform translate-x-full transition-transform duration-300 z-[100] lg:hidden overflow-y-auto"
+     class="fixed inset-y-0 right-0 w-72 bg-white dark:bg-gray-900 shadow-2xl transform translate-x-full transition-transform duration-300 z-100 lg:hidden overflow-y-auto"
      data-mobile-menu>
   <div class="p-6">
     {{- /* 关闭按钮 */ -}}
@@ -105,5 +105,5 @@
 
 {{- /* 遮罩层 */ -}}
 <div id="menu-mask"
-     class="fixed inset-0 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 z-[99] lg:hidden"
+     class="fixed inset-0 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 z-99 lg:hidden"
      data-menu-overlay></div>

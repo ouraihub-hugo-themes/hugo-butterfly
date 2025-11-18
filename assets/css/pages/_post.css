@@ -91,10 +91,22 @@
 }
 
 .post-content a {
+    color: var(--color-link);
     text-decoration: underline;
-    text-decoration-color: var(--color-primary);
+    text-decoration-color: var(--color-link);
     text-decoration-thickness: 2px;
     text-underline-offset: 3px;
+    transition: color var(--transition-fast);
+}
+
+.post-content a:hover {
+    color: var(--color-link-hover);
+    text-decoration-color: var(--color-link-hover);
+}
+
+.post-content a:visited {
+    color: var(--color-link-visited);
+    text-decoration-color: var(--color-link-visited);
 }
 
 .post-content img {

@@ -38,7 +38,7 @@
 <head>
     {{- partial "head/head.html" . -}}
 </head>
-<body class="antialiased">
+<body class="antialiased{{ if $isHome }} index-page{{ end }}">
     {{- /* 加载动画 (可选) */ -}}
     {{- if .Site.Params.preloader.enable -}}
         {{- partial "components/loading.html" . -}}
@@ -65,7 +65,7 @@
         {{- end -}}
 
         {{- /* 主内容区域 */ -}}
-        <main id="content-inner" class="container mx-auto px-4 sm:px-6 lg:px-8 py-8" role="main">
+        <main id="content-inner" class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-16" role="main">
             <div class="layout flex flex-col lg:flex-row gap-6{{ if $hideAside }} hide-aside{{ end }}">
                 {{- /* 主要内容 */ -}}
                 <div class="flex-1 min-w-0">

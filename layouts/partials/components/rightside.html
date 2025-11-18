@@ -22,12 +22,7 @@
         </button>
         {{- end -}}
 
-        {{- /* 暗色模式切换按钮 */ -}}
-        {{- if and .Site.Params.darkmode.enable .Site.Params.darkmode.button -}}
-        <button id="darkmode" type="button" title="{{ i18n "darkmode" | default "切换主题" }}" data-darkmode-toggle>
-            <i class="fas fa-adjust"></i>
-        </button>
-        {{- end -}}
+
 
         {{- /* 主题色彩切换按钮及面板 */ -}}
         <div style="position: relative; display: inline-block;">
@@ -41,7 +36,7 @@
                 <div data-theme-category>
                     <div data-theme-category-title>{{ i18n "coolTones" | default "冷色系" }}</div>
                     <div data-theme-grid>
-                        {{- $coolThemes := slice "sapphire" "purple" "cyan" "cool-gray" -}}
+                        {{- $coolThemes := slice "sapphire" "purple" "ocean" "cool-gray" -}}
                         {{- range $coolThemes -}}
                         <button type="button"
                                 data-theme-item="{{ . }}"
@@ -58,7 +53,7 @@
                 <div data-theme-category>
                     <div data-theme-category-title>{{ i18n "warmTones" | default "暖色系" }}</div>
                     <div data-theme-grid>
-                        {{- $warmThemes := slice "crimson" "orange" "pink" "brown" -}}
+                        {{- $warmThemes := slice "lavender" "orange" "pink" "brown" -}}
                         {{- range $warmThemes -}}
                         <button type="button"
                                 data-theme-item="{{ . }}"

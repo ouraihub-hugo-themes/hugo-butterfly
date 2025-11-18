@@ -3,7 +3,7 @@ hexo-theme-butterfly/layout/includes/header/menu_item.pug */ -}} {{- range
 .Site.Menus.main -}} {{- if .HasChildren -}} {{- /* 有子菜单的项 */ -}}
 <div class="menus_item relative group">
     <span
-        class="site-page flex items-center px-3 py-2 text-sm text-[var(--color-nav-text)] hover:text-[var(--color-nav-text-hover)] hover:bg-[var(--color-nav-bg-hover)] cursor-pointer transition-colors"
+        class="site-page flex items-center px-3 py-2 text-sm cursor-pointer"
     >
         {{- if .Pre -}}
         <i class="{{ .Pre }} fa-fw mr-1"></i>
@@ -39,7 +39,7 @@ hexo-theme-butterfly/layout/includes/header/menu_item.pug */ -}} {{- range
 <div class="menus_item">
     <a
         href="{{ .URL | relURL }}"
-        class="site-page relative flex items-center px-3 py-2 text-sm text-[var(--color-nav-text)] hover:text-[var(--color-nav-text-hover)] hover:bg-[var(--color-nav-bg-hover)] transition-colors group"
+        class="site-page relative flex items-center px-3 py-2 text-sm group"
     >
         {{- if .Pre -}}
         <i class="{{ .Pre }} fa-fw mr-1"></i>

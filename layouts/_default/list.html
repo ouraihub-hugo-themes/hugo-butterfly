@@ -28,35 +28,27 @@
 <div id="list-page" class="list-page">
   {{- /* 页面标题 */ -}}
   {{- if .Title -}}
-    <header class="list-header">
-      <h1 class="list-title">
-        {{- if eq .Section "categories" -}}
-          <i class="fas fa-folder-open" aria-hidden="true"></i>
-          <span>{{ i18n "page.category" | default "分类" }} - {{ .Title }}</span>
-        {{- else if eq .Section "tags" -}}
-          <i class="fas fa-tag" aria-hidden="true"></i>
-          <span>{{ i18n "page.tag" | default "标签" }} - {{ .Title }}</span>
-        {{- else if eq .Section "posts" -}}
-          <i class="fas fa-book" aria-hidden="true"></i>
-          <span>{{ .Title }}</span>
-        {{- else -}}
-          <span>{{ .Title }}</span>
-        {{- end -}}
-      </h1>
-      
-      {{- /* 页面描述 */ -}}
-      {{- with .Description -}}
-        <div class="list-description">{{ . }}</div>
-      {{- end -}}
-      
-      {{- /* 文章数量统计 */ -}}
-      {{- if gt (len .Pages) 0 -}}
-        <div class="list-count">
-          <i class="fas fa-archive" aria-hidden="true"></i>
-          <span>{{ i18n "list.totalPosts" (dict "Count" (len .Pages)) | default (printf "共 %d 篇文章" (len .Pages)) }}</span>
-        </div>
-      {{- end -}}
-    </header>
+    {{- $icon := "" -}}
+    {{- $pageTitle := .Title -}}
+    {{- if eq .Section "categories" -}}
+      {{- $icon = "fas fa-folder-open" -}}
+      {{- $pageTitle = printf "%s - %s" (i18n "page.category" | default "分类") .Title -}}
+    {{- else if eq .Section "tags" -}}
+      {{- $icon = "fas fa-tag" -}}
+      {{- $pageTitle = printf "%s - %s" (i18n "page.tag" | default "标签") .Title -}}
+    {{- else if eq .Section "posts" -}}
+      {{- $icon = "fas fa-book" -}}
+    {{- end -}}
+    
+    {{ partial "page/page-header.html" (dict "Title" $pageTitle "Icon" $icon "Description" .Description) }}
+    
+    {{- /* 文章数量统计 */ -}}
+    {{- if gt (len .Pages) 0 -}}
+      <div class="list-count text-center mb-6">
+        <i class="fas fa-archive" aria-hidden="true"></i>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">{{ i18n "list.totalPosts" (dict "Count" (len .Pages)) | default (printf "共 %d 篇文章" (len .Pages)) }}</span>
+      </div>
+    {{- end -}}
   {{- end -}}
   
   {{- /* 文章列表 */ -}}

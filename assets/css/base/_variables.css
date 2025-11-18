@@ -6,15 +6,20 @@
 
 @theme {
     /* ========================================
-       主题色
+       主题色 - 青蓝渐变系统
        ======================================== */
-    --color-primary: #49b1f5;
-    --color-primary-hover: #3da8f5;
-    --color-primary-light: #e8f4fd;
+    --color-primary: #06b6d4; /* 青色 cyan-500 */
+    --color-primary-hover: #0891b2; /* 深青色 cyan-600 */
+    --color-primary-light: #ecfeff; /* 浅青色背景 cyan-50 */
+    
+    /* 主题色文本（用于在白色背景上显示） */
+    --color-primary-text: #0e7490; /* cyan-700 */
+    --color-primary-text-dark: #22d3ee; /* cyan-400 */
 
-    /* 强调色 */
-    --color-accent: #00c4b6;
-    --color-accent-hover: #00b3a6;
+    /* 强调色 - 深蓝紫渐变 */
+    --color-accent: #3b82f6; /* 蓝色 blue-500 */
+    --color-accent-hover: #2563eb; /* 深蓝色 blue-600 */
+    --color-accent-purple: #8b5cf6; /* 紫色 violet-500 */
 
     /* 辅助色 */
     --color-orange: #ff7242;
@@ -23,18 +28,32 @@
     --color-green: #5cb85c;
 
     /* ========================================
-       灰度色系 - 浅色模式
+       链接颜色系统 - 浅色模式
        ======================================== */
-    --color-gray-50: #f6f8fa;
-    --color-gray-100: #f0f0f0;
-    --color-gray-200: #e1e1e1;
-    --color-gray-300: #cacaca;
-    --color-gray-400: #999999;
-    --color-gray-500: #858585;
-    --color-gray-600: #666261;
-    --color-gray-700: #4c4948;
-    --color-gray-800: #2b2b2b;
-    --color-gray-900: #1f2d3d;
+    --color-link: #0369a1;
+    --color-link-hover: #0284c7;
+    --color-link-visited: #7c3aed;
+
+    /* ========================================
+       链接颜色系统 - 暗黑模式
+       ======================================== */
+    --color-link-dark: #38bdf8;
+    --color-link-hover-dark: #7dd3fc;
+    --color-link-visited-dark: #a78bfa;
+
+    /* ========================================
+       灰度色系 - 浅色模式 (Tailwind Gray)
+       ======================================== */
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
 
     /* ========================================
        卡片背景和边框 - 浅色模式
@@ -45,8 +64,8 @@
     /* ========================================
        导航菜单颜色 - 浅色模式
        ======================================== */
-    --color-nav-text: #000000;
-    --color-nav-text-hover: #999999;
+    --color-nav-text: #374151;
+    --color-nav-text-hover: #1f2937;
     --color-nav-bg-hover: rgb(255 255 255 / 0.05);
     --color-header-bg: rgba(255, 255, 255, 0.8);
     --color-header-bg-dark: rgba(55, 65, 81, 0.8);
@@ -54,9 +73,9 @@
     /* ========================================
        卡片文本颜色 - 浅色模式
        ======================================== */
-    --color-card-text: #373f47;
-    --color-card-text-secondary: #6b7280;
-    --color-card-text-tertiary: #9ca3af;
+    --color-card-text: #111827;
+    --color-card-text-secondary: #4b5563;
+    --color-card-text-tertiary: #6b7280;
 
     /* ========================================
        暗黑模式下的卡片背景和边框
@@ -74,9 +93,9 @@
     /* ========================================
        暗黑模式下的卡片文本颜色
        ======================================== */
-    --color-card-text-dark: #d1d5db;
-    --color-card-text-secondary-dark: #9ca3af;
-    --color-card-text-tertiary-dark: #6b7280;
+    --color-card-text-dark: #f9fafb;
+    --color-card-text-secondary-dark: #d1d5db;
+    --color-card-text-tertiary-dark: #9ca3af;
 
     /* ========================================
        文章内容区域 - 浅色模式
@@ -95,14 +114,14 @@
     /* ========================================
        代码高亮 - 浅色模式
        ======================================== */
-    --color-code-text: #383a42;
-    --color-code-bg: #fafafa;
+    --color-code-text: #111827;
+    --color-code-bg: #f9fafb;
     --color-code-border: #e5e7eb;
     --color-code-tools-bg: #f3f4f6;
     --color-code-tools-text: #6b7280;
     --color-code-number-bg: #f9fafb;
-    --color-code-number-text: #9ca3af;
-    --color-code-scrollbar: #e5e7eb;
+    --color-code-number-text: #6b7280;
+    --color-code-scrollbar: #d1d5db;
 
     /* ========================================
        代码高亮 - 暗黑模式
@@ -182,6 +201,15 @@
         --color-card-text-secondary: var(--color-card-text-secondary-dark);
         --color-card-text-tertiary: var(--color-card-text-tertiary-dark);
 
+        /* 导航颜色 */
+        --color-nav-text: var(--color-nav-text-dark);
+        --color-nav-text-hover: var(--color-nav-text-hover-dark);
+
+        /* 链接颜色 */
+        --color-link: var(--color-link-dark);
+        --color-link-hover: var(--color-link-hover-dark);
+        --color-link-visited: var(--color-link-visited-dark);
+
         /* 文章内容区域 */
         --color-post-content-bg: var(--color-post-content-bg-dark);
         --color-post-content-text: var(--color-post-content-text-dark);
@@ -215,6 +243,11 @@
             --color-card-text: var(--color-card-text-dark);
             --color-card-text-secondary: var(--color-card-text-secondary-dark);
             --color-card-text-tertiary: var(--color-card-text-tertiary-dark);
+
+            /* 链接颜色 */
+            --color-link: var(--color-link-dark);
+            --color-link-hover: var(--color-link-hover-dark);
+            --color-link-visited: var(--color-link-visited-dark);
 
             /* 文章内容区域 */
             --color-post-content-bg: var(--color-post-content-bg-dark);

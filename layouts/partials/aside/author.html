@@ -16,12 +16,12 @@
   </div>
 
   {{- /* 作者名称 */ -}}
-  <div class="author-info-name text-[var(--color-card-text)]">
+  <div class="author-info-name text-(--color-card-text)">
     {{ .Site.Params.author.name | default .Site.Author.name }}
   </div>
 
   {{- /* 作者简介 */ -}}
-  <div class="author-info-description text-[var(--color-card-text-secondary)]">
+  <div class="author-info-description text-(--color-card-text-secondary)">
     {{ .Site.Params.aside.author.description | default .Site.Params.author.description | default .Site.Params.description }}
   </div>
 
@@ -29,20 +29,20 @@
   <div class="site-data">
     {{- /* 文章数 */ -}}
     <a href="{{ "posts" | relLangURL }}">
-      <div class="headline text-[var(--color-card-text-secondary)]">{{ i18n "articles" | default "文章" }}</div>
-      <div class="length-num text-[var(--color-card-text)]">{{ len (where .Site.RegularPages "Type" "posts") }}</div>
+      <div class="headline text-(--color-card-text-secondary)">{{ i18n "articles" | default "文章" }}</div>
+      <div class="length-num text-(--color-card-text)">{{ len (where .Site.RegularPages "Type" "posts") }}</div>
     </a>
 
     {{- /* 标签数 */ -}}
     <a href="{{ "tags" | relLangURL }}">
-      <div class="headline text-[var(--color-card-text-secondary)]">{{ i18n "tags" | default "标签" }}</div>
-      <div class="length-num text-[var(--color-card-text)]">{{ len .Site.Taxonomies.tags }}</div>
+      <div class="headline text-(--color-card-text-secondary)">{{ i18n "tags" | default "标签" }}</div>
+      <div class="length-num text-(--color-card-text)">{{ len .Site.Taxonomies.tags }}</div>
     </a>
 
     {{- /* 分类数 */ -}}
     <a href="{{ "categories" | relLangURL }}">
-      <div class="headline text-[var(--color-card-text-secondary)]">{{ i18n "categories" | default "分类" }}</div>
-      <div class="length-num text-[var(--color-card-text)]">{{ len .Site.Taxonomies.categories }}</div>
+      <div class="headline text-(--color-card-text-secondary)">{{ i18n "categories" | default "分类" }}</div>
+      <div class="length-num text-(--color-card-text)">{{ len .Site.Taxonomies.categories }}</div>
     </a>
   </div>
 
@@ -53,7 +53,7 @@
     href="{{ .Site.Params.aside.author.followButtonLink }}"
     target="_blank"
     rel="noopener noreferrer"
-    class="text-[var(--color-card-text)]"
+    class="text-(--color-card-text)"
   >
     {{- if .Site.Params.aside.author.followButtonIcon -}}
     <i class="{{ .Site.Params.aside.author.followButtonIcon }}"></i>
@@ -72,7 +72,7 @@
       rel="noopener noreferrer"
       class="social-icon"
       title="{{ .name }}"
-      {{- if .color }} style="color: {{ .color }}" {{- end }}
+      {{- if .color }} style="--social-brand-color: {{ .color }}" {{- end }}
     >
       <i class="{{ .icon }}"></i>
     </a>

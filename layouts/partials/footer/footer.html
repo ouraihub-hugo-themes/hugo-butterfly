@@ -4,7 +4,7 @@
   参考: hexo-theme-butterfly/source/css/_layout/footer.styl
 */ -}}
 
-<footer id="footer" class="relative bg-[#49b1f5] dark:bg-gray-900 text-gray-100">
+<footer id="footer" class="relative bg-primary dark:bg-gray-900 text-gray-100">
   {{- /* 背景遮罩层 */ -}}
   <div class="absolute inset-0 bg-black/10 dark:bg-black/30"></div>
   
@@ -15,7 +15,7 @@
       <div class="flex flex-wrap justify-between gap-4 md:gap-6 w-full">
         {{- range .Site.Menus.footer -}}
           {{- if .HasChildren -}}
-          <div class="footer-flex-items flex-shrink-0 min-w-[100px] text-left">
+          <div class="footer-flex-items shrink-0 min-w-[100px] text-left">
             <div class="footer-flex-item mb-3">
               <div class="footer-flex-title text-xl md:text-2xl font-semibold mb-2 whitespace-nowrap">
                 {{ .Name }}

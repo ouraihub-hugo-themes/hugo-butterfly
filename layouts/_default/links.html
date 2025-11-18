@@ -2,16 +2,7 @@
 <div class="container mx-auto px-4 py-8">
   <article class="links-page">
     <!-- 页面标题 -->
-    <header class="page-header mb-8">
-      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-        {{ .Title }}
-      </h1>
-      {{ if .Description }}
-      <div class="page-description text-gray-600 dark:text-gray-400">
-        {{ .Description }}
-      </div>
-      {{ end }}
-    </header>
+    {{ partial "page/page-header.html" (dict "Title" .Title "Icon" "fas fa-link" "Description" .Description) }}
 
     <!-- 页面内容（如果有） -->
     {{ if .Content }}

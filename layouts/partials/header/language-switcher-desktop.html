@@ -20,7 +20,7 @@
   </button>
 
   {{- /* 语言列表下拉菜单 */ -}}
-  <ul class="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-hidden z-50"
+  <ul class="absolute left-0 mt-2 w-40 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-hidden z-50"
       role="menu"
       aria-label="{{ i18n "language_switch" | default "切换语言" }}">
     {{- range .Site.Languages -}}

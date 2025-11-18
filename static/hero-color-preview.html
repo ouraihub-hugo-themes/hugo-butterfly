@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Banner 配色预览 - Hugo Butterfly</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f3f4f6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        .controls {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .controls h2 {
+            font-size: 20px;
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .color-btn {
+            padding: 15px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .color-btn:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .color-btn.active {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            color: #3b82f6;
+        }
+
+        .color-preview {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .mode-toggle label {
+            font-size: 16px;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: #d1d5db;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.dark {
+            background: #3b82f6;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch.dark .toggle-slider {
+            transform: translateX(30px);
+        }
+
+        .preview-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .hero-banner {
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px;
+            transition: background 0.5s ease;
+            position: relative;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-banner h1 {
+            font-size: 48px;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-banner p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .hero-banner .btn {
+            margin-top: 30px;
+            padding: 12px 32px;
+            background: white;
+            color: #1f2937;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .hero-banner .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-section {
+            padding: 30px;
+            background: #f9fafb;
+        }
+
+        .info-section h3 {
+            font-size: 20px;
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .info-card h4 {
+            font-size: 16px;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .info-card p {
+            font-size: 14px;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        .color-code {
+            margin-top: 20px;
+            padding: 20px;
+            background: #1f2937;
+            border-radius: 8px;
+            color: #e5e7eb;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .color-code .comment {
+            color: #9ca3af;
+        }
+
+        .color-code .property {
+            color: #60a5fa;
+        }
+
+        .color-code .value {
+            color: #34d399;
+        }
+
+        @media (max-width: 768px) {
+            .hero-banner h1 {
+                font-size: 32px;
+            }
+
+            .hero-banner p {
+                font-size: 16px;
+            }
+
+            .button-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Hero Banner 配色预览工具</h1>
+            <p>实时预览 8 种精心设计的渐变配色方案，选择最适合你博客的颜色</p>
+        </div>
+
+        <div class="controls">
+            <h2>选择配色方案</h2>
+            <div class="button-grid">
+                <button class="color-btn active" data-scheme="purple">
+                    <div class="color-preview" style="background: linear-gradient(135deg, #6366f1, #a855f7);"></div>
+                    <span>紫色系（当前）</span>
+                </button>
+                <button class="color-btn" data-scheme="ocean">
+                    <div class="color-preview" style="background: linear-gradient(135deg, #0ea5e9, #14b8a6);"></div>
+                    <span>🌊 海洋蓝</span>
+                </button>
+                <button class="color-btn" data-scheme="sunset">
+                    <div class="color-preview" style="background: linear-gradient(135deg, #f97316, #fbbf24);"></div>
+                    <span>🌅 日落橙</span>
+                </button>
+                <button class="color-btn" data-scheme="pink">
+                    <div class="color-preview" style="background: linear-gradient(135deg, #ec4899, #a855f7);"></div>
+                    <span>🌸 粉紫渐变</span>
+                </button>
+                <button class="color-btn" data-scheme="emerald">
+                    <div class="color-preview" style="background: linear-gradient(135deg, #10b981, #06b6d4);"></div>
+                    <span>🌿 翠绿渐变</span>
+                </button>
+                <button class="color-btn" data-scheme="fire">
+                    <div class="color-preview" style="background: linear-gradient(135deg, #ef4444, #fb923c);"></div>
+                    <span>🔥 火焰红</span>
+                </button>
+                <button class="color-btn" data-scheme="blue">
+                    <div class="color-preview" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);"></div>
+                    <span>🌌 深蓝渐变</span>
+                </button>
+                <button class="color-btn" data-scheme="dark">
+                    <div class="color-preview" style="background: linear-gradient(135deg, #1e293b, #475569);"></div>
+                    <span>🌑 暗夜渐变</span>
+                </button>
+            </div>
+
+            <div class="mode-toggle">
+                <label>亮色模式</label>
+                <div class="toggle-switch" id="modeToggle">
+                    <div class="toggle-slider"></div>
+                </div>
+                <label>暗色模式</label>
+            </div>
+        </div>
+
+        <div class="preview-section">
+            <div class="hero-banner" id="heroBanner">
+                <div class="hero-content">
+                    <h1>欢迎来到 Hugo Butterfly</h1>
+                    <p>一个优雅的 Hugo 博客主题，灵感来自流行的 Hexo Butterfly 主题。现代化设计，完美的响应式布局，丰富的功能特性。</p>
+                    <button class="btn">开始探索</button>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>当前配色信息</h3>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h4>配色名称</h4>
+                        <p id="schemeName">紫色系（Purple Gradient）</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>适用场景</h4>
+                        <p id="schemeUse">设计、艺术、创意类博客</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>配色特点</h4>
+                        <p id="schemeFeature">优雅、创意、高端</p>
+                    </div>
+                </div>
+
+                <div class="color-code" id="colorCode">
+                    <div><span class="comment">/* 亮色模式 */</span></div>
+                    <div><span class="property">background:</span> <span class="value">linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%)</span>;</div>
+                    <div style="margin-top: 10px;"><span class="comment">/* 暗色模式 */</span></div>
+                    <div><span class="property">background:</span> <span class="value">linear-gradient(135deg, #4338ca 0%, #6d28d9 50%, #7e22ce 100%)</span>;</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const schemes = {
+            purple: {
+                name: '紫色系（Purple Gradient）',
+                use: '设计、艺术、创意类博客',
+                feature: '优雅、创意、高端',
+                light: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%)',
+                dark: 'linear-gradient(135deg, #4338ca 0%, #6d28d9 50%, #7e22ce 100%)',
+                lightCode: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%)',
+                darkCode: 'linear-gradient(135deg, #4338ca 0%, #6d28d9 50%, #7e22ce 100%)'
+            },
+            ocean: {
+                name: '🌊 海洋蓝（Ocean Blue）',
+                use: '技术博客、企业站',
+                feature: '清新、专业、可信',
+                light: 'linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #14b8a6 100%)',
+                dark: 'linear-gradient(135deg, #0284c7 0%, #0891b2 50%, #0d9488 100%)',
+                lightCode: 'linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #14b8a6 100%)',
+                darkCode: 'linear-gradient(135deg, #0284c7 0%, #0891b2 50%, #0d9488 100%)'
+            },
+            sunset: {
+                name: '🌅 日落橙（Sunset Orange）',
+                use: '生活、旅行、美食博客',
+                feature: '温暖、活力、友好',
+                light: 'linear-gradient(135deg, #f97316 0%, #fb923c 50%, #fbbf24 100%)',
+                dark: 'linear-gradient(135deg, #ea580c 0%, #f59e0b 50%, #d97706 100%)',
+                lightCode: 'linear-gradient(135deg, #f97316 0%, #fb923c 50%, #fbbf24 100%)',
+                darkCode: 'linear-gradient(135deg, #ea580c 0%, #f59e0b 50%, #d97706 100%)'
+            },
+            pink: {
+                name: '🌸 粉紫渐变（Pink Purple）',
+                use: '时尚、美妆、生活方式博客',
+                feature: '柔和、优雅、浪漫',
+                light: 'linear-gradient(135deg, #ec4899 0%, #d946ef 50%, #a855f7 100%)',
+                dark: 'linear-gradient(135deg, #db2777 0%, #c026d3 50%, #9333ea 100%)',
+                lightCode: 'linear-gradient(135deg, #ec4899 0%, #d946ef 50%, #a855f7 100%)',
+                darkCode: 'linear-gradient(135deg, #db2777 0%, #c026d3 50%, #9333ea 100%)'
+            },
+            emerald: {
+                name: '🌿 翠绿渐变（Emerald Green）',
+                use: '环保、健康、自然主题博客',
+                feature: '自然、清新、环保',
+                light: 'linear-gradient(135deg, #10b981 0%, #14b8a6 50%, #06b6d4 100%)',
+                dark: 'linear-gradient(135deg, #059669 0%, #0d9488 50%, #0891b2 100%)',
+                lightCode: 'linear-gradient(135deg, #10b981 0%, #14b8a6 50%, #06b6d4 100%)',
+                darkCode: 'linear-gradient(135deg, #059669 0%, #0d9488 50%, #0891b2 100%)'
+            },
+            fire: {
+                name: '🔥 火焰红（Fire Red）',
+                use: '运动、游戏、娱乐博客',
+                feature: '激情、热烈、醒目',
+                light: 'linear-gradient(135deg, #ef4444 0%, #f97316 50%, #fb923c 100%)',
+                dark: 'linear-gradient(135deg, #dc2626 0%, #ea580c 50%, #f59e0b 100%)',
+                lightCode: 'linear-gradient(135deg, #ef4444 0%, #f97316 50%, #fb923c 100%)',
+                darkCode: 'linear-gradient(135deg, #dc2626 0%, #ea580c 50%, #f59e0b 100%)'
+            },
+            blue: {
+                name: '🌌 深蓝渐变（Deep Blue）',
+                use: '科技、金融、企业博客',
+                feature: '沉稳、专业、科技感',
+                light: 'linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%)',
+                dark: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%)',
+                lightCode: 'linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%)',
+                darkCode: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%)'
+            },
+            dark: {
+                name: '🌑 暗夜渐变（Dark Night）',
+                use: '摄影、艺术、设计博客',
+                feature: '神秘、高级、低调',
+                light: 'linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%)',
+                dark: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)',
+                lightCode: 'linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%)',
+                darkCode: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)'
+            }
+        };
+
+        let currentScheme = 'purple';
+        let isDarkMode = false;
+
+        const heroBanner = document.getElementById('heroBanner');
+        const modeToggle = document.getElementById('modeToggle');
+        const colorButtons = document.querySelectorAll('.color-btn');
+        const schemeName = document.getElementById('schemeName');
+        const schemeUse = document.getElementById('schemeUse');
+        const schemeFeature = document.getElementById('schemeFeature');
+        const colorCode = document.getElementById('colorCode');
+
+        function updateHero() {
+            const scheme = schemes[currentScheme];
+            const gradient = isDarkMode ? scheme.dark : scheme.light;
+            heroBanner.style.background = gradient;
+
+            schemeName.textContent = scheme.name;
+            schemeUse.textContent = scheme.use;
+            schemeFeature.textContent = scheme.feature;
+
+            colorCode.innerHTML = `
+                <div><span class="comment">/* 亮色模式 */</span></div>
+                <div><span class="property">background:</span> <span class="value">${scheme.lightCode}</span>;</div>
+                <div style="margin-top: 10px;"><span class="comment">/* 暗色模式 */</span></div>
+                <div><span class="property">background:</span> <span class="value">${scheme.darkCode}</span>;</div>
+            `;
+        }
+
+        colorButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                colorButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentScheme = btn.dataset.scheme;
+                updateHero();
+            });
+        });
+
+        modeToggle.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            modeToggle.classList.toggle('dark');
+            updateHero();
+        });
+
+        // 初始化
+        updateHero();
+    </script>
+</body>
+</html>

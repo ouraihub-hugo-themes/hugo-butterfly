@@ -1,0 +1,35 @@
+{{- /*
+  页面标题组件 - 统一的页面标题样式
+  
+  参数:
+    - .Title: 页面标题
+    - .Icon: 图标类名（可选）
+    - .Description: 页面描述（可选）
+    - .Subtitle: 副标题（可选）
+*/ -}}
+
+{{- $icon := .Icon -}}
+{{- $title := .Title -}}
+{{- $description := .Description -}}
+{{- $subtitle := .Subtitle -}}
+
+<header class="page-header mb-8 text-center">
+  <h1 class="page-title text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center justify-center gap-3">
+    {{- if $icon -}}
+    <i class="{{ $icon }}" aria-hidden="true"></i>
+    {{- end -}}
+    <span>{{ $title }}</span>
+  </h1>
+  
+  {{- if $subtitle -}}
+  <p class="page-subtitle text-xl text-gray-600 dark:text-gray-400 mb-2">
+    {{ $subtitle }}
+  </p>
+  {{- end -}}
+  
+  {{- if $description -}}
+  <div class="page-description text-gray-600 dark:text-gray-400">
+    {{ $description }}
+  </div>
+  {{- end -}}
+</header>

@@ -1,0 +1,31 @@
+{{ define "main" }}
+<div class="container mx-auto px-4 py-8">
+  <article class="about-page">
+    {{- /* 页面标题 */ -}}
+    {{ partial "page/page-header.html" (dict "Title" .Title "Icon" "fas fa-user-circle" "Subtitle" .Params.subtitle) }}
+
+    {{- /* 页面内容 */ -}}
+    <div class="page-content prose prose-lg dark:prose-invert max-w-none mb-8">
+      {{ .Content }}
+    </div>
+
+    {{- /* 页面元信息 */ -}}
+    {{- if .Lastmod -}}
+    <footer class="page-footer mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+      <div class="text-sm text-gray-500 dark:text-gray-400">
+        <i class="far fa-calendar-alt fa-fw"></i>
+        <span>{{ i18n "post_updated" | default "更新于" }}</span>
+        <time datetime="{{ .Lastmod.Format " 2006-01-02T15:04:05Z07:00" }}">
+          {{ .Lastmod.Format "2006-01-02" }}
+        </time>
+      </div>
+    </footer>
+    {{- end -}}
+  </article>
+</div>
+{{ end }}
+
+{{ define "sidebar" }}
+{{- /* 使用默认侧边栏 */ -}}
+{{ partial "aside/aside.html" . }}
+{{ end }}

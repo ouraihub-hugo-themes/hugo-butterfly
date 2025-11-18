@@ -11,9 +11,18 @@
     @apply relative inline-flex items-center justify-center
          w-10 h-10 rounded-lg
          transition-all duration-200
-         text-gray-700 hover:text-primary
-         hover:bg-gray-100 dark:hover:bg-gray-800
          cursor-pointer;
+}
+
+/* 在右侧工具栏中的主题切换器按钮 */
+#rightside [data-theme-switcher-btn] {
+    @apply text-white;
+}
+
+/* 在导航栏中的主题切换器按钮 */
+#nav [data-theme-switcher-btn] {
+    @apply text-gray-700 hover:text-primary
+         hover:bg-gray-100 dark:hover:bg-gray-800;
 }
 
 [data-theme-switcher-btn]:focus-visible {
@@ -103,16 +112,16 @@
     background: linear-gradient(135deg, #6d28d9 0%, #a78bfa 100%);
 }
 
-[data-theme-item="cyan"]::before {
-    background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+[data-theme-item="ocean"]::before {
+    background: linear-gradient(135deg, #519D9E 0%, #58C9B9 33%, #74DBCC 66%, #D1B6E1 100%);
 }
 
 [data-theme-item="cool-gray"]::before {
     background: linear-gradient(135deg, #334155 0%, #64748b 100%);
 }
 
-[data-theme-item="crimson"]::before {
-    background: linear-gradient(135deg, #7f1d1d 0%, #ef4444 100%);
+[data-theme-item="lavender"]::before {
+    background: linear-gradient(135deg, #6E87B0 0%, #B2C1D6 33%, #DBBACB 66%, #B7799E 100%);
 }
 
 [data-theme-item="orange"]::before {
@@ -126,6 +135,8 @@
 [data-theme-item="brown"]::before {
     background: linear-gradient(135deg, #78350f 0%, #d97706 100%);
 }
+
+
 
 /* 主题项目的选中标记 */
 [data-theme-item]::after {

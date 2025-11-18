@@ -32,6 +32,7 @@
 @import "./components/_highlight.css";
 @import "./components/_back-to-top.css";
 @import "./components/_theme-switcher.css";
+@import "./components/_page-header.css";
 
 /* 布局组件 */
 @import "./layout/_header.css";

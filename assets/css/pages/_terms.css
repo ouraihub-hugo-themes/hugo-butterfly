@@ -26,7 +26,7 @@
 .page-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: var(--color-text, #4c4948);
+  color: rgb(17, 24, 39) !important;
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
@@ -52,16 +52,40 @@
   font-size: 0.9em;
 }
 
-/* 分类页面特定样式 */
+/* 分类页面特定样式 - 统一颜色 */
 .categories-page .page-title,
+.categories-page .page-title span,
 .categories-title {
-  color: var(--color-primary, #49B1F5);
+  color: rgb(17, 24, 39) !important;
 }
 
-/* 标签页面特定样式 */
+.dark .categories-page .page-title,
+.dark .categories-page .page-title span,
+.dark .categories-title {
+  color: rgb(17, 24, 39) !important;
+}
+
+.categories-page .page-title i,
+.categories-title i {
+  color: #3b82f6 !important;
+}
+
+/* 标签页面特定样式 - 统一颜色 */
 .tags-page .page-title,
+.tags-page .page-title span,
 .tags-title {
-  color: var(--color-accent, #00c4b6);
+  color: rgb(17, 24, 39) !important;
+}
+
+.dark .tags-page .page-title,
+.dark .tags-page .page-title span,
+.dark .tags-title {
+  color: rgb(17, 24, 39) !important;
+}
+
+.tags-page .page-title i,
+.tags-title i {
+  color: #3b82f6 !important;
 }
 
 /* ========================================
@@ -120,24 +144,24 @@
    ======================================== */
 @media (prefers-color-scheme: dark) {
   .page-title {
-    color: var(--color-text-dark, #c4c6c9);
+    color: rgb(17, 24, 39) !important;
   }
   
   .page-subtitle {
-    color: var(--color-meta-dark, #a3a3a3);
+    color: rgb(107, 114, 128);
   }
   
   .empty-state {
-    color: var(--color-meta-dark, #a3a3a3);
+    color: rgb(107, 114, 128);
   }
 }
 
 html.dark .page-title {
-  color: var(--color-text-dark, #c4c6c9);
+  color: rgb(17, 24, 39) !important;
 }
 
 html.dark .page-subtitle {
-  color: var(--color-meta-dark, #a3a3a3);
+  color: rgb(107, 114, 128);
 }
 
 html.dark .empty-state {

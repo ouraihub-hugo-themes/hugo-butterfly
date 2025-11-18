@@ -412,6 +412,14 @@ html.dark .site-data > a:hover div {
     margin: 0 0.625rem;
     font-size: 1.4em;
     text-decoration: none;
+    /* 亮色模式：使用品牌颜色（如果有），否则使用深灰色 */
+    color: var(--social-brand-color, rgb(75, 85, 99));
+}
+
+/* 暗色模式下的社交图标：忽略品牌颜色，统一使用浅色 */
+.dark .card-info-social-icons .social-icon,
+html.dark .card-info-social-icons .social-icon {
+    color: rgb(209, 213, 219) !important;
 }
 
 .card-info-social-icons i {
@@ -464,8 +472,12 @@ html.dark .site-data > a:hover div {
 
 .card-webinfo .webinfo-item .item-count {
     font-weight: 600;
-    color: var(--color-primary);
+    color: rgb(139, 92, 246);
     font-size: 1.05em;
+}
+
+.dark .card-webinfo .webinfo-item .item-count {
+    color: rgb(167, 139, 250);
 }
 
 /* 加载动画 */
