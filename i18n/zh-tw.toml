@@ -271,6 +271,36 @@ other = "標籤"
 [taxonomy_count]
 other = "篇"
 
+# 頁面標題
+[page.category]
+other = "分類"
+
+[page.tag]
+other = "標籤"
+
+[page.categories]
+other = "分類"
+
+[page.tags]
+other = "標籤"
+
+# 列表頁
+[listTotalPosts]
+other = "共 {{ .Count }} 篇文章"
+
+# 分類和標籤統計
+[totalCategories]
+other = "共 {{ .Count }} 個分類"
+
+[totalTags]
+other = "共 {{ .Count }} 個標籤"
+
+[emptyCategories]
+other = "暫無分類"
+
+[emptyTags]
+other = "暫無標籤"
+
 # 404
 [notFound_title]
 other = "頁面未找到"

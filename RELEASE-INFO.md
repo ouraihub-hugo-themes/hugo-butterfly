@@ -1,7 +1,7 @@
 # Hugo Butterfly Theme - Release Package
 
-**Version**: 1.3.0
-**Release Date**: 2025-11-18 04:57:51
+**Version**: 1.3.1
+**Release Date**: 2025-11-18 05:24:44
 
 ## What's Included
 

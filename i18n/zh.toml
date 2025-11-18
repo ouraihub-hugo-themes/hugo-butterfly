@@ -280,6 +280,36 @@ other = "标签"
 [taxonomy_count]
 other = "篇"
 
+# 页面标题
+[page.category]
+other = "分类"
+
+[page.tag]
+other = "标签"
+
+[page.categories]
+other = "分类"
+
+[page.tags]
+other = "标签"
+
+# 列表页
+[listTotalPosts]
+other = "共 {{ .Count }} 篇文章"
+
+# 分类和标签统计
+[totalCategories]
+other = "共 {{ .Count }} 个分类"
+
+[totalTags]
+other = "共 {{ .Count }} 个标签"
+
+[emptyCategories]
+other = "暂无分类"
+
+[emptyTags]
+other = "暂无标签"
+
 # 404
 [notFound_title]
 other = "页面未找到"

@@ -280,6 +280,36 @@ other = "Tags"
 [taxonomy_count]
 other = "posts"
 
+# Page titles
+[page.category]
+other = "Category"
+
+[page.tag]
+other = "Tag"
+
+[page.categories]
+other = "Categories"
+
+[page.tags]
+other = "Tags"
+
+# List page
+[listTotalPosts]
+other = "Total {{ .Count }} posts"
+
+# Categories and tags totals
+[totalCategories]
+other = "Total {{ .Count }} categories"
+
+[totalTags]
+other = "Total {{ .Count }} tags"
+
+[emptyCategories]
+other = "No categories yet"
+
+[emptyTags]
+other = "No tags yet"
+
 # 404
 [notFound_title]
 other = "Page Not Found"

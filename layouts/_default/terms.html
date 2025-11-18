@@ -48,10 +48,10 @@
       <div class="page-subtitle">
         {{- if $isCategories -}}
           <i class="fas fa-archive" aria-hidden="true"></i>
-          <span>{{ i18n "categories.total" (dict "Count" (len $terms)) | default (printf "共 %d 个分类" (len $terms)) }}</span>
+          <span>{{ i18n "totalCategories" (dict "Count" (len $terms)) | default (printf "共 %d 个分类" (len $terms)) }}</span>
         {{- else if $isTags -}}
           <i class="fas fa-archive" aria-hidden="true"></i>
-          <span>{{ i18n "tags.total" (dict "Count" (len $terms)) | default (printf "共 %d 个标签" (len $terms)) }}</span>
+          <span>{{ i18n "totalTags" (dict "Count" (len $terms)) | default (printf "共 %d 个标签" (len $terms)) }}</span>
         {{- end -}}
       </div>
     {{- end -}}
@@ -77,11 +77,11 @@
       <i class="fas fa-inbox fa-3x" aria-hidden="true"></i>
       <p>
         {{- if $isCategories -}}
-          {{ i18n "categories.empty" | default "暂无分类" }}
+          {{ i18n "emptyCategories" | default "暂无分类" }}
         {{- else if $isTags -}}
-          {{ i18n "tags.empty" | default "暂无标签" }}
+          {{ i18n "emptyTags" | default "暂无标签" }}
         {{- else -}}
-          {{ i18n "terms.empty" | default "暂无内容" }}
+          {{ i18n "emptyTerms" | default "暂无内容" }}
         {{- end -}}
       </p>
     </div>

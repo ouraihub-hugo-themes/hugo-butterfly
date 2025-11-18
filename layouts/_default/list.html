@@ -46,7 +46,7 @@
     {{- if gt (len .Pages) 0 -}}
       <div class="list-count text-center mb-6">
         <i class="fas fa-archive" aria-hidden="true"></i>
-        <span class="text-gray-600 dark:text-gray-400 ml-2">{{ i18n "list.totalPosts" (dict "Count" (len .Pages)) | default (printf "共 %d 篇文章" (len .Pages)) }}</span>
+        <span class="text-gray-600 dark:text-gray-400 ml-2">{{ i18n "listTotalPosts" (dict "Count" (len .Pages)) | default (printf "共 %d 篇文章" (len .Pages)) }}</span>
       </div>
     {{- end -}}
   {{- end -}}
