@@ -1,6 +1,6 @@
 {
   "name": "hugo-butterfly",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "A Hugo theme inspired by hexo-theme-butterfly",
   "main": "index.js",
   "scripts": {

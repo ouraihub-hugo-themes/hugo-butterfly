@@ -16,11 +16,9 @@
     --hlnumber-bg: var(--color-code-number-bg);
     --hlnumber-color: var(--color-code-number-text);
     --hlscrollbar-bg: var(--color-code-scrollbar);
-    --hlexpand-bg: linear-gradient(
-        180deg,
-        rgba(250, 250, 250, 0.6),
-        rgba(250, 250, 250, 0.9)
-    );
+    --hlexpand-bg: linear-gradient(180deg,
+            rgba(250, 250, 250, 0.6),
+            rgba(250, 250, 250, 0.9));
     --hl-copy-success: #10b981;
 }
 
@@ -34,17 +32,16 @@
     --hlnumber-bg: var(--color-code-number-bg);
     --hlnumber-color: var(--color-code-number-text);
     --hlscrollbar-bg: var(--color-code-scrollbar);
-    --hlexpand-bg: linear-gradient(
-        180deg,
-        rgba(30, 30, 30, 0.6),
-        rgba(30, 30, 30, 0.9)
-    );
+    --hlexpand-bg: linear-gradient(180deg,
+            rgba(30, 30, 30, 0.6),
+            rgba(30, 30, 30, 0.9));
 }
 
 /* ========================================
    基础代码样式
    ======================================== */
 .container {
+
     /* 行内代码 */
     code {
         padding: 2px 6px;
@@ -284,6 +281,13 @@
     .highlight-tools .expand-button i {
         transform: rotate(-90deg);
     }
+
+    /* 折叠时隐藏底部展开按钮,防止遮挡头部按钮 */
+    .code-expand-btn {
+        display: none !important;
+        pointer-events: none !important;
+        z-index: -1 !important;
+    }
 }
 
 /* 高度限制和展开按钮 */
@@ -375,24 +379,29 @@
    动画
    ======================================== */
 @keyframes code-expand-pulse {
+
     0%,
     100% {
         opacity: 0.6;
     }
+
     50% {
         opacity: 0.2;
     }
 }
 
 @keyframes code-fullscreen {
+
     0%,
     100% {
         transform: translateX(0);
     }
+
     20%,
     60% {
         transform: translateX(-5px);
     }
+
     40%,
     80% {
         transform: translateX(5px);
